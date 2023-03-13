@@ -1,0 +1,116 @@
+type: object
+description: reprime.yaml structure for LinkORB
+required: [ name, description, license, type ]
+additionalProperties: false
+properties:
+  $meta:
+    type: object
+    description: Repo-specific metadata
+
+  name:
+    type: string
+    description: Repository name
+    pattern: ^[a-z0-9-]+$
+    minLength: 1
+    maxLength: 50
+
+  description:
+    type: string
+    description: Repository description
+    minLength: 1
+    maxLength: 100
+
+  license:
+    type: string
+    description: Repository license
+    default: proprietary
+
+    enum:
+    - mit
+    - gpl-v3
+    - proprietary
+
+  visibility:
+    type: string
+    description: Repository visibility
+    default: private
+    enum:
+    - public
+    - private
+
+  website:
+    type: string
+    description: URL with more information about of this repository
+
+  # owner:
+  #   type: string
+  #   description: Owner
+  #   default: jfaassen
+
+  codeowners:
+    type: array
+    description: CODEOWNERS settings
+
+  todo:
+    type: array
+    description: TODO settings
+
+
+  envoi:
+    type: object
+    description: Envoi settings
+
+  related:
+    type: array
+    description: Related repos
+
+  fixtures:
+    type: object
+    description: Fixture settings
+
+  readme:
+    type: object
+    description: README.md settings
+
+  github:
+    type: object
+    description: GitHub specific values
+    additionalProperties: false
+    properties:
+      archived:
+        type: boolean
+        default: false
+        description: is this repository archived?
+
+      topics:
+        type: array
+        description: GitHub topics
+        items:
+          type: string
+      features:
+        type: object
+        description: GitHub features
+        additionalProperties: false
+        properties:
+          wiki:
+            type: boolean
+            default: false
+          issues:
+            type: boolean
+            default: false
+
+
+  type:
+    type: string
+    description: Repository type
+    enum:
+    - application
+    - library
+    - symfony-bundle
+    - other
+  php:
+    type: object
+    description: PHP specific values
+  docker:
+    type: object
+    description: Docker specific values

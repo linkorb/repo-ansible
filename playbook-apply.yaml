@@ -1,0 +1,110 @@
+- name: Apply repo standards
+  # metadata:
+  #   u: i
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  tasks:
+    - name: assign repo_path
+      set_fact:
+        repo_path: "{{ lookup('env', 'PWD') }}"
+
+    - name: Startup info
+      debug:
+        msg: "repo path: {{ repo_path }}"
+      # when: hi == "world"
+
+    - name: check if .git directory exists
+      stat:
+        path: "{{ repo_path }}/.git"
+      register: git_dir
+      failed_when: git_dir.stat.isdir == False
+
+    - name: check if repo.yaml exists in repo_path
+      stat:
+        path: "{{ repo_path }}/repo.yaml"
+      register: repo_yaml
+      failed_when: repo_yaml.stat.exists == False
+
+    - name: load validation facts
+      ansible.builtin.set_fact:
+        repo: "{{ lookup('ansible.builtin.file', repo_path + '/repo.yaml') | from_yaml }}"
+        criteria: "{{ lookup('ansible.builtin.file', './repo.schema.yaml') | from_yaml }}"
+
+
+    - name: validate repo config in json format using jsonschema by passing plugin configuration variable as key/value pairs
+      ansible.builtin.set_fact:
+        config_validity: "{{ repo|ansible.utils.validate(criteria, engine='ansible.utils.jsonschema', draft='draft7') }}"
+
+    - name: fail on schema validation error
+      ansible.builtin.fail:
+        msg: "The repo.yaml file is invalid: {{ config_validity[0].message }}. Please refer to the README.md for information about schema validation."
+      when: config_validity[0].message is defined
+
+    - name: set repo.path
+      ansible.builtin.set_fact:
+        repo: "{{ repo | combine( { 'path': repo_path } ) }}"
+
+
+    - name: debug output
+      debug:
+        msg: "{{ repo  }}"
+
+    - name: generate README.md file
+      ansible.builtin.template:
+        src: "{{ './templates/README.md.j2' }}"
+        dest: "{{ repo.path + '/README.md' }}"
+
+
+    - name: generate license file
+      ansible.builtin.template:
+        src: "{{ './templates/licenses/' + repo.license + '.md.j2' }}"
+        dest: "{{ repo.path + '/LICENSE.md' }}"
+
+    - name: copy github actions workflow files
+      ansible.builtin.copy:
+        src: "./templates/.github/workflows/"
+        dest: "{{ repo.path + '/.github/workflows' }}"
+
+
+    - name: generate .github/settings.yml
+      ansible.builtin.template:
+        src: "{{ './templates/.github/settings.yml.j2' }}"
+        dest: "{{ repo.path + '/.github/settings.yml' }}"
+
+    - name: generate Dockerfile
+      ansible.builtin.template:
+        src: "{{ './templates/Dockerfile.j2' }}"
+        dest: "{{ repo.path + '/Dockerfile' }}"
+
+    - name: generate .dockerignore
+      ansible.builtin.template:
+        src: "{{ './templates/.dockerignore.j2' }}"
+        dest: "{{ repo.path + '/.dockerignore' }}"
+
+    - name: generate .editorconfig
+      ansible.builtin.template:
+        src: "{{ './templates/.editorconfig.j2' }}"
+        dest: "{{ repo.path + '/.editorconfig' }}"
+
+    - name: Creates directory
+      file:
+        path: "{{ repo.path + '/.devcontainer' }}"
+        state: directory
+
+    - name: generate .devcontainer/Dockerfile
+      ansible.builtin.template:
+        src: "{{ './templates/.devcontainer/Dockerfile.j2' }}"
+        dest: "{{ repo.path + '/.devcontainer/Dockerfile' }}"
+
+
+    - name: generate .devcontainer/docker-compose.yml
+      ansible.builtin.template:
+        src: "{{ './templates/.devcontainer/docker-compose.yml.j2' }}"
+        dest: "{{ repo.path + '/.devcontainer/docker-compose.yml' }}"
+
+
+    - name: generate .devcontainer/devcontainer.json
+      ansible.builtin.template:
+        src: "{{ './templates/.devcontainer/devcontainer.json.j2' }}"
+        dest: "{{ repo.path + '/.devcontainer/devcontainer.json' }}"
