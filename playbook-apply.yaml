@@ -95,8 +95,8 @@
     - name: Creates directory
       ansible.builtin.file:
         path: "{{ repo.path + '/.devcontainer' }}"
-        state: directory
-      when: repo_info.ansible_facts.repo.type == 'application'
+        state: "{{ 'directory' if repo_info.ansible_facts.repo.type == 'application' else 'absent' }}"
+      when: repo_info.ansible_facts.repo.type is defined
 
     - name: generate .devcontainer/Dockerfile
       ansible.builtin.template:
