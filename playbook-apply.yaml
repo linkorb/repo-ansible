@@ -88,32 +88,5 @@
         src: "{{ './templates/.editorconfig.j2' }}"
         dest: "{{ repo.path + '/.editorconfig' }}"
 
-    - name: set variables from repo.yaml file
-      ansible.builtin.set_fact:
-        var: repo_info
-
-    - name: Creates directory
-      ansible.builtin.file:
-        path: "{{ repo.path + '/.devcontainer' }}"
-        state: "{{ 'directory' if repo_info.ansible_facts.repo.type == 'application' else 'absent' }}"
-      when: repo_info.ansible_facts.repo.type is defined
-
-    - name: generate .devcontainer/Dockerfile
-      ansible.builtin.template:
-        src: "{{ './templates/.devcontainer/Dockerfile.j2' }}"
-        dest: "{{ repo.path + '/.devcontainer/Dockerfile' }}"
-      when: repo_info.ansible_facts.repo.type == 'application'
-
-
-    - name: generate .devcontainer/docker-compose.yml
-      ansible.builtin.template:
-        src: "{{ './templates/.devcontainer/docker-compose.yml.j2' }}"
-        dest: "{{ repo.path + '/.devcontainer/docker-compose.yml' }}"
-      when: repo_info.ansible_facts.repo.type == 'application'
-
-
-    - name: generate .devcontainer/devcontainer.json
-      ansible.builtin.template:
-        src: "{{ './templates/.devcontainer/devcontainer.json.j2' }}"
-        dest: "{{ repo.path + '/.devcontainer/devcontainer.json' }}"
-      when: repo_info.ansible_facts.repo.type == 'application'
+- import_playbook: playbook-devcontainers.yaml
+  when: repo_info.ansible_facts.repo.type == 'application'

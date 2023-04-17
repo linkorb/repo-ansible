@@ -114,3 +114,6 @@ properties:
   docker:
     type: object
     description: Docker specific values
+  devcontainer:
+    type: object
+    description: Devcontainer specific values

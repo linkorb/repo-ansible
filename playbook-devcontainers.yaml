@@ -1,0 +1,61 @@
+- name: Apply repo devcontainer standards
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  tasks:
+    - name: assign repo_path
+      set_fact:
+        repo_path: "{{ lookup('env', 'PWD') }}"
+
+    - name: load validation facts
+      ansible.builtin.set_fact:
+        repo: "{{ lookup('ansible.builtin.file', repo_path + '/repo.yaml') | from_yaml }}"
+        criteria: "{{ lookup('ansible.builtin.file', './repo.schema.yaml') | from_yaml }}"
+
+    - name: set repo.path
+      ansible.builtin.set_fact:
+        repo: "{{ repo | combine( { 'path': repo_path } ) }}"
+      register: repo_info
+      
+    - name: set variables from repo.yaml file
+      ansible.builtin.set_fact:
+        var: repo_info
+
+    - name: Creates directory
+      ansible.builtin.file:
+        path: "{{ repo.path + '/.devcontainer' }}"
+        state: "{{ 'directory' if repo_info.ansible_facts.repo.type == 'application' else 'absent' }}"
+
+    - name: generate .devcontainer/Dockerfile
+      ansible.builtin.template:
+        src: "{{ './templates/.devcontainer/Dockerfile.j2' }}"
+        dest: "{{ repo.path + '/.devcontainer/Dockerfile' }}"
+
+
+    - name: generate .devcontainer/docker-compose.yml
+      ansible.builtin.template:
+        src: "{{ './templates/.devcontainer/docker-compose.yml.j2' }}"
+        dest: "{{ repo.path + '/.devcontainer/docker-compose.yml' }}"
+
+
+    - name: generate .devcontainer/devcontainer.json
+      ansible.builtin.template:
+        src: "{{ './templates/.devcontainer/devcontainer.json.j2' }}"
+        dest: "{{ repo.path + '/.devcontainer/devcontainer.json' }}"
+
+    - name: Get value from object
+      ansible.builtin.set_fact:
+        postCreateCommand: "{{ repo_info.ansible_facts.repo.devcontainer | json_query('postCreateCommand') }}"
+      register: postCreateCommand
+      when: repo_info.ansible_facts.repo.devcontainer.postCreateCommand is defined
+    
+    # - name: debug output
+    #   debug:
+    #     msg: "{{ repo_info.ansible_facts.repo.devcontainer  }}"
+
+    - name: add a postCreateCommand if it exists in repo.yaml
+      lineinfile:
+        path: "{{ repo.path + '/.devcontainer/devcontainer.json' }}"
+        line: '  "postCreateCommand": "{{ repo_info.ansible_facts.repo.devcontainer.postCreateCommand }}",'
+        insertafter: '^{'
+      when: repo_info.ansible_facts.repo.devcontainer.postCreateCommand is defined
