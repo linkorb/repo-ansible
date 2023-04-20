@@ -44,6 +44,7 @@
     - name: set repo.path
       ansible.builtin.set_fact:
         repo: "{{ repo | combine( { 'path': repo_path } ) }}"
+      register: repo_info
 
 
     - name: debug output
@@ -87,24 +88,5 @@
         src: "{{ './templates/.editorconfig.j2' }}"
         dest: "{{ repo.path + '/.editorconfig' }}"
 
-    - name: Creates directory
-      file:
-        path: "{{ repo.path + '/.devcontainer' }}"
-        state: directory
-
-    - name: generate .devcontainer/Dockerfile
-      ansible.builtin.template:
-        src: "{{ './templates/.devcontainer/Dockerfile.j2' }}"
-        dest: "{{ repo.path + '/.devcontainer/Dockerfile' }}"
-
-
-    - name: generate .devcontainer/docker-compose.yml
-      ansible.builtin.template:
-        src: "{{ './templates/.devcontainer/docker-compose.yml.j2' }}"
-        dest: "{{ repo.path + '/.devcontainer/docker-compose.yml' }}"
-
-
-    - name: generate .devcontainer/devcontainer.json
-      ansible.builtin.template:
-        src: "{{ './templates/.devcontainer/devcontainer.json.j2' }}"
-        dest: "{{ repo.path + '/.devcontainer/devcontainer.json' }}"
+- import_playbook: playbook-devcontainers.yaml
+  when: repo_info.ansible_facts.repo.type == 'application'
