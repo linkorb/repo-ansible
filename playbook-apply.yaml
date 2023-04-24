@@ -56,6 +56,11 @@
         src: "{{ './templates/README.md.j2' }}"
         dest: "{{ repo.path + '/README.md' }}"
 
+    - name: generate SECURITY.md file
+      ansible.builtin.template:
+        src: "{{ './templates/SECURITY.md.j2' }}"
+        dest: "{{ repo.path + '/SECURITY.md' }}"
+
 
     - name: generate license file
       ansible.builtin.template:
