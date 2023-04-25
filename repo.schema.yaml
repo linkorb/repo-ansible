@@ -2,6 +2,7 @@ type: object
 description: reprime.yaml structure for LinkORB
 required: [ name, description, license, type ]
 additionalProperties: false
+security_email: object
 properties:
   $meta:
     type: object
@@ -117,3 +118,9 @@ properties:
   devcontainer:
     type: object
     description: Devcontainer specific values
+  helm:
+    type: object
+    description: helm specific values
+  security_email:
+    type: string
+    description: security mail for SECURITY.md file 
