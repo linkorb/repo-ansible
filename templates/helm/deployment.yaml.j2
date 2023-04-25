@@ -1,0 +1,82 @@
+{% raw %} 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "{% endraw %}{{ ansible_chart_name }}{% raw %}.fullname" . }}
+  labels:
+    {{- include "{% endraw %}{{ ansible_chart_name }}{% raw %}.labels" . | indent(4) }}
+spec:
+  {% if not .Values.autoscaling.enabled %}
+  replicas: {{ .Values.replicaCount }}
+  {% endif %}
+  selector:
+    matchLabels:
+      {{- include "{% endraw %}{{ ansible_chart_name }}{% raw %}.selectorLabels" . | indent(6) }}
+  template:
+    metadata:
+      {% if .Values.podAnnotations %}
+      annotations:
+        {{- to_yaml .Values.podAnnotations | indent(8) }}
+      {% endif %}
+      labels:
+        {{- include "{% endraw %}{{ ansible_chart_name }}{% raw %}.selectorLabels" . | indent(8) }}
+    spec:
+      {% if .Values.imagePullSecrets %}
+      imagePullSecrets:
+        {{- to_yaml .Values.imagePullSecrets | indent(8) }}
+      {% endif %}
+      serviceAccountName: {{ include "{% endraw %}{{ ansible_chart_name }}{% raw %}.serviceAccountName" . }}
+      securityContext:
+        {{- to_yaml .Values.podSecurityContext | indent(8) }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- to_yaml .Values.securityContext | indent(12) }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+          - name: envvars
+            readOnly: false
+            mountPath: /app/.env
+            subPath: ".env"
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            failureThreshold: 100
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- to_yaml .Values.resources | indent(12) }}
+      volumes:
+        - name: envvars
+          configMap:
+            name: envvars
+            items:
+            - key: .env
+              path: .env
+      {% if .Values.nodeSelector %}
+      nodeSelector:
+        {{- to_yaml .Values.nodeSelector | indent(8) }}
+      {% endif %}
+      {% if .Values.affinity %}
+      affinity:
+        {{- to_yaml .Values.affinity | indent(8) }}
+      {% endif %}
+      {% if .Values.tolerations %}
+      tolerations:
+        {{- to_yaml .Values.tolerations | indent(8) }}
+      {% endif %}
+{% endraw %}
+
+
+
+
+
+

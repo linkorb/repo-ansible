@@ -120,7 +120,4 @@ properties:
     description: Devcontainer specific values
   helm:
     type: object
-    description: helm specific values
-  security_email:
-    type: string
-    description: security mail for SECURITY.md file 
+    description: Devcontainer specific values
