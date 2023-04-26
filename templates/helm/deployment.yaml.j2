@@ -1,44 +1,47 @@
-{% raw %} 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "{% endraw %}{{ ansible_chart_name }}{% raw %}.fullname" . }}
+  name: {{ include "[% chart_name %].fullname" . }}
   labels:
-    {{- include "{% endraw %}{{ ansible_chart_name }}{% raw %}.labels" . | indent(4) }}
+    {{- include "[% chart_name %].labels" . | nindent 4 }}
 spec:
-  {% if not .Values.autoscaling.enabled %}
+  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
-  {% endif %}
+  {{- end }}
+  strategy:
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 75%
   selector:
     matchLabels:
-      {{- include "{% endraw %}{{ ansible_chart_name }}{% raw %}.selectorLabels" . | indent(6) }}
+      {{- include "[% chart_name %].selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {% if .Values.podAnnotations %}
+      {{- with .Values.podAnnotations }}
       annotations:
-        {{- to_yaml .Values.podAnnotations | indent(8) }}
-      {% endif %}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       labels:
-        {{- include "{% endraw %}{{ ansible_chart_name }}{% raw %}.selectorLabels" . | indent(8) }}
+        {{- include "[% chart_name %].selectorLabels" . | nindent 8 }}
     spec:
-      {% if .Values.imagePullSecrets %}
+      {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-        {{- to_yaml .Values.imagePullSecrets | indent(8) }}
-      {% endif %}
-      serviceAccountName: {{ include "{% endraw %}{{ ansible_chart_name }}{% raw %}.serviceAccountName" . }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "[% chart_name %].serviceAccountName" . }}
       securityContext:
-        {{- to_yaml .Values.podSecurityContext | indent(8) }}
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
-            {{- to_yaml .Values.securityContext | indent(12) }}
+            {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
           - name: envvars
             readOnly: false
-            mountPath: /app/.env
-            subPath: ".env"
+            mountPath: /app/.env.local
+            subPath: ".env.local"
           ports:
             - name: http
               containerPort: 80
@@ -47,36 +50,28 @@ spec:
             httpGet:
               path: /
               port: http
-            failureThreshold: 100
           readinessProbe:
             httpGet:
               path: /
               port: http
           resources:
-            {{- to_yaml .Values.resources | indent(12) }}
+            {{- toYaml .Values.resources | nindent 12 }}
       volumes:
         - name: envvars
           configMap:
             name: envvars
             items:
-            - key: .env
-              path: .env
-      {% if .Values.nodeSelector %}
+            - key: .env.local
+              path: .env.local
+      {{- with .Values.nodeSelector }}
       nodeSelector:
-        {{- to_yaml .Values.nodeSelector | indent(8) }}
-      {% endif %}
-      {% if .Values.affinity %}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
       affinity:
-        {{- to_yaml .Values.affinity | indent(8) }}
-      {% endif %}
-      {% if .Values.tolerations %}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
       tolerations:
-        {{- to_yaml .Values.tolerations | indent(8) }}
-      {% endif %}
-{% endraw %}
-
-
-
-
-
-
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
