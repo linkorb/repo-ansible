@@ -1,4 +1,4 @@
-- name: Apply repo devcontainer standards
+- name: Apply repo helm-chart standards
   hosts: localhost
   connection: local
   gather_facts: no
