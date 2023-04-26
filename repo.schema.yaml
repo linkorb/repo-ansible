@@ -119,4 +119,4 @@ properties:
     description: Devcontainer specific values
   helm:
     type: object
-    description: Devcontainer specific values
+    description: Helm chart specific values
