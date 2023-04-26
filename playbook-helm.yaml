@@ -50,64 +50,64 @@
       ansible.builtin.template:
         src: "{{ './templates/helm/deployment.yaml.j2' }}"
         dest: "{{ repo.path + '/helm-chart/templates/deployment.yaml' }}"
-        variable_start_string: '[%'
-        variable_end_string: '%]' 
+        variable_start_string: '[['
+        variable_end_string: ']]' 
       vars:
-        chart_name: "[% repo_info.ansible_facts.repo.name %]"
+        chart_name: "[[ repo_info.ansible_facts.repo.name ]]"
     
     - name: Generate _helpers.tpl file
       ansible.builtin.template:
         src: "{{ './templates/helm/_helpers.tpl.j2' }}"
         dest: "{{ repo.path + '/helm-chart/templates/_helpers.tpl' }}"
-        variable_start_string: '[%'
-        variable_end_string: '%]' 
+        variable_start_string: '[['
+        variable_end_string: ']]' 
       vars:
-        chart_name: "[% repo_info.ansible_facts.repo.name %]"
+        chart_name: "[[ repo_info.ansible_facts.repo.name ]]"
 
     - name: Generate hpa.yaml file
       ansible.builtin.template:
         src: "{{ './templates/helm/hpa.yaml.j2' }}"
         dest: "{{ repo.path + '/helm-chart/templates/hpa.yaml' }}"
-        variable_start_string: '[%'
-        variable_end_string: '%]' 
+        variable_start_string: '[['
+        variable_end_string: ']]' 
       vars:
-        chart_name: "[% repo_info.ansible_facts.repo.name %]"
+        chart_name: "[[ repo_info.ansible_facts.repo.name ]]"
 
     - name: Generate ingress.yaml file
       ansible.builtin.template:
         src: "{{ './templates/helm/ingress.yaml.j2' }}"
         dest: "{{ repo.path + '/helm-chart/templates/ingress.yaml' }}"
-        variable_start_string: '[%'
-        variable_end_string: '%]' 
+        variable_start_string: '[['
+        variable_end_string: ']]' 
       vars:
-        chart_name: "[% repo_info.ansible_facts.repo.name %]"
+        chart_name: "[[ repo_info.ansible_facts.repo.name ]]"
     
     - name: Generate NOTES.txt file
       ansible.builtin.template:
         src: "{{ './templates/helm/NOTES.txt.j2' }}"
         dest: "{{ repo.path + '/helm-chart/templates/NOTES.txt' }}"
-        variable_start_string: '[%'
-        variable_end_string: '%]' 
+        variable_start_string: '[['
+        variable_end_string: ']]' 
       vars:
-        chart_name: "[% repo_info.ansible_facts.repo.name %]"
+        chart_name: "[[ repo_info.ansible_facts.repo.name ]]"
     
     - name: Generate service.yaml file
       ansible.builtin.template:
         src: "{{ './templates/helm/service.yaml.j2' }}"
         dest: "{{ repo.path + '/helm-chart/templates/service.yaml' }}"
-        variable_start_string: '[%'
-        variable_end_string: '%]' 
+        variable_start_string: '[['
+        variable_end_string: ']]' 
       vars:
-        chart_name: "[% repo_info.ansible_facts.repo.name %]"
+        chart_name: "[[ repo_info.ansible_facts.repo.name ]]"
 
     - name: Generate serviceaccount.yaml file
       ansible.builtin.template:
         src: "{{ './templates/helm/serviceaccount.yaml.j2' }}"
         dest: "{{ repo.path + '/helm-chart/templates/serviceaccount.yaml' }}"
-        variable_start_string: '[%'
-        variable_end_string: '%]' 
+        variable_start_string: '[['
+        variable_end_string: ']]' 
       vars:
-        chart_name: "[% repo_info.ansible_facts.repo.name %]"
+        chart_name: "[[ repo_info.ansible_facts.repo.name ]]"
 
 
 

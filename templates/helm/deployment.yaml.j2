@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "[% chart_name %].fullname" . }}
+  name: {{ include "[[ chart_name ]].fullname" . }}
   labels:
-    {{- include "[% chart_name %].labels" . | nindent 4 }}
+    {{- include "[[ chart_name ]].labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
@@ -14,7 +14,7 @@ spec:
       maxUnavailable: 75%
   selector:
     matchLabels:
-      {{- include "[% chart_name %].selectorLabels" . | nindent 6 }}
+      {{- include "[[ chart_name ]].selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -22,13 +22,13 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "[% chart_name %].selectorLabels" . | nindent 8 }}
+        {{- include "[[ chart_name ]].selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "[% chart_name %].serviceAccountName" . }}
+      serviceAccountName: {{ include "[[ chart_name ]].serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
