@@ -95,3 +95,6 @@
 
 - import_playbook: playbook-devcontainers.yaml
   when: repo_info.ansible_facts.repo.type == 'application'
+
+- import_playbook: playbook-helm.yaml
+  when: repo_info.ansible_facts.repo.type == 'application'
