@@ -38,14 +38,6 @@
         src: "{{ './templates/helm/Chart.yaml.j2' }}"
         dest: "{{ repo.path + '/helm-chart/Chart.yaml' }}"
 
-    - name: Generate values.test.yaml file
-      ansible.builtin.template:
-        src: "{{ './templates/helm/values.test.yaml.j2' }}"
-        dest: "{{ repo.path + '/helm-chart/values.test.yaml' }}"
-      vars:
-          image_repository: "{{ repo_info.ansible_facts.repo.helm.image_repository }}"
-          ingress_host: "{{ repo_info.ansible_facts.repo.helm.ingress_host }}"
-
     - name: Generate deployment.yaml file
       ansible.builtin.template:
         src: "{{ './templates/helm/deployment.yaml.j2' }}"
