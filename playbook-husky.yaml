@@ -13,17 +13,17 @@
 
     - name: Write .husky/_/husky.sh
       ansible.builtin.copy:
-        src: "{{ './templates/git/husky.sh' }}"
+        src: "{{ './templates/husky/husky.sh' }}"
         dest: "{{ repo.path + '/.husky/_/husky.sh' }}"
         mode: a+x
 
     - name: generate .husky/commit-msg
       ansible.builtin.template:
-        src: "{{ './templates/git/commit-msg.j2' }}"
+        src: "{{ './templates/husky/commit-msg.j2' }}"
         dest: "{{ repo.path + '/.husky/commit-msg' }}"
         mode: a+x
 
     - name: generate commitlint.config.js
       ansible.builtin.template:
-        src: "{{ './templates/git/commitlint.config.js.j2' }}"
+        src: "{{ './templates/husky/commitlint.config.js.j2' }}"
         dest: "{{ repo.path + '/commitlint.config.js' }}"
