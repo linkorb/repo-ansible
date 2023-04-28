@@ -93,6 +93,8 @@
         src: "{{ './templates/.editorconfig.j2' }}"
         dest: "{{ repo.path + '/.editorconfig' }}"
 
+- import_playbook: playbook-husky.yaml
+
 - import_playbook: playbook-devcontainers.yaml
   when: repo_info.ansible_facts.repo.type == 'application'
 
