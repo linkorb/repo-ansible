@@ -92,9 +92,17 @@
       ansible.builtin.template:
         src: "{{ './templates/.editorconfig.j2' }}"
         dest: "{{ repo.path + '/.editorconfig' }}"
+  
+    - name: Check if composer.json exists
+      stat:
+        path: "{{ repo.path + '/composer.json' }}"
+      register: composer_json
 
 - import_playbook: playbook-devcontainers.yaml
   when: repo_info.ansible_facts.repo.type == 'application'
 
 - import_playbook: playbook-helm.yaml
   when: repo_info.ansible_facts.repo.type == 'application'
+
+- import_playbook: playbook-phpqa.yaml
+  when: composer_json.stat.exists

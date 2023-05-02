@@ -1,0 +1,34 @@
+- name: Apply repo helm-chart standards
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+
+  tasks:
+    - name: assign repo_path
+      set_fact:
+        repo_path: "{{ lookup('env', 'PWD') }}"
+
+    - name: load validation facts
+      ansible.builtin.set_fact:
+        repo: "{{ lookup('ansible.builtin.file', repo_path + '/repo.yaml') | from_yaml }}"
+        criteria: "{{ lookup('ansible.builtin.file', './repo.schema.yaml') | from_yaml }}"
+
+    - name: set repo.path
+      ansible.builtin.set_fact:
+        repo: "{{ repo | combine( { 'path': repo_path } ) }}"
+      register: repo_info
+      
+    - name: set variables from repo.yaml file
+      ansible.builtin.set_fact:
+        var: repo_info
+    
+    - name: Generate .php-cs-fixer.dist.php file
+      ansible.builtin.template:
+        src: "{{ './templates/php-qa/php-cs-fixer.dist.php.j2' }}"
+        dest: "{{ repo.path + '/.php-cs-fixer.dist.php' }}"
+    
+    - name: Generate phpstan.neon file
+      ansible.builtin.template:
+        src: "{{ './templates/php-qa/phpstan.neon.j2' }}"
+        dest: "{{ repo.path + '/phpstan.neon' }}"
