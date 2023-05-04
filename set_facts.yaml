@@ -1,0 +1,17 @@
+- name: assign repo_path
+  set_fact:
+    repo_path: "{{ lookup('env', 'PWD') }}"
+
+- name: load validation facts
+  ansible.builtin.set_fact:
+    repo: "{{ lookup('ansible.builtin.file', repo_path + '/repo.yaml') | from_yaml }}"
+    criteria: "{{ lookup('ansible.builtin.file', './repo.schema.yaml') | from_yaml }}"
+
+- name: set repo.path
+  ansible.builtin.set_fact:
+    repo: "{{ repo | combine( { 'path': repo_path } ) }}"
+  register: repo_info
+      
+- name: set variables from repo.yaml file
+  ansible.builtin.set_fact:
+    var: repo_info

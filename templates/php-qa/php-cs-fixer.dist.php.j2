@@ -1,5 +1,7 @@
-{% raw %}
+
 <?php
+
+// {{ ansible_managed }}
 
 $finder = (new PhpCsFixer\Finder())
     ->in(__DIR__.DIRECTORY_SEPARATOR.'src')
@@ -27,4 +29,4 @@ return (new PhpCsFixer\Config())
     ->setFinder($finder)
     ->setCacheFile('.php-cs-fixer.cache') // forward compatibility with 3.x line
 ;
-{% endraw %}
+
