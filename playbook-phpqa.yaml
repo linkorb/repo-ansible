@@ -18,6 +18,11 @@
       ansible.builtin.template:
         src: "{{ './templates/php-qa/phpstan.neon.j2' }}"
         dest: "{{ repo.path + '/phpstan.neon' }}"
+
+    - name: Generate reviewdog.yaml file
+      ansible.builtin.template:
+        src: "{{ './templates/php-qa/reviewdog.yaml.j2' }}"
+        dest: "{{ repo.path + '/.reviewdog.yaml' }}"
       
     - name: Append file name to .gitignore
       lineinfile:

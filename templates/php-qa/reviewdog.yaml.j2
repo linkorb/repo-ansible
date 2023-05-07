@@ -1,0 +1,11 @@
+# .reviewdog.yml
+# {{ ansible_managed }}
+
+# Global settings
+runner:
+  phpstan:
+    cmd: /opt/php-tools/bin/phpstan analyze src/ --error-format=checkstyle
+    format: checkstyle
+    #errorformat:
+    #  - checkstyle
+    level: warning

@@ -1,14 +1,7 @@
-// {{ ansible_managed }}
-
-includes:
-- /tools/.composer/vendor-bin/phpstan/vendor/phpstan/phpstan-doctrine/extension.neon
-- /tools/.composer/vendor-bin/phpstan/vendor/phpstan/phpstan-phpunit/extension.neon
-- /tools/.composer/vendor-bin/phpstan/vendor/phpstan/phpstan-symfony/extension.neon
+# {{ ansible_managed }}
 
 parameters:
   level: 6
   paths:
     - src
 
-services:
-    # your custom extensions
