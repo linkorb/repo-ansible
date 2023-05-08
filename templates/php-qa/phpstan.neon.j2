@@ -1,7 +1,9 @@
 # {{ ansible_managed }}
 
 parameters:
-  level: 6
+  level: {{ phpstan_parameters_level }}
   paths:
-    - src
+    {% for item in phpstan_parameters_paths %}
+    - {{ item }}
+    {% endfor %}
 

@@ -6,23 +6,28 @@
     ansible_managed: 'Ansible managed'
 
   tasks:
-    - name: Include task foo
+    - name: Include task set_facts
       include_tasks: set_facts.yaml
     
     - name: Generate .php-cs-fixer.dist.php file
       ansible.builtin.template:
         src: "{{ './templates/php-qa/php-cs-fixer.dist.php.j2' }}"
-        dest: "{{ repo.path + '/.php-cs-fixer.dist.php' }}"
+        dest: "{{ repo.path + '/.php-cs-fixer.dist' }}"
     
     - name: Generate phpstan.neon file
       ansible.builtin.template:
         src: "{{ './templates/php-qa/phpstan.neon.j2' }}"
         dest: "{{ repo.path + '/phpstan.neon' }}"
-
+      vars:
+        phpstan_parameters_level: "{{ repo_info.ansible_facts.repo.phpqa.phpstan_parameters_level  }}"
+        phpstan_parameters_paths: "{{ repo_info.ansible_facts.repo.phpqa.phpneon_paths }}"
+  
     - name: Generate reviewdog.yaml file
       ansible.builtin.template:
         src: "{{ './templates/php-qa/reviewdog.yaml.j2' }}"
         dest: "{{ repo.path + '/.reviewdog.yaml' }}"
+      vars:
+        php_cs_fixer_config_file_path: "{{ repo.path + '/.php-cs-fixer.dist.php' }}"
       
     - name: Append file name to .gitignore
       lineinfile:

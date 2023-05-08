@@ -3,7 +3,7 @@
   connection: local
   gather_facts: no
   tasks:
-    - name: Include task foo
+    - name: Include task set_facts
       include_tasks: set_facts.yaml
 
     - name: Creates directory
