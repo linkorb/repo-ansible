@@ -3,8 +3,10 @@
 // {{ ansible_managed }}
 
 $finder = PhpCsFixer\Finder::create()
-    ->exclude('somedir')
-    ->notPath('src/Symfony/Component/Translation/Tests/fixtures/resources.php')
+    // ->exclude('somedir')
+{% for item in phpstan_parameters_paths %}
+    ->in('{{ item }}')
+{% endfor %}
     ->in(__DIR__)
 ;
 

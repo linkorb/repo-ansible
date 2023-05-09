@@ -13,6 +13,8 @@
       ansible.builtin.template:
         src: "{{ './templates/php-qa/php-cs-fixer.dist.php.j2' }}"
         dest: "{{ repo.path + '/.php-cs-fixer.dist' }}"
+      vars:
+        phpstan_parameters_paths: "{{ repo_info.ansible_facts.repo.phpqa.phpneon_paths }}"
     
     - name: Generate phpstan.neon file
       ansible.builtin.template:
@@ -20,7 +22,7 @@
         dest: "{{ repo.path + '/phpstan.neon' }}"
       vars:
         phpstan_parameters_level: "{{ repo_info.ansible_facts.repo.phpqa.phpstan_parameters_level  }}"
-        phpstan_parameters_paths: "{{ repo_info.ansible_facts.repo.phpqa.phpneon_paths }}"
+        phpstan_parameters_paths: "{{ repo_info.ansible_facts.repo.phpqa.php_cs_fixer_paths }}"
   
     - name: Generate reviewdog.yaml file
       ansible.builtin.template:
@@ -35,3 +37,4 @@
         line: "{{ item }}"
       with_items:
         - .php-cs-fixer.cache
+        - /tmp-phpqa
