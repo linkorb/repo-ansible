@@ -123,6 +123,9 @@ properties:
   phpqa:
     type: object
     description: phpqa tools specific values
+  dependabot:
+    type: object
+    description: dependabot specific values
   security:
     type: object
     additionalProperties: false
