@@ -1,0 +1,19 @@
+# .reviewdog.yml
+# {{ ansible_managed }}
+
+# Global settings
+runner:
+  phpstan:
+    cmd: phpstan analyze src/ --error-format=checkstyle
+    format: checkstyle
+    #errorformat:
+    #  - checkstyle
+    level: warning
+  
+  name: "php-cs-fixer"
+  command: "php-cs-fixer fix --dry-run --diff --config={{ php_cs_fixer_config_file_path }}"
+
+filter:
+  exclude:
+    - "vendor/"
+    - "node_modules/"

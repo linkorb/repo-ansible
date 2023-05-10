@@ -120,6 +120,9 @@ properties:
   helm:
     type: object
     description: helm specific values
+  phpqa:
+    type: object
+    description: phpqa tools specific values
   security:
     type: object
     additionalProperties: false
