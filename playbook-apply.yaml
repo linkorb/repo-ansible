@@ -4,6 +4,8 @@
   hosts: localhost
   connection: local
   gather_facts: no
+  vars:
+    ansible_managed: 'Ansible managed'
   tasks:
     - name: assign repo_path
       set_fact:
@@ -12,7 +14,6 @@
     - name: Startup info
       debug:
         msg: "repo path: {{ repo_path }}"
-      # when: hi == "world"
 
     - name: check if .git directory exists
       stat:
@@ -97,6 +98,23 @@
       stat:
         path: "{{ repo.path + '/composer.json' }}"
       register: composer_json
+
+    - name: Find composer.json or package.json
+      find:
+        paths: "{{ repo_path }}"
+        patterns:
+          - composer.json
+          - package.json
+      register: find_result
+      ignore_errors: yes
+
+    - name: Generate Dependabot configuration
+      template:
+        src: dependabot.j2
+        dest: "{{ repo_path }}/.github/dependabot.yml"
+        mode: '0644'
+      when: "'composer.json' in find_result.files or 'package.json' in find_result.files"
+
 
 - import_playbook: playbook-devcontainers.yaml
   when: repo_info.ansible_facts.repo.type == 'application'
