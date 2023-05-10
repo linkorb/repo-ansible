@@ -116,6 +116,8 @@
       when: "'composer.json' in find_result.files or 'package.json' in find_result.files"
 
 
+- import_playbook: playbook-husky.yaml
+
 - import_playbook: playbook-devcontainers.yaml
   when: repo_info.ansible_facts.repo.type == 'application'
 
