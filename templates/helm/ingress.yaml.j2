@@ -1,4 +1,4 @@
-# [[ ansible_managed ]]
+# [[ repo_managed ]]
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := include "[[ chart_name ]].fullname" . -}}
 {{- $svcPort := .Values.service.port -}}

@@ -1,5 +1,5 @@
 - name: assign repo_path
-  set_fact:
+  ansible.builtin.set_fact:
     repo_path: "{{ lookup('env', 'PWD') }}"
 
 - name: load validation facts
@@ -11,7 +11,11 @@
   ansible.builtin.set_fact:
     repo: "{{ repo | combine( { 'path': repo_path } ) }}"
   register: repo_info
-      
+
 - name: set variables from repo.yaml file
   ansible.builtin.set_fact:
     var: repo_info
+
+- name: set ansible_managed
+  ansible.builtin.set_fact:
+    repo_managed: 'Managed by https://github.com/linkorb/repo-ansible. Manual changes will be overwritten.'

@@ -2,8 +2,6 @@
   hosts: localhost
   connection: local
   gather_facts: no
-  vars:
-    ansible_managed: 'Ansible managed'
 
   tasks:
     - name: Include task set_facts
