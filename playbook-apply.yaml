@@ -4,10 +4,9 @@
   hosts: localhost
   connection: local
   gather_facts: no
+  vars_files:
+    - vars.yaml
   tasks:
-    - name: Include task set_facts
-      include_tasks: set_facts.yaml
-
     - name: assign repo_path
       set_fact:
         repo_path: "{{ lookup('env', 'PWD') }}"
@@ -111,10 +110,10 @@
 
     - name: Generate Dependabot configuration
       template:
-        src: dependabot.j2
+        src: "./templates/dependabot.j2"
         dest: "{{ repo_path }}/.github/dependabot.yml"
-        mode: '0644'
-      when: "'composer.json' in find_result.files or 'package.json' in find_result.files"
+      loop: "{{ dependabot_config }}"
+      when: "'composer.json' in find_result.files and 'package.json' in find_result.files"
 
 
 - import_playbook: playbook-husky.yaml

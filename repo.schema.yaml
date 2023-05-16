@@ -126,6 +126,20 @@ properties:
   dependabot:
     type: object
     description: dependabot specific values
+    additionalProperties: false
+    properties:
+      phpstan_parameters_level:
+        type: number
+        default: 6
+        description: configuation for phpstan parameter level
+      phpneon_paths:
+        type: array
+        default: ["src/*"]
+        description: phpneon paths
+      php_cs_fixer_paths:
+        type: array
+        default: ["src/*"]
+        description: php-cs-fixer paths
   security:
     type: object
     additionalProperties: false

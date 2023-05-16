@@ -1,20 +1,11 @@
-# {{ repo_managed }}
+# Dependabot configuration file
+# {{ ansible_managed }}
 
-{% set dependencies = lookup('file', '{{ repo_path }}/repo.yaml') | from_yaml %}
-
-# Generate the Dependabot configuration for each dependency
-{% for dependency in dependencies %}
-{% if dependency.type == 'composer' %}
-  - package-ecosystem: "composer"
-  directory: "{{ dependency.directory }}"
-  schedule:
-    interval: "{{ dependency.interval }}"
-  update-type: "widen"
-{% elif dependency.type == 'npm' %}
-  - package-ecosystem: "npm"
-  directory: "{{ dependency.directory }}"
-  schedule:
-    interval: "{{ dependency.interval }}"
-  update-type: "widen"
-{% endif %}
+version: 2
+updates:
+{% for item in dependabot_config %}
+  - package-ecosystem: "{{ item.package_ecosystem }}"
+    directory: "{{ item.directory }}"
+    schedule:
+      interval: "{{ item.schedule_interval }}"
 {% endfor %}
