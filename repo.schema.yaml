@@ -117,19 +117,12 @@ properties:
   devcontainer:
     type: object
     description: Devcontainer specific values
-  helm:
-    type: object
-    description: helm specific values
   phpqa:
     type: object
     description: phpqa tools specific values
-  dependabot:
-    type: object
-    description: dependabot specific values
-    additionalProperties: false
     properties:
       phpstan_parameters_level:
-        type: number
+        type: num
         default: 6
         description: configuation for phpstan parameter level
       phpneon_paths:
@@ -139,7 +132,7 @@ properties:
       php_cs_fixer_paths:
         type: array
         default: ["src/*"]
-        description: php-cs-fixer paths
+        description: php-cs-fixer paths   
   security:
     type: object
     additionalProperties: false

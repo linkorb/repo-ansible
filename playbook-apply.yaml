@@ -7,6 +7,9 @@
   vars_files:
     - vars.yaml
   tasks:
+    - name: Include task set_facts
+      include_tasks: set_facts.yaml
+
     - name: assign repo_path
       set_fact:
         repo_path: "{{ lookup('env', 'PWD') }}"
@@ -27,12 +30,6 @@
       register: repo_yaml
       failed_when: repo_yaml.stat.exists == False
 
-    - name: load validation facts
-      ansible.builtin.set_fact:
-        repo: "{{ lookup('ansible.builtin.file', repo_path + '/repo.yaml') | from_yaml }}"
-        criteria: "{{ lookup('ansible.builtin.file', './repo.schema.yaml') | from_yaml }}"
-
-
     - name: validate repo config in json format using jsonschema by passing plugin configuration variable as key/value pairs
       ansible.builtin.set_fact:
         config_validity: "{{ repo|ansible.utils.validate(criteria, engine='ansible.utils.jsonschema', draft='draft7') }}"
@@ -41,12 +38,6 @@
       ansible.builtin.fail:
         msg: "The repo.yaml file is invalid: {{ config_validity[0].message }}. Please refer to the README.md for information about schema validation."
       when: config_validity[0].message is defined
-
-    - name: set repo.path
-      ansible.builtin.set_fact:
-        repo: "{{ repo | combine( { 'path': repo_path } ) }}"
-      register: repo_info
-
 
     - name: debug output
       debug:

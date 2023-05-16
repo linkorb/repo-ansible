@@ -1,4 +1,3 @@
-repo_managed: 'Ansible managed'
 dependabot_config:
   - package_ecosystem: "npm"
     directory: "/"
