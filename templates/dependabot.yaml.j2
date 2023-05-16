@@ -1,0 +1,11 @@
+# Dependabot configuration file
+# {{ ansible_managed }}
+
+version: 2
+updates:
+{% for item in dependabot_config %}
+  - package-ecosystem: "{{ item.package_ecosystem }}"
+    directory: "{{ item.directory }}"
+    schedule:
+      interval: "{{ item.schedule_interval }}"
+{% endfor %}

@@ -1,0 +1,9 @@
+# {{ repo_managed }}
+
+# Directories
+{% for owner in codeowners %}
+{% set pattern = owner.pattern %}
+{% set owners = owner.owners %}
+{{ pattern }} {% for owner in owners %}{{ owner }} {% endfor %}
+
+{% endfor %}
