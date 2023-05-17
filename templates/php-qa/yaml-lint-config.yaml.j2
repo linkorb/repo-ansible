@@ -1,0 +1,38 @@
+# {{ repo_managed }}
+extends: default
+
+rules:
+  # Rule to enforce indentation with 2 spaces
+  indentation:
+    spaces: 2
+
+  # Rule to enforce line length limit of 80 characters
+  line-length:
+    max: 80
+
+  # Rule to enforce key ordering in alphabetical order
+  key-ordering: {}
+
+  # Rule to check for trailing spaces at the end of lines
+  trailingspaces:
+    present: true
+
+  # Rule to check for consistent newlines at the end of files
+  newlines:
+    present: true
+
+  # Rule to enforce a specific schema version for YAML files
+  schema-version:
+    min: 1.1
+
+  # Rule to check for duplicate keys in mappings
+  duplicate-key:
+    present: true
+
+  # Rule to enforce consistent null representation
+  null-representation:
+    style: lowercase
+
+  # Rule to enforce consistent boolean representation
+  boolean-representation:
+    style: lowercase

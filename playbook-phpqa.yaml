@@ -36,3 +36,19 @@
       with_items:
         - .php-cs-fixer.cache
         - /tmp-phpqa
+
+    - name: Download local-php-security-checker
+      get_url:
+        url: "https://github.com/fabpot/local-php-security-checker/releases/download/v2.0.6/local-php-security-checker_2.0.6_darwin_amd64"
+        dest: "{{ repo.path + '/local-php-security-checker' }}"
+        mode: "0755"
+
+    - name: Generate yaml-lint.yaml file
+      ansible.builtin.template:
+        src: "{{ './templates/php-qa/yaml-lint-config.yaml.j2' }}"
+        dest: "{{ repo.path + '/yaml-lint.yaml' }}"
+
+    - name: Generate twigcs.yaml file
+      ansible.builtin.template:
+        src: "{{ './templates/php-qa/twigcs.yaml.j2' }}"
+        dest: "{{ repo.path + '/twigcs.yaml' }}"
