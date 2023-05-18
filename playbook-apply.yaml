@@ -4,8 +4,14 @@
   hosts: localhost
   connection: local
   gather_facts: no
-  vars_files:
-    - vars.yaml
+  vars:
+    dependabot_config:
+    - package_ecosystem: "npm"
+      directory: "/"
+      schedule_interval: "daily"
+    - package_ecosystem: "composer"
+      directory: "/"
+      schedule_interval: "weekly"
   tasks:
     - name: Include task set_facts
       include_tasks: set_facts.yaml
@@ -101,10 +107,10 @@
 
     - name: Generate Dependabot configuration
       template:
-        src: "./templates/dependabot.j2"
+        src: "./templates/dependabot.yaml.j2"
         dest: "{{ repo_path }}/.github/dependabot.yml"
       loop: "{{ dependabot_config }}"
-      when: "'composer.json' in find_result.files and 'package.json' in find_result.files"
+      when: "'composer.json' in find_result.files or 'package.json' in find_result.files"
 
 
 - import_playbook: playbook-husky.yaml

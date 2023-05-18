@@ -1,7 +1,0 @@
-dependabot_config:
-  - package_ecosystem: "npm"
-    directory: "/"
-    schedule_interval: "daily"
-  - package_ecosystem: "composer"
-    directory: "/"
-    schedule_interval: "weekly"

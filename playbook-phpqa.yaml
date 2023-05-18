@@ -10,24 +10,22 @@
     - name: Generate .php-cs-fixer.dist.php file
       ansible.builtin.template:
         src: "{{ './templates/php-qa/php-cs-fixer.dist.php.j2' }}"
-        dest: "{{ repo.path + '/.php-cs-fixer.dist' }}"
+        dest: "{{ repo.path + '/.php-cs-fixer.dist.php' }}"
       vars:
-        phpstan_parameters_paths: "{{ repo_info.ansible_facts.repo.phpqa.phpneon_paths }}"
+        phpstan_parameters_paths: "{{ repo_info.ansible_facts.repo.phpqa.php_fixer.path }}"
     
     - name: Generate phpstan.neon file
       ansible.builtin.template:
         src: "{{ './templates/php-qa/phpstan.neon.j2' }}"
         dest: "{{ repo.path + '/phpstan.neon' }}"
       vars:
-        phpstan_parameters_level: "{{ repo_info.ansible_facts.repo.phpqa.phpstan_parameters_level  }}"
-        phpstan_parameters_paths: "{{ repo_info.ansible_facts.repo.phpqa.php_cs_fixer_paths }}"
+        phpstan_parameters_level: "{{ repo_info.ansible_facts.repo.phpqa.phpstan.level  }}"
+        phpstan_parameters_paths: "{{ repo_info.ansible_facts.repo.phpqa.phpstan.level }}"
   
     - name: Generate reviewdog.yaml file
       ansible.builtin.template:
         src: "{{ './templates/php-qa/reviewdog.yaml.j2' }}"
         dest: "{{ repo.path + '/.reviewdog.yaml' }}"
-      vars:
-        php_cs_fixer_config_file_path: "{{ repo.path + '/.php-cs-fixer.dist.php' }}"
       
     - name: Append file name to .gitignore
       lineinfile:
@@ -37,18 +35,12 @@
         - .php-cs-fixer.cache
         - /tmp-phpqa
 
-    - name: Download local-php-security-checker
-      get_url:
-        url: "https://github.com/fabpot/local-php-security-checker/releases/download/v2.0.6/local-php-security-checker_2.0.6_darwin_amd64"
-        dest: "{{ repo.path + '/local-php-security-checker' }}"
-        mode: "0755"
-
     - name: Generate yaml-lint.yaml file
       ansible.builtin.template:
         src: "{{ './templates/php-qa/yaml-lint-config.yaml.j2' }}"
-        dest: "{{ repo.path + '/yaml-lint.yaml' }}"
+        dest: "{{ repo.path + '/.yaml-lint.yaml' }}"
 
     - name: Generate twigcs.yaml file
       ansible.builtin.template:
         src: "{{ './templates/php-qa/twigcs.yaml.j2' }}"
-        dest: "{{ repo.path + '/twigcs.yaml' }}"
+        dest: "{{ repo.path + '/.twigcs.yaml' }}"

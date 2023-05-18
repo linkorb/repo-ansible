@@ -121,18 +121,21 @@ properties:
     type: object
     description: phpqa tools specific values
     properties:
-      phpstan_parameters_level:
-        type: num
-        default: 6
-        description: configuation for phpstan parameter level
-      phpneon_paths:
-        type: array
-        default: ["src/*"]
-        description: phpneon paths
-      php_cs_fixer_paths:
-        type: array
-        default: ["src/*"]
-        description: php-cs-fixer paths   
+      phpstan:
+        type: object
+        properties:
+          level:
+            type: num
+            description: phpstan level
+          path:
+            type: array
+            description: Path to directories for phpstan
+      php_fixer:
+        type: object
+        properties:
+          path:
+            type: array
+            description: Path to directories for php-cs-fixer 
   security:
     type: object
     additionalProperties: false
