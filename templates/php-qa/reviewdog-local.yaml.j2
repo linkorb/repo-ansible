@@ -1,0 +1,47 @@
+# .reviewdog.yml
+
+# Configure the tools
+tools:
+  # phpneon
+  - name: phpneon
+    cmd: "phpqa phpstan analyze --configuration=phpstan.neon"
+    errorformat: "checkstyle"
+    stdin: true
+
+  # php-cs-fixer
+  - name: php-cs-fixer
+    cmd: "phpqa php-cs-fixer fix --dry-run --diff .php-cs-fixer.dist.php --ansi"
+    errorformat: "checkstyle"
+    stdin: true
+
+  # # yaml-lint
+  # - name: yaml-lint
+  #   cmd: "yaml-lint -f checkstyle ."
+  #   errorformat: "checkstyle"
+  #   stdin: true
+  #   docker:
+  #     image: "python:latest"
+
+  # # twigcs
+  # - name: twigcs
+  #   cmd: "twigcs ."
+  #   errorformat: "checkstyle"
+  #   stdin: true
+  #   docker:
+  #     image: "python:latest"
+
+  # # local-php-security-checker
+  # - name: local-php-security-checker
+  #   cmd: "local-php-security-checker"
+  #   errorformat: "checkstyle"
+  #   stdin: true
+  #   docker:
+  #     image: "php:latest"
+
+  # # composer-unused
+  # - name: composer-unused
+  #   cmd: "composer-unused check"
+  #   errorformat: "checkstyle"
+  #   stdin: true
+  #   docker:
+  #     image: "composer:latest"

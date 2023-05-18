@@ -20,11 +20,16 @@
         dest: "{{ repo.path + '/phpstan.neon' }}"
       vars:
         phpstan_parameters_level: "{{ repo_info.ansible_facts.repo.phpqa.phpstan.level  }}"
-        phpstan_parameters_paths: "{{ repo_info.ansible_facts.repo.phpqa.phpstan.level }}"
+        phpstan_parameters_paths: "{{ repo_info.ansible_facts.repo.phpqa.phpstan.path }}"
   
-    - name: Generate reviewdog.yaml file
+    - name: Generate reviewdog.yaml for GitHub actions file
       ansible.builtin.template:
-        src: "{{ './templates/php-qa/reviewdog.yaml.j2' }}"
+        src: "{{ './templates/php-qa/reviewdog-github.yaml.j2' }}"
+        dest: "{{ repo.path + '/.github/workflows/reviewdog.yaml' }}"
+
+    - name: Generate reviewdog.yaml local file
+      ansible.builtin.template:
+        src: "{{ './templates/php-qa/reviewdog-local.yaml.j2' }}"
         dest: "{{ repo.path + '/.reviewdog.yaml' }}"
       
     - name: Append file name to .gitignore
