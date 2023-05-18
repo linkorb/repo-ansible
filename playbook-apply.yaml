@@ -108,7 +108,7 @@
     - name: Generate Dependabot configuration
       template:
         src: "./templates/dependabot.yaml.j2"
-        dest: "{{ repo_path }}/.github/dependabot.yml"
+        dest: "{{ repo_path }}/.github/dependabot.yaml"
       loop: "{{ dependabot_config }}"
       when: "'composer.json' in find_result.files or 'package.json' in find_result.files"
 
