@@ -32,14 +32,6 @@
         src: "{{ './templates/php-qa/reviewdog-local.yaml.j2' }}"
         dest: "{{ repo.path + '/.reviewdog.yaml' }}"
       
-    - name: Append file name to .gitignore
-      lineinfile:
-        path: "{{ repo.path + '/.gitignore' }}"
-        line: "{{ item }}"
-      with_items:
-        - .php-cs-fixer.cache
-        - /tmp-phpqa
-
     - name: Generate yaml-lint.yaml file
       ansible.builtin.template:
         src: "{{ './templates/php-qa/yaml-lint-config.yaml.j2' }}"
