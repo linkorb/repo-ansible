@@ -1,47 +1,47 @@
 # .reviewdog.yml
-
+# {{ repo_managed }}
 # Configure the tools
 tools:
   # phpneon
-  - name: phpneon
-    cmd: "phpqa phpstan analyze --configuration=phpstan.neon"
-    errorformat: "checkstyle"
+  phpstan:
+    # full command
+    cmd: phpstan analyze --configuration=phpstan.neon
+    format: checkstyle # format to be parsed by reviewdog
+    name: phpstan # output in logs
+    level: error 
+
+  php-cs-fixer:
+    name: php-cs-fixer
+    cmd: "php-cs-fixer fix --dry-run --diff .php-cs-fixer.dist.php --ansi"
+    format: "checkstyle"
+    level: error 
+
+  yaml-lint:
+    name: yaml-lint
+    cmd: "yaml-lint -f checkstyle ."
+    format: "checkstyle"
     stdin: true
+    level: error 
 
-  # php-cs-fixer
-  - name: php-cs-fixer
-    cmd: "phpqa php-cs-fixer fix --dry-run --diff .php-cs-fixer.dist.php --ansi"
-    errorformat: "checkstyle"
+  twigcs:
+    name: twigcs
+    cmd: "twigcs ."
+    format: "checkstyle"
     stdin: true
+    level: error 
 
-  # # yaml-lint
-  # - name: yaml-lint
-  #   cmd: "yaml-lint -f checkstyle ."
-  #   errorformat: "checkstyle"
-  #   stdin: true
-  #   docker:
-  #     image: "python:latest"
 
-  # # twigcs
-  # - name: twigcs
-  #   cmd: "twigcs ."
-  #   errorformat: "checkstyle"
-  #   stdin: true
-  #   docker:
-  #     image: "python:latest"
+  local-php-security-checker:
+    name: local-php-security-checker
+    cmd: "local-php-security-checker"
+    format: "checkstyle"
+    stdin: true
+    level: error 
 
-  # # local-php-security-checker
-  # - name: local-php-security-checker
-  #   cmd: "local-php-security-checker"
-  #   errorformat: "checkstyle"
-  #   stdin: true
-  #   docker:
-  #     image: "php:latest"
 
-  # # composer-unused
-  # - name: composer-unused
-  #   cmd: "composer-unused check"
-  #   errorformat: "checkstyle"
-  #   stdin: true
-  #   docker:
-  #     image: "composer:latest"
+  composer-unused:
+    name: composer-unused
+    cmd: "composer-unused check"
+    format: "checkstyle"
+    stdin: true
+    level: error 
