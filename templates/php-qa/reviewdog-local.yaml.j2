@@ -16,9 +16,9 @@ tools:
     format: "checkstyle"
     level: error 
 
-  yaml-lint:
+  yamllint:
     name: yaml-lint
-    cmd: "yaml-lint -f checkstyle ."
+    cmd: "yamllint -c .yamllint.yaml ."
     format: "checkstyle"
     stdin: true
     level: error 

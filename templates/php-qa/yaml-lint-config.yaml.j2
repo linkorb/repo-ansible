@@ -11,28 +11,10 @@ rules:
     max: 120
 
   # Rule to enforce key ordering in alphabetical order
-  key-ordering: {}
+  key-ordering: disable
 
   # Rule to check for trailing spaces at the end of lines
-  trailingspaces:
-    present: true
+  trailing-spaces: enable
 
   # Rule to check for consistent newlines at the end of files
-  newlines:
-    present: true
-
-  # Rule to enforce a specific schema version for YAML files
-  schema-version:
-    min: 1.1
-
-  # Rule to check for duplicate keys in mappings
-  duplicate-key:
-    present: true
-
-  # Rule to enforce consistent null representation
-  null-representation:
-    style: lowercase
-
-  # Rule to enforce consistent boolean representation
-  boolean-representation:
-    style: lowercase
+  new-lines: enable
