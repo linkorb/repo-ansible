@@ -2,28 +2,27 @@
 # {{ repo_managed }}
 # Configure the tools
 runner:
-  # phpneon
   phpstan:
-    # full command
-    cmd: phpstan analyze --configuration=phpstan.neon
+    cmd: phpstan analyze --configuration=phpstan.neon --error-format=checkstyle
     format: checkstyle # format to be parsed by reviewdog
     name: phpstan # output in logs
     level: error 
 
   php-cs-fixer:
     name: php-cs-fixer
-    cmd: "php-cs-fixer fix --dry-run --diff .php-cs-fixer.dist.php --ansi"
-    format: "checkstyle"
+    cmd: php-cs-fixer fix --dry-run --diff .php-cs-fixer.dist.php --ansi --format checkstyle
+    format: checkstyle
     level: error 
 
   yamllint:
     name: yaml-lint
-    cmd: "yamllint -c .yamllint.yaml ."
-    format: "checkstyle"
-    stdin: true
-    level: error 
+    cmd: yamllint -c .yamllint.yaml . --format "parsable"
+    errorformat:
+      - "%f:%l:%c: %m"
+    level: error
+    filter-mode: nofilter
 
-  twigcs:
+  {# twigcs:
     name: twigcs
     cmd: "twigcs ."
     format: "checkstyle"
@@ -44,4 +43,4 @@ runner:
     cmd: "composer-unused check"
     format: "checkstyle"
     stdin: true
-    level: error 
+    level: error  #}
