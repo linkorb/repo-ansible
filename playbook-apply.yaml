@@ -4,6 +4,14 @@
   hosts: localhost
   connection: local
   gather_facts: no
+  vars:
+    dependabot_config:
+    - package_ecosystem: "npm"
+      directory: "/"
+      schedule_interval: "daily"
+    - package_ecosystem: "composer"
+      directory: "/"
+      schedule_interval: "weekly"
   tasks:
     - name: Include task set_facts
       include_tasks: set_facts.yaml
@@ -28,12 +36,6 @@
       register: repo_yaml
       failed_when: repo_yaml.stat.exists == False
 
-    - name: load validation facts
-      ansible.builtin.set_fact:
-        repo: "{{ lookup('ansible.builtin.file', repo_path + '/repo.yaml') | from_yaml }}"
-        criteria: "{{ lookup('ansible.builtin.file', './repo.schema.yaml') | from_yaml }}"
-
-
     - name: validate repo config in json format using jsonschema by passing plugin configuration variable as key/value pairs
       ansible.builtin.set_fact:
         config_validity: "{{ repo|ansible.utils.validate(criteria, engine='ansible.utils.jsonschema', draft='draft7') }}"
@@ -42,12 +44,6 @@
       ansible.builtin.fail:
         msg: "The repo.yaml file is invalid: {{ config_validity[0].message }}. Please refer to the README.md for information about schema validation."
       when: config_validity[0].message is defined
-
-    - name: set repo.path
-      ansible.builtin.set_fact:
-        repo: "{{ repo | combine( { 'path': repo_path } ) }}"
-      register: repo_info
-
 
     - name: debug output
       debug:
@@ -90,6 +86,11 @@
         src: "{{ './templates/.dockerignore.j2' }}"
         dest: "{{ repo.path + '/.dockerignore' }}"
 
+    - name: generate .gitignore
+      ansible.builtin.template:
+        src: "{{ './templates/.gitignore.j2' }}"
+        dest: "{{ repo.path + '/.gitignore' }}"
+
     - name: generate .editorconfig
       ansible.builtin.template:
         src: "{{ './templates/.editorconfig.j2' }}"
@@ -111,11 +112,34 @@
 
     - name: Generate Dependabot configuration
       template:
-        src: dependabot.j2
-        dest: "{{ repo_path }}/.github/dependabot.yml"
-        mode: '0644'
+        src: "./templates/dependabot.yaml.j2"
+        dest: "{{ repo_path }}/.github/dependabot.yaml"
+      loop: "{{ dependabot_config }}"
       when: "'composer.json' in find_result.files or 'package.json' in find_result.files"
+    
+    - name: Read repo.yaml file
+      slurp:
+        src: "{{ repo_path }}/repo.yaml"
+      register: repo_yaml_content
 
+    - name: Parse repo.yaml content
+      set_fact:
+        codeowners: "{{ repo_info.ansible_facts.repo.codeowners }}"
+
+    - name: Generate CODEOWNERS file
+      template:
+        src: "./templates/codeowners.j2"
+        dest: "{{ repo_path }}/CODEOWNERS"
+    
+    - name: Generate pull request template file
+      template:
+        src: "./templates/pull_request_template.md.j2"
+        dest: "{{ repo_path }}/.github/pull_request_template.md"
+
+    - name: Generate code of conduct file
+      template:
+        src: "./templates/CODE_OF_CONDUCT.j2"
+        dest: "{{ repo_path }}/.github/CODE_OF_CONDUCT"
 
 - import_playbook: playbook-husky.yaml
 
@@ -124,6 +148,3 @@
 
 - import_playbook: playbook-helm.yaml
   when: repo_info.ansible_facts.repo.type == 'application'
-
-- import_playbook: playbook-phpqa.yaml
-  when: composer_json.stat.exists

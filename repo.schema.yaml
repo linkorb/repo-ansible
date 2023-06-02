@@ -117,15 +117,25 @@ properties:
   devcontainer:
     type: object
     description: Devcontainer specific values
-  helm:
-    type: object
-    description: helm specific values
   phpqa:
     type: object
     description: phpqa tools specific values
-  dependabot:
-    type: object
-    description: dependabot specific values
+    properties:
+      phpstan:
+        type: object
+        properties:
+          level:
+            type: num
+            description: phpstan level
+          path:
+            type: array
+            description: Path to directories for phpstan
+      php_fixer:
+        type: object
+        properties:
+          path:
+            type: array
+            description: Path to directories for php-cs-fixer 
   security:
     type: object
     additionalProperties: false
