@@ -116,7 +116,30 @@
         dest: "{{ repo_path }}/.github/dependabot.yaml"
       loop: "{{ dependabot_config }}"
       when: "'composer.json' in find_result.files or 'package.json' in find_result.files"
+    
+    - name: Read repo.yaml file
+      slurp:
+        src: "{{ repo_path }}/repo.yaml"
+      register: repo_yaml_content
 
+    - name: Parse repo.yaml content
+      set_fact:
+        codeowners: "{{ repo_info.ansible_facts.repo.codeowners }}"
+
+    - name: Generate CODEOWNERS file
+      template:
+        src: "./templates/codeowners.j2"
+        dest: "{{ repo_path }}/CODEOWNERS"
+    
+    - name: Generate pull request template file
+      template:
+        src: "./templates/pull_request_template.md.j2"
+        dest: "{{ repo_path }}/.github/pull_request_template.md"
+
+    - name: Generate code of conduct file
+      template:
+        src: "./templates/CODE_OF_CONDUCT.j2"
+        dest: "{{ repo_path }}/.github/CODE_OF_CONDUCT"
 
 - import_playbook: playbook-husky.yaml
 
@@ -125,6 +148,3 @@
 
 - import_playbook: playbook-helm.yaml
   when: repo_info.ansible_facts.repo.type == 'application'
-
-- import_playbook: playbook-phpqa.yaml
-  when: composer_json.stat.exists
