@@ -29,9 +29,9 @@ jobs:
     secrets: inherit
   security:
     uses: ./.github/workflows/50-security.yaml
-    needs: helm
+    needs: releaseandbuild
     secrets: inherit
   cleanup:
     uses: ./.github/workflows/90-cleanup.yaml
-    needs: security
+    needs: releaseandbuild
     secrets: inherit
