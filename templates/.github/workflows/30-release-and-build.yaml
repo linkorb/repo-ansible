@@ -4,10 +4,20 @@ name: Release
 on:
   workflow_dispatch:
   workflow_call:
+    outputs:
+      new-release-published:
+        description: "Whether or not a new release was published."
+        value: ${{ jobs.build.outputs.new-release-published }}
+      release-version:
+        description: "The version string of the newly published release"
+        value: ${{ jobs.build.outputs.release-version }}
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      new-release-published: "false"
+      release-version: v0
 
     steps:
     - name: GitHub Environment Variables Action
