@@ -1,8 +1,9 @@
 // {{ repo_managed }}
 {
+  "postCreateCommand": "echo 'an optional command that will be run by devcontainers after creation'",
   "dockerComposeFile": "docker-compose.yml",
   "service": "app",
-  "workspaceFolder": "/workspace",
+  "workspaceFolder": "/app",
 
   "hostRequirements": {
       "cpus": 2,
@@ -12,8 +13,7 @@
 
   "features": {
       "ghcr.io/devcontainers/features/github-cli:1": {},
-      "ghcr.io/devcontainers/features/docker-in-docker:1": {},
-      "ghcr.io/devcontainers/features/node:1": {}
+      "ghcr.io/devcontainers/features/docker-in-docker:1": {}
   },
 
   // Configure tool-specific properties.
@@ -32,6 +32,6 @@
           ]
       }
   },
-  "forwardPorts": [8080, 3306],
+  "forwardPorts": [80, 3306],
   "remoteUser": "vscode"
 }

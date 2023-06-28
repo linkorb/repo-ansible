@@ -76,11 +76,6 @@
         src: "{{ './templates/.github/settings.yml.j2' }}"
         dest: "{{ repo.path + '/.github/settings.yml' }}"
 
-    - name: generate Dockerfile
-      ansible.builtin.template:
-        src: "{{ './templates/Dockerfile.j2' }}"
-        dest: "{{ repo.path + '/Dockerfile' }}"
-
     - name: generate .dockerignore
       ansible.builtin.template:
         src: "{{ './templates/.dockerignore.j2' }}"
