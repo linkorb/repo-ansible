@@ -11,12 +11,6 @@
         path: "{{ repo.path + '/.devcontainer' }}"
         state: "{{ 'directory' if repo_info.ansible_facts.repo.type == 'application' else 'absent' }}"
 
-    - name: generate .devcontainer/Dockerfile
-      ansible.builtin.template:
-        src: "{{ './templates/.devcontainer/Dockerfile.j2' }}"
-        dest: "{{ repo.path + '/Dockerfile' }}"
-
-
     - name: generate .devcontainer/docker-compose.yml
       ansible.builtin.template:
         src: "{{ './templates/.devcontainer/docker-compose.yml.j2' }}"

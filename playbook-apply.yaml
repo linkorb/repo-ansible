@@ -80,6 +80,11 @@
       ansible.builtin.template:
         src: "{{ './templates/.dockerignore.j2' }}"
         dest: "{{ repo.path + '/.dockerignore' }}"
+    
+    - name: generate Dockerfile
+      ansible.builtin.template:
+        src: "{{ './templates/Dockerfile.j2' }}"
+        dest: "{{ repo.path + '/Dockerfile' }}"
 
     - name: generate .gitignore
       ansible.builtin.template:

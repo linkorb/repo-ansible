@@ -116,7 +116,13 @@ properties:
     description: Docker specific values
   devcontainer:
     type: object
+    additionalProperties: false
     description: Devcontainer specific values
+    properties:
+      image:
+        type: string
+        default: ghcr.io/linkorb/php-docker-base:php8
+        description: docker base image
   phpqa:
     type: object
     description: phpqa tools specific values

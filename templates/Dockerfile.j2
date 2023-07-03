@@ -1,6 +1,6 @@
 # {{ repo_managed }}
 
-FROM ghcr.io/linkorb/php-docker-base:php8
+FROM {{ repo.devcontainer.image }}
 EXPOSE 80
 
 USER root
