@@ -11,14 +11,14 @@
       stat:
         path: "{{ repo.path + '/.github/' }}"
       register: directory_exists
-    
+
     - name: Generate .php-cs-fixer.dist.php file
       ansible.builtin.template:
         src: "{{ './templates/php-qa/php-cs-fixer.dist.php.j2' }}"
         dest: "{{ repo.path + '/.php-cs-fixer.dist.php' }}"
       vars:
         phpstan_parameters_paths: "{{ repo_info.ansible_facts.repo.phpqa.php_fixer.path }}"
-    
+
     - name: Generate phpstan.neon file
       ansible.builtin.template:
         src: "{{ './templates/php-qa/phpstan.neon.j2' }}"
@@ -26,7 +26,7 @@
       vars:
         phpstan_parameters_level: "{{ repo_info.ansible_facts.repo.phpqa.phpstan.level  }}"
         phpstan_parameters_paths: "{{ repo_info.ansible_facts.repo.phpqa.phpstan.path }}"
-  
+
     - name: Generate reviewdog.yaml for GitHub actions file
       ansible.builtin.template:
         src: "{{ './templates/php-qa/reviewdog-github.yaml.j2' }}"
@@ -37,7 +37,7 @@
       ansible.builtin.template:
         src: "{{ './templates/php-qa/reviewdog-local.yaml.j2' }}"
         dest: "{{ repo.path + '/.reviewdog.yaml' }}"
-      
+
     - name: Generate yamllint.yaml file
       ansible.builtin.template:
         src: "{{ './templates/php-qa/yaml-lint-config.yaml.j2' }}"
@@ -47,3 +47,8 @@
       ansible.builtin.template:
         src: "{{ './templates/php-qa/twigcs.yaml.j2' }}"
         dest: "{{ repo.path + '/.twigcs.yaml' }}"
+
+    - name: Generate composer-unused.php file
+      ansible.builtin.template:
+        src: "{{ './templates/php-qa/composer-unused.php.j2' }}"
+        dest: "{{ repo.path + '/composer-unused.php' }}"

@@ -1,0 +1,32 @@
+<?php
+// {{ repo_managed }}
+
+declare(strict_types=1);
+
+use ComposerUnused\ComposerUnused\Configuration\Configuration;
+use ComposerUnused\ComposerUnused\Configuration\NamedFilter;
+use ComposerUnused\ComposerUnused\Configuration\PatternFilter;
+use Webmozart\Glob\Glob;
+
+return static function (Configuration $config): Configuration {
+    return $config
+        // In general it seems that PHP extensions are not picked. Might extend it here to include the full set
+
+        ->addNamedFilter(NamedFilter::fromString('ext-ctype'))
+        ->addNamedFilter(NamedFilter::fromString('ext-iconv'))
+
+        // The following extensions were not picked up for the demo-symfony-app, even if they are used at runtime.
+        // Some, like the symfony/twig-bundle are code free packages that only pull in mostly symfony yaml configuration
+        // files to wire up Twig within the framework
+
+        ->addNamedFilter(NamedFilter::fromString('symfony/dotenv'))
+        ->addNamedFilter(NamedFilter::fromString('symfony/flex'))
+        ->addNamedFilter(NamedFilter::fromString('symfony/runtime'))
+        ->addNamedFilter(NamedFilter::fromString('symfony/twig-bundle'))
+        ->addNamedFilter(NamedFilter::fromString('symfony/monolog-bundle'))
+        ->addNamedFilter(NamedFilter::fromString('symfony/webpack-encore-bundle'))
+        ->addNamedFilter(NamedFilter::fromString('twig/twig'))
+        ->addNamedFilter(NamedFilter::fromString('twig/extra-bundle'))
+        ->addNamedFilter(NamedFilter::fromString('doctrine/doctrine-migrations-bundle'))
+        ;
+};
