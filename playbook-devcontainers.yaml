@@ -16,6 +16,10 @@
         src: "{{ './templates/.devcontainer/docker-compose.yml.j2' }}"
         dest: "{{ repo.path + '/.devcontainer/docker-compose.yml' }}"
 
+    - name: generate .devcontainer/Dockerfile
+      ansible.builtin.template:
+        src: "{{ './templates/.devcontainer/Dockerfile.j2' }}"
+        dest: "{{ repo.path + '/.devcontainer/Dockerfile' }}"
 
     - name: generate .devcontainer/devcontainer.json
       ansible.builtin.template:

@@ -1,42 +1,29 @@
 # {{ repo_managed }}
 
-FROM {{ repo.devcontainer.image }}
-EXPOSE 80
+FROM {{ repo.docker.from }}
 
-USER root
+EXPOSE 80
 
 ENV APP_ENV=prod
 
-ENV NVM_DIR /root/.nvm
-ARG USERNAME=vscode
-ARG USER_UID=1000
-ARG USER_GID=$USER_UID
-
-ENV APACHE_RUN_USER    $USERNAME
-ENV APACHE_RUN_GROUP   $USERNAME
-ENV APACHE_LOCK_DIR    /var/lock/apache2
-ENV APACHE_LOG_DIR     /var/log/apache2
-ENV APACHE_PID_FILE    /var/run/apache2/apache2.pid
-
-# Create a non-root user with the specified UID and GID
-RUN groupadd --gid $USER_GID $USERNAME \
-    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
-    && apt-get update \
-    && apt-get install -y sudo \
-    && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
-    && chmod 0440 /etc/sudoers.d/$USERNAME \
-    && sudo chsh -s /bin/bash vscode
-
-COPY --chown=vscode:vsocde . /app
-RUN chown vscode:vscode -R /app /var/log/apache2
-# install nvm
-# https://github.com/creationix/nvm#install-script
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-
-# [Choice] Node.js version: none, lts/*, 16, 14, 12, 10
-ARG NODE_VERSION="none"
-RUN if [ "${NODE_VERSION}" != "none" ]; then . $NVM_DIR/nvm.sh && nvm install ${NODE_VERSION} 2>&1; fi
-RUN echo "xdebug.mode=off" | tee '/usr/local/etc/php/conf.d/xdebug.ini'
+COPY --chown=www-data:www-data . /app
 
 WORKDIR /app
+
+USER www-data
+
+{% if repo.php['private-packagist'] %}
+ARG PACKAGIST_TOKEN
+ARG PACKAGIST_USER
+RUN /usr/bin/composer config --global --auth http-basic.repo.packagist.com "$PACKAGIST_USER" "$PACKAGIST_TOKEN"
+{% endif %}
+
+RUN COMPOSER_MEMORY_LIMIT=-1 /usr/bin/composer install --no-scripts --no-dev
+
+{% if repo.php['webpack-encore'] %}
+RUN npm install && node_modules/.bin/encore production && rm -rf node_modules
+{% endif %}
+
 USER root
+
+ENTRYPOINT ["apache2-foreground"]
