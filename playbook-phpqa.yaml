@@ -12,6 +12,11 @@
         path: "{{ repo.path + '/.github/' }}"
       register: directory_exists
 
+    - name: Generate composer-unused.php file
+      ansible.builtin.template:
+        src: "{{ './templates/php-qa/composer-unused.php.j2' }}"
+        dest: "{{ repo.path + '/composer-unused.php' }}"
+
     - name: Generate .php-cs-fixer.dist.php file
       ansible.builtin.template:
         src: "{{ './templates/php-qa/php-cs-fixer.dist.php.j2' }}"
@@ -47,8 +52,3 @@
       ansible.builtin.template:
         src: "{{ './templates/php-qa/twigcs.yaml.j2' }}"
         dest: "{{ repo.path + '/.twigcs.yaml' }}"
-
-    - name: Generate composer-unused.php file
-      ansible.builtin.template:
-        src: "{{ './templates/php-qa/composer-unused.php.j2' }}"
-        dest: "{{ repo.path + '/composer-unused.php' }}"
