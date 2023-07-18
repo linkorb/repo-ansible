@@ -138,7 +138,17 @@ properties:
         properties:
           path:
             type: array
-            description: Path to directories for php-cs-fixer 
+            description: Path to directories for php-cs-fixer
+      composer_unused:
+        type: object
+        properties:
+          filtered_packages:
+            type: array
+            description: List of project specific packages that should be ignored by composer-unused (PHP regex)
+          default_filtered_packages:
+            type: array
+            default:
+              - /^ext-.*/
   security:
     type: object
     additionalProperties: false
