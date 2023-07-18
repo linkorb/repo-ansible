@@ -125,7 +125,7 @@ properties:
         type: object
         properties:
           level:
-            type: num
+            type: number
             description: phpstan level
           path:
             type: array
