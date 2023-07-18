@@ -120,9 +120,8 @@ properties:
     description: Devcontainer specific values
     properties:
       image:
-        type: string
-        default: ghcr.io/linkorb/php-docker-base:php8
-        description: docker base image
+        repository: ghcr.io/linkorb/php-docker-base
+        tag: php8
   phpqa:
     type: object
     description: phpqa tools specific values

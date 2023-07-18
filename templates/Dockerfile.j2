@@ -1,6 +1,6 @@
 # {{ repo_managed }}
 
-FROM {{ repo.docker.from }}
+FROM {{ repo.docker.repository }}:{{ repo.docker.tag }}
 
 EXPOSE 80
 
