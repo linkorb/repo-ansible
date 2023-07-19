@@ -4,14 +4,6 @@
   hosts: localhost
   connection: local
   gather_facts: no
-  vars:
-    dependabot_config:
-    - package_ecosystem: "npm"
-      directory: "/"
-      schedule_interval: "daily"
-    - package_ecosystem: "composer"
-      directory: "/"
-      schedule_interval: "weekly"
   tasks:
     - name: Include task set_facts
       include_tasks: set_facts.yaml
@@ -95,7 +87,7 @@
       ansible.builtin.template:
         src: "{{ './templates/.editorconfig.j2' }}"
         dest: "{{ repo.path + '/.editorconfig' }}"
-  
+
     - name: Check if composer.json exists
       stat:
         path: "{{ repo.path + '/composer.json' }}"
@@ -110,13 +102,6 @@
       register: find_result
       ignore_errors: yes
 
-    - name: Generate Dependabot configuration
-      template:
-        src: "./templates/dependabot.yaml.j2"
-        dest: "{{ repo_path }}/.github/dependabot.yaml"
-      loop: "{{ dependabot_config }}"
-      when: "'composer.json' in find_result.files or 'package.json' in find_result.files"
-    
     - name: Read repo.yaml file
       slurp:
         src: "{{ repo_path }}/repo.yaml"
@@ -130,7 +115,7 @@
       template:
         src: "./templates/codeowners.j2"
         dest: "{{ repo_path }}/CODEOWNERS"
-    
+
     - name: Generate pull request template file
       template:
         src: "./templates/pull_request_template.md.j2"
