@@ -140,7 +140,19 @@
       template:
         src: "./templates/CODE_OF_CONDUCT.j2"
         dest: "{{ repo_path }}/.github/CODE_OF_CONDUCT"
+    
+    - name: Read the content of the file packagist instructions file
+      command: cat "./templates/packagist-github-instructions.md.j2"
+      register: packagist_content
+      changed_when: False
 
+    - name: Add content to README if condition is true
+      blockinfile:
+        path: "{{ repo_path }}/README.md"
+        block: "{{ packagist_content.stdout }}"
+        marker: " "
+      when: composer_json.stat.exists
+      
 - import_playbook: playbook-husky.yaml
 
 - import_playbook: playbook-devcontainers.yaml
