@@ -45,6 +45,10 @@ node_modules/.bin/encore prod
 {% endif %}
 
 
+{% if composer_json %}
+{{ packagist_content.stdout }}
+{% endif %}
+
 ## Brought to you by the LinkORB Engineering team
 
 <img src="http://www.linkorb.com/d/meta/tier1/images/linkorbengineering-logo.png" width="200px" /><br />
