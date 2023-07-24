@@ -46,7 +46,7 @@ node_modules/.bin/encore prod
 
 
 {% if composer_json %}
-{{ packagist_content.stdout }}
+{% include './templates/partials/packagist-github-instructions.md' %}
 {% endif %}
 
 ## Brought to you by the LinkORB Engineering team

@@ -49,18 +49,12 @@
       debug:
         msg: "{{ repo  }}"
 
-    - name: Read the content of the file packagist instructions file
-      command: cat "./templates/packagist-github-instructions.md.j2"
-      register: packagist_content
-      changed_when: False
-
     - name: generate README.md file
       ansible.builtin.template:
         src: "{{ './templates/README.md.j2' }}"
         dest: "{{ repo.path + '/README.md' }}"
       vars:
         composer_json: composer_json.exists
-        packagist_content: packagist_content
 
     - name: generate SECURITY.md file
       ansible.builtin.template:
