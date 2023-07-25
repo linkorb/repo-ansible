@@ -1,6 +1,6 @@
 # {{ repo_managed }}
 
-FROM {{ repo.docker.repository }}:{{ repo.docker.tag }}
+FROM {{ repo.devcontainer.repository }}:{{ repo.devcontainer.tag }}
 EXPOSE 80
 
 USER root
