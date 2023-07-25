@@ -119,25 +119,21 @@ properties:
     additionalProperties: false
     description: Devcontainer specific values
     properties:
-      image:
-        type: object
-        properties:
-          repository:
-            type: string
-            default: ghcr.io/linkorb/php-docker-base
-          tag:
-            type: string
-            default: php8
+      repository:
+        type: string
+        default: ghcr.io/linkorb/php-docker-base
+      tag:
+        type: string
+        default: php8
   phpqa:
     type: object
-    additionalProperties: false
     description: phpqa tools specific values
     properties:
       phpstan:
         type: object
         properties:
           level:
-            type: integer
+            type: num
             description: phpstan level
           path:
             type: array
