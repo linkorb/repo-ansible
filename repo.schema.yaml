@@ -120,6 +120,7 @@ properties:
     description: Devcontainer specific values
     properties:
       image:
+        type: object
         repository: ghcr.io/linkorb/php-docker-base
         tag: php8
   phpqa:
@@ -130,7 +131,7 @@ properties:
         type: object
         properties:
           level:
-            type: num
+            type: integer
             description: phpstan level
           path:
             type: array
