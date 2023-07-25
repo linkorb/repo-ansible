@@ -121,10 +121,16 @@ properties:
     properties:
       image:
         type: object
-        repository: ghcr.io/linkorb/php-docker-base
-        tag: php8
+        properties:
+          repository:
+            type: string
+            default: ghcr.io/linkorb/php-docker-base
+          tag:
+            type: string
+            default: php8
   phpqa:
     type: object
+    additionalProperties: false
     description: phpqa tools specific values
     properties:
       phpstan:
