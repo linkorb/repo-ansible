@@ -116,15 +116,9 @@ properties:
     description: Docker specific values
   devcontainer:
     type: object
-    additionalProperties: false
     description: Devcontainer specific values
-    properties:
-      repository:
-        type: string
-        default: ghcr.io/linkorb/php-docker-base
-      tag:
-        type: string
-        default: php8
+  path:
+    type: string
   phpqa:
     type: object
     description: phpqa tools specific values
@@ -133,7 +127,7 @@ properties:
         type: object
         properties:
           level:
-            type: num
+            type: number
             description: phpstan level
           path:
             type: array
