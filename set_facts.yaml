@@ -2,9 +2,16 @@
   ansible.builtin.set_fact:
     repo_path: "{{ lookup('env', 'PWD') }}"
 
+- name: merge repo.yaml data with defaults
+  ansible.builtin.command: "./repo_data.py {{ repo_path }}/repo.yaml"
+  register: repo_data
+
+- name: set repo variable
+  ansible.builtin.set_fact:
+    repo: "{{ repo_data.stdout | from_json }}"
+
 - name: load validation facts
   ansible.builtin.set_fact:
-    repo: "{{ lookup('ansible.builtin.file', repo_path + '/repo.yaml') | from_yaml }}"
     criteria: "{{ lookup('ansible.builtin.file', './repo.schema.yaml') | from_yaml }}"
 
 - name: set repo.path
