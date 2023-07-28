@@ -45,6 +45,15 @@ If `repo-ansible` generates configuration that is sub-optimal, you can add a con
 - [ ] Refactor checks for CI
 - [ ] Add bulk-repo operations to pull/fetch, apply and push changes to all repositories in a given organization
 
+
+## Notes
+
+### Dependencies security
+
+Organization-wide Dependabot alerts and pull requests are enabled for security vulnerabilities. Initially this
+repository generated a separate `dependabot.yaml` configuration file which would have served the same purpose as the
+global organization-wide settings.
+
 ## Brought to you by the LinkORB Engineering team
 
 <img src="http://www.linkorb.com/d/meta/tier1/images/linkorbengineering-logo.png" width="200px" /><br />
