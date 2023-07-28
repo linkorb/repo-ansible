@@ -63,7 +63,7 @@
     - name: generate license file
       ansible.builtin.template:
         src: "{{ './templates/licenses/' + repo.license + '.md.j2' }}"
-        dest: "{{ repo.path + '/LICENSE.md' }}"
+        dest: "{{ repo.path + '/LICENSE' }}"
 
     - name: copy github actions workflow files
       ansible.builtin.copy:
@@ -95,7 +95,7 @@
       ansible.builtin.template:
         src: "{{ './templates/.editorconfig.j2' }}"
         dest: "{{ repo.path + '/.editorconfig' }}"
-  
+
     - name: Check if composer.json exists
       stat:
         path: "{{ repo.path + '/composer.json' }}"
@@ -116,7 +116,7 @@
         dest: "{{ repo_path }}/.github/dependabot.yaml"
       loop: "{{ dependabot_config }}"
       when: "'composer.json' in find_result.files or 'package.json' in find_result.files"
-    
+
     - name: Read repo.yaml file
       slurp:
         src: "{{ repo_path }}/repo.yaml"
@@ -130,7 +130,7 @@
       template:
         src: "./templates/codeowners.j2"
         dest: "{{ repo_path }}/CODEOWNERS"
-    
+
     - name: Generate pull request template file
       template:
         src: "./templates/pull_request_template.md.j2"
