@@ -1,0 +1,7 @@
+- hosts: all
+  strategy: free
+  tasks:
+    - name: "repository checkout"
+      ansible.builtin.git:
+        repo: "git@github.com:linkorb/{{ inventory_hostname }}.git"
+        dest: "./workspace/{{ inventory_hostname }}"
