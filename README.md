@@ -19,6 +19,7 @@ Please refer to [repo.schema.yaml](repo.schema.yaml) for the schema of this file
 ## Usage
 
 ```sh
+pip install -r requirements.txt
 cd path/to/my-application-repo
 ansible-playbook path/to/repo-ansible/playbook-apply.yml
 ```

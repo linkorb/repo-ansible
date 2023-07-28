@@ -55,7 +55,7 @@
     - name: generate license file
       ansible.builtin.template:
         src: "{{ './templates/licenses/' + repo.license + '.md.j2' }}"
-        dest: "{{ repo.path + '/LICENSE.md' }}"
+        dest: "{{ repo.path + '/LICENSE' }}"
 
     - name: copy github actions workflow files
       ansible.builtin.copy:
