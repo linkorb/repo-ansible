@@ -35,10 +35,3 @@
     # - name: debug output
     #   debug:
     #     msg: "{{ repo_info.ansible_facts.repo.devcontainer  }}"
-
-    - name: add a postCreateCommand if it exists in repo.yaml
-      lineinfile:
-        path: "{{ repo.path + '/.devcontainer/devcontainer.json' }}"
-        line: '  "postCreateCommand": "{{ repo_info.ansible_facts.repo.devcontainer.postCreateCommand }}",'
-        insertafter: '^{'
-      when: repo_info.ansible_facts.repo.devcontainer.postCreateCommand is defined

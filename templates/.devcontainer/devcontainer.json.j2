@@ -1,6 +1,5 @@
 // {{ repo_managed }}
 {
-  "postCreateCommand": "echo 'an optional command that will be run by devcontainers after creation'",
   "dockerComposeFile": "docker-compose.yml",
   "service": "app",
   "workspaceFolder": "/app",
@@ -33,5 +32,6 @@
       }
   },
   "forwardPorts": [80, 3306],
-  "remoteUser": "vscode"
+  "remoteUser": "vscode",
+  "postCreateCommand": "composer config --global --auth http-basic.repo.packagist.com $PACKAGIST_USER  $PACKAGIST_TOKEN && composer install"
 }
