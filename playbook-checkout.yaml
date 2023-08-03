@@ -5,3 +5,8 @@
       ansible.builtin.git:
         repo: "git@github.com:linkorb/{{ inventory_hostname }}.git"
         dest: "./workspace/{{ inventory_hostname }}"
+        force: true
+
+- ansible.builtin.import_playbook: playbook-apply.yaml
+  vars:
+    repo_path: "./workspace/{{ inventory_hostname }}"
