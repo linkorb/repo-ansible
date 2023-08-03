@@ -8,30 +8,30 @@
 
     - name: Creates directory
       ansible.builtin.file:
-        path: "{{ repo.path + '/.devcontainer' }}"
+        path: "{{ repo_path + '/.devcontainer' }}"
         state: "{{ 'directory' if repo_info.ansible_facts.repo.type == 'application' else 'absent' }}"
 
     - name: generate .devcontainer/docker-compose.yml
       ansible.builtin.template:
         src: "{{ './templates/.devcontainer/docker-compose.yml.j2' }}"
-        dest: "{{ repo.path + '/.devcontainer/docker-compose.yml' }}"
+        dest: "{{ repo_path + '/.devcontainer/docker-compose.yml' }}"
 
     - name: generate .devcontainer/Dockerfile
       ansible.builtin.template:
         src: "{{ './templates/.devcontainer/Dockerfile.j2' }}"
-        dest: "{{ repo.path + '/.devcontainer/Dockerfile' }}"
+        dest: "{{ repo_path + '/.devcontainer/Dockerfile' }}"
 
     - name: generate .devcontainer/devcontainer.json
       ansible.builtin.template:
         src: "{{ './templates/.devcontainer/devcontainer.json.j2' }}"
-        dest: "{{ repo.path + '/.devcontainer/devcontainer.json' }}"
+        dest: "{{ repo_path + '/.devcontainer/devcontainer.json' }}"
 
     - name: Get value from object
       ansible.builtin.set_fact:
         postCreateCommand: "{{ repo_info.ansible_facts.repo.devcontainer | json_query('postCreateCommand') }}"
       register: postCreateCommand
       when: repo_info.ansible_facts.repo.devcontainer.postCreateCommand is defined
-    
+
     # - name: debug output
     #   debug:
     #     msg: "{{ repo_info.ansible_facts.repo.devcontainer  }}"

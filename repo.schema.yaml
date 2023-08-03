@@ -7,9 +7,6 @@ properties:
     type: object
     description: Repo-specific metadata
 
-  path:
-    type: string
-
   name:
     type: string
     description: Repository name

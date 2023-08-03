@@ -44,48 +44,48 @@
     - name: generate README.md file
       ansible.builtin.template:
         src: "{{ './templates/README.md.j2' }}"
-        dest: "{{ repo.path + '/README.md' }}"
+        dest: "{{ repo_path + '/README.md' }}"
 
     - name: generate SECURITY.md file
       ansible.builtin.template:
         src: "{{ './templates/SECURITY.md.j2' }}"
-        dest: "{{ repo.path + '/SECURITY.md' }}"
+        dest: "{{ repo_path + '/SECURITY.md' }}"
 
 
     - name: generate license file
       ansible.builtin.template:
         src: "{{ './templates/licenses/' + repo.license + '.md.j2' }}"
-        dest: "{{ repo.path + '/LICENSE' }}"
+        dest: "{{ repo_path + '/LICENSE' }}"
 
     - name: copy github actions workflow files
       ansible.builtin.copy:
         src: "./templates/.github/workflows/"
-        dest: "{{ repo.path + '/.github/workflows' }}"
+        dest: "{{ repo_path + '/.github/workflows' }}"
 
 
     - name: generate .github/settings.yml
       ansible.builtin.template:
         src: "{{ './templates/.github/settings.yml.j2' }}"
-        dest: "{{ repo.path + '/.github/settings.yml' }}"
+        dest: "{{ repo_path + '/.github/settings.yml' }}"
 
     - name: generate .dockerignore
       ansible.builtin.template:
         src: "{{ './templates/.dockerignore.j2' }}"
-        dest: "{{ repo.path + '/.dockerignore' }}"
+        dest: "{{ repo_path + '/.dockerignore' }}"
 
     - name: generate .gitignore
       ansible.builtin.template:
         src: "{{ './templates/.gitignore.j2' }}"
-        dest: "{{ repo.path + '/.gitignore' }}"
+        dest: "{{ repo_path + '/.gitignore' }}"
 
     - name: generate .editorconfig
       ansible.builtin.template:
         src: "{{ './templates/.editorconfig.j2' }}"
-        dest: "{{ repo.path + '/.editorconfig' }}"
+        dest: "{{ repo_path + '/.editorconfig' }}"
 
     - name: Check if composer.json exists
       stat:
-        path: "{{ repo.path + '/composer.json' }}"
+        path: "{{ repo_path + '/composer.json' }}"
       register: composer_json
 
     - name: Find composer.json or package.json
