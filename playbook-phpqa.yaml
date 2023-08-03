@@ -6,6 +6,7 @@
   tasks:
     - name: Include task set_facts
       include_tasks: set_facts.yaml
+      when: repo is not defined
 
     - name: Check if directory exists
       stat:

@@ -1,19 +1,36 @@
-- name: assign repo_path
+- when: repo_path is not defined
+  name: assign repo_path
   ansible.builtin.set_fact:
     repo_path: "{{ lookup('env', 'PWD') }}"
 
-- name: merge repo.yaml data with defaults
-  ansible.builtin.command: "./repo_data.py {{ repo_path }}/repo.yaml"
-  register: repo_data
 
-- name: set repo variable
-  ansible.builtin.set_fact:
-    repo: "{{ repo_data.stdout | from_json }}"
+- name: validate .git directory exists
+  stat:
+    path: "{{ repo_path }}/.git"
+  register: git_dir
+  failed_when: git_dir.stat.isdir == False
 
-- name: load validation facts
-  ansible.builtin.set_fact:
-    criteria: "{{ lookup('ansible.builtin.file', './repo.schema.yaml') | from_yaml }}"
 
-- name: set ansible_managed
+- when: repo is not defined
+  block:
+  - name: merge repo.yaml data with defaults
+    ansible.builtin.command: "./repo_data.py {{ repo_path }}/repo.yaml"
+    register: repo_data
+    changed_when: false
+
+  - name: 'set variables: repo, criteria, repo_managed'
+    ansible.builtin.set_fact:
+      repo: "{{ repo_data.stdout | from_json }}"
+      criteria: "{{ lookup('ansible.builtin.file', './repo.schema.yaml') | from_yaml }}"
+      repo_managed: 'Managed by https://github.com/linkorb/repo-ansible. Manual changes will be overwritten.'
+
+
+
+- name: validate repo config in json format using jsonschema by passing plugin configuration variable as key/value pairs
   ansible.builtin.set_fact:
-    repo_managed: 'Managed by https://github.com/linkorb/repo-ansible. Manual changes will be overwritten.'
+    config_validity: "{{ repo|ansible.utils.validate(criteria, engine='ansible.utils.jsonschema', draft='draft7') }}"
+
+- when: config_validity[0].message is defined
+  name: fail on schema validation error
+  ansible.builtin.fail:
+    msg: "The repo.yaml file is invalid: {{ config_validity[0].message }}. Please refer to the README.md for information about schema validation."

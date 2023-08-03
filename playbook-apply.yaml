@@ -7,39 +7,7 @@
   tasks:
     - name: Include task set_facts
       include_tasks: set_facts.yaml
-
-    - name: assign repo_path
-      set_fact:
-        repo_path: "{{ lookup('env', 'PWD') }}"
-
-    - name: Startup info
-      debug:
-        msg: "repo path: {{ repo_path }}"
-
-    - name: check if .git directory exists
-      stat:
-        path: "{{ repo_path }}/.git"
-      register: git_dir
-      failed_when: git_dir.stat.isdir == False
-
-    - name: check if repo.yaml exists in repo_path
-      stat:
-        path: "{{ repo_path }}/repo.yaml"
-      register: repo_yaml
-      failed_when: repo_yaml.stat.exists == False
-
-    - name: validate repo config in json format using jsonschema by passing plugin configuration variable as key/value pairs
-      ansible.builtin.set_fact:
-        config_validity: "{{ repo|ansible.utils.validate(criteria, engine='ansible.utils.jsonschema', draft='draft7') }}"
-
-    - name: fail on schema validation error
-      ansible.builtin.fail:
-        msg: "The repo.yaml file is invalid: {{ config_validity[0].message }}. Please refer to the README.md for information about schema validation."
-      when: config_validity[0].message is defined
-
-    - name: debug output
-      debug:
-        msg: "{{ repo  }}"
+      when: repo is not defined
 
     - name: generate README.md file
       ansible.builtin.template:
