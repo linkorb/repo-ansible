@@ -120,6 +120,8 @@ properties:
   devcontainer:
     type: object
     description: Devcontainer specific values
+  path:
+    type: string
   phpqa:
     type: object
     description: phpqa tools specific values

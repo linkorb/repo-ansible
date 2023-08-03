@@ -2,7 +2,7 @@
 {
   "dockerComposeFile": "docker-compose.yml",
   "service": "app",
-  "workspaceFolder": "/workspace",
+  "workspaceFolder": "/app",
 
   "hostRequirements": {
       "cpus": 2,
@@ -12,8 +12,7 @@
 
   "features": {
       "ghcr.io/devcontainers/features/github-cli:1": {},
-      "ghcr.io/devcontainers/features/docker-in-docker:1": {},
-      "ghcr.io/devcontainers/features/node:1": {}
+      "ghcr.io/devcontainers/features/docker-in-docker:1": {}
   },
 
   // Configure tool-specific properties.
@@ -32,6 +31,7 @@
           ]
       }
   },
-  "forwardPorts": [8080, 3306],
-  "remoteUser": "vscode"
+  "forwardPorts": [80, 3306],
+  "remoteUser": "vscode",
+  "postCreateCommand": "composer config --global --auth http-basic.repo.packagist.com $PACKAGIST_USER  $PACKAGIST_TOKEN && composer install"
 }
