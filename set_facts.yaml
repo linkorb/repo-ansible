@@ -14,15 +14,6 @@
   ansible.builtin.set_fact:
     criteria: "{{ lookup('ansible.builtin.file', './repo.schema.yaml') | from_yaml }}"
 
-- name: set repo.path
-  ansible.builtin.set_fact:
-    repo: "{{ repo | combine( { 'path': repo_path } ) }}"
-  register: repo_info
-
-- name: set variables from repo.yaml file
-  ansible.builtin.set_fact:
-    var: repo_info
-
 - name: set ansible_managed
   ansible.builtin.set_fact:
     repo_managed: 'Managed by https://github.com/linkorb/repo-ansible. Manual changes will be overwritten.'

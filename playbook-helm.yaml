@@ -29,7 +29,7 @@
         variable_start_string: '[['
         variable_end_string: ']]'
       vars:
-        chart_name: "[[ repo_info.ansible_facts.repo.name ]]"
+        chart_name: "[[ repo.name ]]"
 
     - name: Generate _helpers.tpl file
       ansible.builtin.template:
@@ -38,7 +38,7 @@
         variable_start_string: '[['
         variable_end_string: ']]'
       vars:
-        chart_name: "[[ repo_info.ansible_facts.repo.name ]]"
+        chart_name: "[[ repo.name ]]"
 
     - name: Generate hpa.yaml file
       ansible.builtin.template:
@@ -47,7 +47,7 @@
         variable_start_string: '[['
         variable_end_string: ']]'
       vars:
-        chart_name: "[[ repo_info.ansible_facts.repo.name ]]"
+        chart_name: "[[ repo.name ]]"
 
     - name: Generate ingress.yaml file
       ansible.builtin.template:
@@ -56,7 +56,7 @@
         variable_start_string: '[['
         variable_end_string: ']]'
       vars:
-        chart_name: "[[ repo_info.ansible_facts.repo.name ]]"
+        chart_name: "[[ repo.name ]]"
 
     - name: Generate NOTES.txt file
       ansible.builtin.template:
@@ -65,7 +65,7 @@
         variable_start_string: '[['
         variable_end_string: ']]'
       vars:
-        chart_name: "[[ repo_info.ansible_facts.repo.name ]]"
+        chart_name: "[[ repo.name ]]"
 
     - name: Generate service.yaml file
       ansible.builtin.template:
@@ -74,7 +74,7 @@
         variable_start_string: '[['
         variable_end_string: ']]'
       vars:
-        chart_name: "[[ repo_info.ansible_facts.repo.name ]]"
+        chart_name: "[[ repo.name ]]"
 
     - name: Generate serviceaccount.yaml file
       ansible.builtin.template:
@@ -83,7 +83,7 @@
         variable_start_string: '[['
         variable_end_string: ']]'
       vars:
-        chart_name: "[[ repo_info.ansible_facts.repo.name ]]"
+        chart_name: "[[ repo.name ]]"
 
 
 

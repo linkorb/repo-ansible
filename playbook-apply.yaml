@@ -104,7 +104,7 @@
 
     - name: Parse repo.yaml content
       set_fact:
-        codeowners: "{{ repo_info.ansible_facts.repo.codeowners }}"
+        codeowners: "{{ repo.codeowners }}"
 
     - name: Generate CODEOWNERS file
       template:
@@ -124,7 +124,7 @@
 - import_playbook: playbook-husky.yaml
 
 - import_playbook: playbook-devcontainers.yaml
-  when: repo_info.ansible_facts.repo.type == 'application'
+  when: repo.type == 'application'
 
 - import_playbook: playbook-helm.yaml
-  when: repo_info.ansible_facts.repo.type == 'application'
+  when: repo.type == 'application'

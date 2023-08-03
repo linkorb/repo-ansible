@@ -9,7 +9,7 @@
     - name: Creates directory
       ansible.builtin.file:
         path: "{{ repo_path + '/.devcontainer' }}"
-        state: "{{ 'directory' if repo_info.ansible_facts.repo.type == 'application' else 'absent' }}"
+        state: "{{ 'directory' if repo.type == 'application' else 'absent' }}"
 
     - name: generate .devcontainer/docker-compose.yml
       ansible.builtin.template:
@@ -28,10 +28,10 @@
 
     - name: Get value from object
       ansible.builtin.set_fact:
-        postCreateCommand: "{{ repo_info.ansible_facts.repo.devcontainer | json_query('postCreateCommand') }}"
+        postCreateCommand: "{{ repo.devcontainer | json_query('postCreateCommand') }}"
       register: postCreateCommand
-      when: repo_info.ansible_facts.repo.devcontainer.postCreateCommand is defined
+      when: repo.devcontainer.postCreateCommand is defined
 
     # - name: debug output
     #   debug:
-    #     msg: "{{ repo_info.ansible_facts.repo.devcontainer  }}"
+    #     msg: "{{ repo.devcontainer  }}"
