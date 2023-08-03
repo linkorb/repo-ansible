@@ -19,7 +19,6 @@
         src: "{{ './templates/SECURITY.md.j2' }}"
         dest: "{{ repo_path + '/SECURITY.md' }}"
 
-
     - name: generate license file
       ansible.builtin.template:
         src: "{{ './templates/licenses/' + repo.license + '.md.j2' }}"
@@ -29,7 +28,6 @@
       ansible.builtin.copy:
         src: "./templates/.github/workflows/"
         dest: "{{ repo_path + '/.github/workflows' }}"
-
 
     - name: generate .github/settings.yml
       ansible.builtin.template:
@@ -65,19 +63,12 @@
       register: find_result
       ignore_errors: yes
 
-    - name: Read repo.yaml file
-      slurp:
-        src: "{{ repo_path }}/repo.yaml"
-      register: repo_yaml_content
-
-    - name: Parse repo.yaml content
-      set_fact:
-        codeowners: "{{ repo.codeowners }}"
-
     - name: Generate CODEOWNERS file
       template:
         src: "./templates/codeowners.j2"
         dest: "{{ repo_path }}/CODEOWNERS"
+      vars:
+        codeowners: "{{ repo.codeowners }}"
 
     - name: Generate pull request template file
       template:
