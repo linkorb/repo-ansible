@@ -6,49 +6,50 @@
   tasks:
     - name: Include task set_facts
       include_tasks: set_facts.yaml
+      when: repo is not defined
 
     - name: Check if directory exists
       stat:
-        path: "{{ repo.path + '/.github/' }}"
+        path: "{{ repo_path + '/.github/' }}"
       register: directory_exists
 
     - name: Generate composer-unused.php file
       ansible.builtin.template:
         src: "{{ './templates/php-qa/composer-unused.php.j2' }}"
-        dest: "{{ repo.path + '/composer-unused.php' }}"
+        dest: "{{ repo_path + '/composer-unused.php' }}"
 
     - name: Generate .php-cs-fixer.dist.php file
       ansible.builtin.template:
         src: "{{ './templates/php-qa/php-cs-fixer.dist.php.j2' }}"
-        dest: "{{ repo.path + '/.php-cs-fixer.dist.php' }}"
+        dest: "{{ repo_path + '/.php-cs-fixer.dist.php' }}"
       vars:
-        phpstan_parameters_paths: "{{ repo_info.ansible_facts.repo.phpqa.php_fixer.path }}"
+        phpstan_parameters_paths: "{{ repo.phpqa.php_fixer.path }}"
 
     - name: Generate phpstan.neon file
       ansible.builtin.template:
         src: "{{ './templates/php-qa/phpstan.neon.j2' }}"
-        dest: "{{ repo.path + '/phpstan.neon' }}"
+        dest: "{{ repo_path + '/phpstan.neon' }}"
       vars:
-        phpstan_parameters_level: "{{ repo_info.ansible_facts.repo.phpqa.phpstan.level  }}"
-        phpstan_parameters_paths: "{{ repo_info.ansible_facts.repo.phpqa.phpstan.path }}"
+        phpstan_parameters_level: "{{ repo.phpqa.phpstan.level  }}"
+        phpstan_parameters_paths: "{{ repo.phpqa.phpstan.path }}"
 
     - name: Generate reviewdog.yaml for GitHub actions file
       ansible.builtin.template:
         src: "{{ './templates/php-qa/reviewdog-github.yaml.j2' }}"
-        dest: "{{ repo.path + '/.github/workflows/reviewdog.yaml' }}"
+        dest: "{{ repo_path + '/.github/workflows/reviewdog.yaml' }}"
       when: directory_exists.stat.exists
 
     - name: Generate reviewdog.yaml local file
       ansible.builtin.template:
         src: "{{ './templates/php-qa/reviewdog-local.yaml.j2' }}"
-        dest: "{{ repo.path + '/.reviewdog.yaml' }}"
+        dest: "{{ repo_path + '/.reviewdog.yaml' }}"
 
     - name: Generate yamllint.yaml file
       ansible.builtin.template:
         src: "{{ './templates/php-qa/yaml-lint-config.yaml.j2' }}"
-        dest: "{{ repo.path + '/.yamllint.yaml' }}"
+        dest: "{{ repo_path + '/.yamllint.yaml' }}"
 
     - name: Generate twigcs.yaml file
       ansible.builtin.template:
         src: "{{ './templates/php-qa/twigcs.yaml.j2' }}"
-        dest: "{{ repo.path + '/.twigcs.yaml' }}"
+        dest: "{{ repo_path + '/.twigcs.yaml' }}"

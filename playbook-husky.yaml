@@ -5,10 +5,11 @@
   tasks:
     - name: Include task set_facts
       include_tasks: set_facts.yaml
+      when: repo is not defined
 
     - name: Creates .husky/ directories
       ansible.builtin.file:
-        path: "{{ repo.path + item.name }}"
+        path: "{{ repo_path + item.name }}"
         state: directory
       loop:
         - { name: '/.husky' }
@@ -17,16 +18,16 @@
     - name: Write .husky/_/husky.sh
       ansible.builtin.copy:
         src: "{{ './templates/husky/husky.sh' }}"
-        dest: "{{ repo.path + '/.husky/_/husky.sh' }}"
+        dest: "{{ repo_path + '/.husky/_/husky.sh' }}"
         mode: a+x
 
     - name: generate .husky/commit-msg
       ansible.builtin.template:
         src: "{{ './templates/husky/commit-msg.j2' }}"
-        dest: "{{ repo.path + '/.husky/commit-msg' }}"
+        dest: "{{ repo_path + '/.husky/commit-msg' }}"
         mode: a+x
 
     - name: generate commitlint.config.js
       ansible.builtin.template:
         src: "{{ './templates/husky/commitlint.config.js.j2' }}"
-        dest: "{{ repo.path + '/commitlint.config.js' }}"
+        dest: "{{ repo_path + '/commitlint.config.js' }}"

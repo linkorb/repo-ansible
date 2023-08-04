@@ -7,85 +7,51 @@
   tasks:
     - name: Include task set_facts
       include_tasks: set_facts.yaml
-
-    - name: assign repo_path
-      set_fact:
-        repo_path: "{{ lookup('env', 'PWD') }}"
-
-    - name: Startup info
-      debug:
-        msg: "repo path: {{ repo_path }}"
-
-    - name: check if .git directory exists
-      stat:
-        path: "{{ repo_path }}/.git"
-      register: git_dir
-      failed_when: git_dir.stat.isdir == False
-
-    - name: check if repo.yaml exists in repo_path
-      stat:
-        path: "{{ repo_path }}/repo.yaml"
-      register: repo_yaml
-      failed_when: repo_yaml.stat.exists == False
-
-    - name: validate repo config in json format using jsonschema by passing plugin configuration variable as key/value pairs
-      ansible.builtin.set_fact:
-        config_validity: "{{ repo|ansible.utils.validate(criteria, engine='ansible.utils.jsonschema', draft='draft7') }}"
-
-    - name: fail on schema validation error
-      ansible.builtin.fail:
-        msg: "The repo.yaml file is invalid: {{ config_validity[0].message }}. Please refer to the README.md for information about schema validation."
-      when: config_validity[0].message is defined
-
-    - name: debug output
-      debug:
-        msg: "{{ repo  }}"
+      when: repo is not defined
 
     - name: generate README.md file
       ansible.builtin.template:
         src: "{{ './templates/README.md.j2' }}"
-        dest: "{{ repo.path + '/README.md' }}"
+        dest: "{{ repo_path + '/README.md' }}"
 
     - name: generate SECURITY.md file
       ansible.builtin.template:
         src: "{{ './templates/SECURITY.md.j2' }}"
-        dest: "{{ repo.path + '/SECURITY.md' }}"
-
+        dest: "{{ repo_path + '/SECURITY.md' }}"
 
     - name: generate license file
       ansible.builtin.template:
         src: "{{ './templates/licenses/' + repo.license + '.md.j2' }}"
-        dest: "{{ repo.path + '/LICENSE' }}"
+        dest: "{{ repo_path + '/LICENSE' }}"
 
     - name: copy github actions workflow files
       ansible.builtin.copy:
         src: "./templates/.github/workflows/"
-        dest: "{{ repo.path + '/.github/workflows' }}"
-
+        dest: "{{ repo_path + '/.github/workflows' }}"
 
     - name: generate .github/settings.yml
       ansible.builtin.template:
         src: "{{ './templates/.github/settings.yml.j2' }}"
-        dest: "{{ repo.path + '/.github/settings.yml' }}"
+        dest: "{{ repo_path + '/.github/settings.yml' }}"
 
     - name: generate .dockerignore
       ansible.builtin.template:
         src: "{{ './templates/.dockerignore.j2' }}"
-        dest: "{{ repo.path + '/.dockerignore' }}"
+        dest: "{{ repo_path + '/.dockerignore' }}"
 
     - name: generate .gitignore
       ansible.builtin.template:
         src: "{{ './templates/.gitignore.j2' }}"
-        dest: "{{ repo.path + '/.gitignore' }}"
+        dest: "{{ repo_path + '/.gitignore' }}"
 
     - name: generate .editorconfig
       ansible.builtin.template:
         src: "{{ './templates/.editorconfig.j2' }}"
-        dest: "{{ repo.path + '/.editorconfig' }}"
+        dest: "{{ repo_path + '/.editorconfig' }}"
 
     - name: Check if composer.json exists
       stat:
-        path: "{{ repo.path + '/composer.json' }}"
+        path: "{{ repo_path + '/composer.json' }}"
       register: composer_json
 
     - name: Find composer.json or package.json
@@ -97,19 +63,12 @@
       register: find_result
       ignore_errors: yes
 
-    - name: Read repo.yaml file
-      slurp:
-        src: "{{ repo_path }}/repo.yaml"
-      register: repo_yaml_content
-
-    - name: Parse repo.yaml content
-      set_fact:
-        codeowners: "{{ repo_info.ansible_facts.repo.codeowners }}"
-
     - name: Generate CODEOWNERS file
       template:
         src: "./templates/codeowners.j2"
         dest: "{{ repo_path }}/CODEOWNERS"
+      vars:
+        codeowners: "{{ repo.codeowners }}"
 
     - name: Generate pull request template file
       template:
@@ -124,7 +83,7 @@
 - import_playbook: playbook-husky.yaml
 
 - import_playbook: playbook-devcontainers.yaml
-  when: repo_info.ansible_facts.repo.type == 'application'
+  when: repo.type == 'application'
 
 - import_playbook: playbook-helm.yaml
-  when: repo_info.ansible_facts.repo.type == 'application'
+  when: repo.type == 'application'
