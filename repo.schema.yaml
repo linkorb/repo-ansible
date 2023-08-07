@@ -68,10 +68,6 @@ properties:
     type: object
     description: Fixture settings
 
-  readme:
-    type: object
-    description: README.md settings
-
   github:
     type: object
     description: GitHub specific values
@@ -160,3 +156,11 @@ properties:
         type: string
         default: https://engineering.linkorb.com/pgp-key
         description: link to current pgp key that reporters can use to encrypt confidential messages sent to the security email address
+  readme:
+    type: object
+    additionalProperties: true     
+    properties:
+      section: 
+        type: object
+      usage: 
+        type: object

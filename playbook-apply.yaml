@@ -9,10 +9,10 @@
       include_tasks: set_facts.yaml
       when: repo is not defined
 
-    - name: generate README.md file
-      ansible.builtin.template:
-        src: "{{ './templates/README.md.j2' }}"
-        dest: "{{ repo_path + '/README.md' }}"
+    # - name: generate README.md file
+    #   ansible.builtin.template:
+    #     src: "{{ './templates/README.md.j2' }}"
+    #     dest: "{{ repo_path + '/README.md' }}"
 
     - name: generate SECURITY.md file
       ansible.builtin.template:
@@ -79,6 +79,8 @@
       template:
         src: "./templates/CODE_OF_CONDUCT.j2"
         dest: "{{ repo_path }}/.github/CODE_OF_CONDUCT"
+
+- import_playbook: playbook-readme.yaml
 
 - import_playbook: playbook-husky.yaml
 

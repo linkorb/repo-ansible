@@ -8,34 +8,6 @@ Build status: [![Release](https://github.com/linkorb/{{ repo.name }}/actions/wor
 {{ repo.description }}
 {% endif %}
 
-{% if repo.type == 'application' %}
-## Installation
-
-### Prerequisites
-
-* Ensure [composer](https://getcomposer.org/) is installed
-* Ensure [npm](https://www.npmjs.com/) is installed
-
-### Steps
-
-```bash
-# Clone the repository
-git clone git@github.com:linkorb/{{ repo.name }}.git
-cd {{ repo.name }}
-
-# Install PHP dependencies
-composer install
-
-# Install node dependencies
-npm install
-{% if repo.php['webpack-encore'] is defined %}
-
-# Generate the assets
-node_modules/.bin/encore prod
-{% endif %}
-```
-{% endif %}
-
 {% if repo.todo is defined %}
 ## TODO
 
@@ -45,9 +17,52 @@ node_modules/.bin/encore prod
 {% endif %}
 
 
-## Brought to you by the LinkORB Engineering team
+{% if repo.readme.section.introduction is defined %}
+### {{ repo.readme.section.introduction.title }}
 
-<img src="http://www.linkorb.com/d/meta/tier1/images/linkorbengineering-logo.png" width="200px" /><br />
-Check out our other projects at [linkorb.com/engineering](http://www.linkorb.com/engineering).
+{% if repo.readme.section.introduction.before is defined %}
+{{repo.readme.section.introduction.before}}
+{% endif -%}
+{% if repo.readme.section.introduction.content is defined %}
+{{repo.readme.section.introduction.content}}
+{% endif -%}
 
-By the way, we're hiring!
+{% if repo.readme.section.introduction.after is defined %}
+{{repo.readme.section.introduction.after}}
+{% endif -%}
+
+{% endif -%}
+
+{% if repo.type == 'application' %}
+
+{% if repo.readme.section.prerequisites is defined %}
+### {{ repo.readme.section.prerequisites.title }}
+
+{% if repo.readme.section.prerequisites.before is defined %}
+{{repo.readme.section.prerequisites.before}}
+{% endif -%}
+{% if repo.readme.section.prerequisites.content is defined %}
+{{repo.readme.section.prerequisites.content}}
+{% endif -%}
+
+{% if repo.readme.section.prerequisites.after is defined %}
+{{repo.readme.section.prerequisites.after}}
+{% endif -%}
+{% endif -%}
+
+{% if repo.readme.section.installation is defined %}
+### {{ repo.readme.section.installation.title }}
+
+{% if repo.readme.section.installation.before is defined %}
+{{repo.readme.section.installation.before}}
+{% endif -%}
+{% if repo.readme.section.installation.content is defined %}
+{{repo.readme.section.installation.content}}
+{% endif -%}
+
+{% if repo.readme.section.installation.after is defined %}
+{{repo.readme.section.installation.after}}
+{% endif -%}
+{% endif -%}
+
+{% endif -%}
