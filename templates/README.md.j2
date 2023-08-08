@@ -8,61 +8,103 @@ Build status: [![Release](https://github.com/linkorb/{{ repo.name }}/actions/wor
 {{ repo.description }}
 {% endif %}
 
-{% if repo.todo is defined %}
-## TODO
-
-{% for todo in repo.todo %}
-- [{% if todo.state=="closed" %}x{% else %} {% endif %}] {{ todo.text }}
-{% endfor %}
-{% endif %}
-
-
 {% if repo.readme.section.introduction is defined %}
 ### {{ repo.readme.section.introduction.title }}
-
 {% if repo.readme.section.introduction.before is defined %}
 {{repo.readme.section.introduction.before}}
 {% endif -%}
 {% if repo.readme.section.introduction.content is defined %}
 {{repo.readme.section.introduction.content}}
 {% endif -%}
-
 {% if repo.readme.section.introduction.after is defined %}
 {{repo.readme.section.introduction.after}}
 {% endif -%}
-
 {% endif -%}
+
 
 {% if repo.type == 'application' %}
 
 {% if repo.readme.section.prerequisites is defined %}
 ### {{ repo.readme.section.prerequisites.title }}
-
 {% if repo.readme.section.prerequisites.before is defined %}
 {{repo.readme.section.prerequisites.before}}
 {% endif -%}
 {% if repo.readme.section.prerequisites.content is defined %}
 {{repo.readme.section.prerequisites.content}}
 {% endif -%}
-
 {% if repo.readme.section.prerequisites.after is defined %}
 {{repo.readme.section.prerequisites.after}}
 {% endif -%}
 {% endif -%}
 
+
 {% if repo.readme.section.installation is defined %}
 ### {{ repo.readme.section.installation.title }}
-
 {% if repo.readme.section.installation.before is defined %}
 {{repo.readme.section.installation.before}}
 {% endif -%}
 {% if repo.readme.section.installation.content is defined %}
 {{repo.readme.section.installation.content}}
 {% endif -%}
-
 {% if repo.readme.section.installation.after is defined %}
 {{repo.readme.section.installation.after}}
 {% endif -%}
 {% endif -%}
 
+{% endif -%}
+
+
+{% if repo.readme.section.usage is defined %}
+### {{ repo.readme.section.usage.title }}
+{% if repo.readme.section.usage.before is defined %}
+{{repo.readme.section.usage.before}}
+{% endif -%}
+{% if repo.readme.section.usage.content is defined %}
+{{repo.readme.section.installation.content}}
+{% endif -%}
+{% if repo.readme.section.usage.after is defined %}
+{{repo.readme.section.usage.after}}
+{% endif -%}
+{% endif -%}
+
+
+{% if repo.readme.section.contributing is defined %}
+### {{ repo.readme.section.contributing.title }}
+{% if repo.readme.section.contributing.before is defined %}
+{{repo.readme.section.contributing.before}}
+{% endif -%}
+{% if repo.readme.section.contributing.content is defined %}
+{{repo.readme.section.contributing.content}}
+{% endif -%}
+{% if repo.readme.section.contributing.after is defined %}
+{{repo.readme.section.contributing.after}}
+{% endif -%}
+{% endif -%}
+
+
+{% if repo.readme.section.acknowledgments is defined %}
+### {{ repo.readme.section.acknowledgments.title }}
+{% if repo.readme.section.acknowledgments.before is defined %}
+{{repo.readme.section.acknowledgments.before}}
+{% endif -%}
+{% if repo.readme.section.acknowledgments.content is defined %}
+{{repo.readme.section.acknowledgments.content}}
+{% endif -%}
+{% if repo.readme.section.acknowledgments.after is defined %}
+{{repo.readme.section.acknowledgments.after}}
+{% endif -%}
+{% endif -%}
+
+
+{% if repo.readme.section.linkorb_engineering is defined %}
+### {{ repo.readme.section.linkorb_engineering.title }}
+{% if repo.readme.section.linkorb_engineering.before is defined %}
+{{repo.readme.section.linkorb_engineering.before}}
+{% endif -%}
+{% if repo.readme.section.linkorb_engineering.content is defined %}
+{{repo.readme.section.linkorb_engineering.content}}
+{% endif -%}
+{% if repo.readme.section.linkorb_engineering.after is defined %}
+{{repo.readme.section.linkorb_engineering.after}}
+{% endif -%}
 {% endif -%}

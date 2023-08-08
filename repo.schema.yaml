@@ -158,7 +158,7 @@ properties:
         description: link to current pgp key that reporters can use to encrypt confidential messages sent to the security email address
   readme:
     type: object
-    additionalProperties: true     
+    additionalProperties: false     
     properties:
       section: 
         type: object
