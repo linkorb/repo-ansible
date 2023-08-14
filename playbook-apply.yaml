@@ -1,7 +1,7 @@
 - name: Apply repo standards
   # metadata:
   #   u: i
-  hosts: localhost
+  hosts: all
   connection: local
   gather_facts: no
   tasks:

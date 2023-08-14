@@ -1,5 +1,5 @@
 - name: Apply repo devcontainer standards
-  hosts: localhost
+  hosts: all
   connection: local
   gather_facts: no
   tasks:

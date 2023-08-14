@@ -1,5 +1,5 @@
 - name: Apply husky configuration
-  hosts: localhost
+  hosts: all
   connection: local
   gather_facts: no
   tasks:
