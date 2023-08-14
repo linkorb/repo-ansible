@@ -2,12 +2,12 @@
   strategy: free
   gather_facts: false
   connection: local
+  vars:
+    repo_ansible_base_path: "{{ lookup('env', 'REPO_ANSIBLE_BASE_PATH') }}"
   tasks:
-    - name: get REPO_ANSIBLE_BASE_PATH env
-      ansible.builtin.set_fact:
-        repo_ansible_base_path: "{{ lookup('env', 'REPO_ANSIBLE_BASE_PATH') }}"
-      failed_when: repo_ansible_base_path == ''
-      no_log: true
+    - fail:
+        msg: 'REPO_ANSIBLE_BATH_PATH environment variable must be defined'
+      when: repo_ansible_base_path == ''
 
     - name: "repository checkout"
       ansible.builtin.git:
@@ -15,7 +15,3 @@
         dest: "{{ repo_ansible_base_path }}/{{ inventory_hostname }}"
         force: true
         depth: 1
-
-- ansible.builtin.import_playbook: playbook-apply.yaml
-  vars:
-    repo_path: "./workspace/{{ inventory_hostname }}"

@@ -1,0 +1,20 @@
+- hosts: all
+  connection: local
+  strategy: free
+  gather_facts: false
+  vars:
+    repo_ansible_base_path: "{{ lookup('env', 'REPO_ANSIBLE_BASE_PATH') }}"
+  tasks:
+    - fail:
+        msg: 'REPO_ANSIBLE_BATH_PATH environment variable must be defined'
+      when: repo_ansible_base_path == ''
+
+    - fail:
+        msg: 'change_mode variable must be defined to either: push OR pr'
+      when: change_mode is not defined or change_mode not in ['push', 'pr']
+
+- ansible.builtin.import_playbook: playbook-checkout.yaml
+
+- ansible.builtin.import_playbook: playbook-apply.yaml
+  vars:
+    repo_path: "{{ repo_ansible_base_path }}/{{ inventory_hostname }}"
