@@ -3,10 +3,16 @@
   gather_facts: false
   connection: local
   tasks:
+    - name: get REPO_ANSIBLE_BASE_PATH env
+      ansible.builtin.set_fact:
+        repo_ansible_base_path: "{{ lookup('env', 'REPO_ANSIBLE_BASE_PATH') }}"
+      failed_when: repo_ansible_base_path == ''
+      no_log: true
+
     - name: "repository checkout"
       ansible.builtin.git:
         repo: "git@github.com:linkorb/{{ inventory_hostname }}.git"
-        dest: "./workspace/{{ inventory_hostname }}"
+        dest: "{{ repo_ansible_base_path }}/{{ inventory_hostname }}"
         force: true
         depth: 1
 
