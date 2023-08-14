@@ -13,8 +13,12 @@
         msg: 'change_mode variable must be defined to either: push OR pr'
       when: change_mode is not defined or change_mode not in ['push', 'pr']
 
+    - set_fact:
+        repo_path: "{{ repo_ansible_base_path }}/{{ inventory_hostname }}"
+
 - ansible.builtin.import_playbook: playbook-checkout.yaml
 
 - ansible.builtin.import_playbook: playbook-apply.yaml
-  vars:
-    repo_path: "{{ repo_ansible_base_path }}/{{ inventory_hostname }}"
+
+- ansible.builtin.import_playbook: playbook-pull-request.yaml
+  when: change_mode == 'pr'
