@@ -8,6 +8,7 @@
         repo: "git@github.com:linkorb/{{ inventory_hostname }}.git"
         dest: "./workspace/{{ inventory_hostname }}"
         force: true
+        depth: 1
 
 - ansible.builtin.import_playbook: playbook-apply.yaml
   vars:
