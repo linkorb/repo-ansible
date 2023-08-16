@@ -23,7 +23,6 @@ properties:
   license:
     type: string
     description: Repository license
-    default: proprietary
 
     enum:
     - mit
