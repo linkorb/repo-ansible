@@ -15,7 +15,7 @@ def extract_defaults(schema_yaml):
             got = extract_defaults(schema_yaml['properties'][v])
             if got is not None:
                 collect[v] = got
-        return collect
+        return collect if len(collect) else None
     else:
         return None
 
