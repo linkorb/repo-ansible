@@ -1,9 +1,24 @@
 #!/usr/bin/env python3
 import yaml
 import json
-import jsonschema_default
 
 import sys
+
+
+def extract_defaults(schema_yaml):
+    if 'default' in schema_yaml:
+        return schema_yaml['default']
+
+    if 'properties' in schema_yaml:
+        collect = {}
+        for v in schema_yaml['properties']:
+            got = extract_defaults(schema_yaml['properties'][v])
+            if got is not None:
+                collect[v] = got
+        return collect
+    else:
+        return None
+
 
 # Function definition copied from pydantic.v1.utils
 #
@@ -38,9 +53,9 @@ def deep_update(mapping, *updating_mappings):
 
 with open('repo.schema.yaml', 'r') as file:
     schema_yaml = yaml.safe_load(file)
-    default_obj = jsonschema_default.create_from(schema_yaml)
+    defaults = extract_defaults(schema_yaml)
 
 with open(sys.argv[1], 'r') as file:
     repo_yaml = yaml.safe_load(file)
 
-print(json.dumps(deep_update(default_obj,repo_yaml), indent=2))
+print(json.dumps(deep_update(defaults,repo_yaml), indent=2))
