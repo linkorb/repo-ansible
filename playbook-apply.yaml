@@ -1,3 +1,6 @@
+# TODO after merge of https://github.com/linkorb/repo-ansible/pull/21 sync the changes there
+# with tasks/generate-files.yaml and have the playbook reuse the task groups instead of importing
+# playbooks
 - name: Apply repo standards
   # metadata:
   #   u: i

@@ -4,3 +4,5 @@
     dest: "{{ repo_ansible_base_path }}/{{ repository }}"
     force: true
     depth: 1
+# organization variable, useful if the changes in bulk need to be applied to a specific fork instead of the upstream
+# linkorb owned repository. During playbook testing useful for auto-push/pull-request scenario testing.
