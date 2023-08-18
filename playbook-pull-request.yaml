@@ -4,10 +4,8 @@
   gather_facts: false
   vars:
     repo_ansible_base_path: "{{ lookup('env', 'REPO_ANSIBLE_BASE_PATH') or (playbook_dir + '/workspace') }}"
-    #repo_path: "{{ repo_ansible_base_path }}/{{ inventory_hostname }}"
+    repo_path: "{{ repo_ansible_base_path }}/{{ inventory_hostname }}"
   tasks:
-    - name: Include task set_facts
-      include_tasks: set_facts.yaml
-      when: repo is not defined
+    - import_tasks: tasks/load-data.yaml
 
     - import_tasks: tasks/pull-request.yaml

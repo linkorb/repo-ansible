@@ -1,10 +1,9 @@
 - hosts: localhost
   connection: local
+  vars:
+    repo_path: "{{ lookup('env', 'PWD') }}"
   tasks:
-    - set_fact:
-        repo_path: "{{ lookup('env', 'PWD') }}"
-
-    - import_tasks: set_facts.yaml
+    - import_tasks: tasks/load-data.yaml
 
     - import_tasks: tasks/generate-files.yaml
 
@@ -18,7 +17,3 @@
     - import_tasks: tasks/php-qa.yaml
       when: false
       #when: repo.type in ['application','library','symfony-bundle']
-
-    - import_tasks: tasks/pull-request.yaml
-      when: false
-      #when: change_mode == 'pr'

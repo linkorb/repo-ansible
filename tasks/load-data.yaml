@@ -1,0 +1,20 @@
+# TODO after merging https://github.com/linkorb/repo-ansible/pull/21 this file replaces set_facts.yaml usage
+- name: merge repo.yaml data with defaults
+  ansible.builtin.command: "./repo_data.py {{ repo_path }}/repo.yaml"
+  register: repo_data
+  changed_when: false
+
+- name: 'set variables: repo, criteria, repo_managed'
+  ansible.builtin.set_fact:
+    repo: "{{ repo_data.stdout | from_json }}"
+    criteria: "{{ lookup('ansible.builtin.file', './repo.schema.yaml') | from_yaml }}"
+    repo_managed: 'Managed by https://github.com/linkorb/repo-ansible. Manual changes will be overwritten.'
+
+- name: validate repo config in json format using jsonschema by passing plugin configuration variable as key/value pairs
+  ansible.builtin.set_fact:
+    config_validity: "{{ repo|ansible.utils.validate(criteria, engine='ansible.utils.jsonschema', draft='draft7') }}"
+
+- when: config_validity[0].message is defined
+  name: fail on schema validation error
+  ansible.builtin.fail:
+    msg: "The repo.yaml file is invalid: {{ config_validity[0].message }}. Please refer to the README.md for information about schema validation."
