@@ -1,7 +1,7 @@
 - name: "repository checkout"
   ansible.builtin.git:
     repo: "git@github.com:{{ organization if organization is defined else 'linkorb' }}/{{ repository }}.git"
-    dest: "{{ repo_ansible_base_path }}/{{ repository }}"
+    dest: "{{ destination }}"
     force: true
     depth: 1
 # organization variable, useful if the changes in bulk need to be applied to a specific fork instead of the upstream
