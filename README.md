@@ -32,6 +32,43 @@ The playbook will:
 2. validate it against the `repo.schema.yaml` file in this repository
 3. start applying templates and checks to your repository
 
+
+## Bulk operations
+
+The repository contains playbooks that can operate across multiple repositories at once (eg `playbook-all.yaml`).
+
+These types of bulk operations require an inventory file that makes up the "hosts" upon which it should operate. In this
+context the hosts are the names of the repositories, which should be in an automatic fashion: checked out, modified per
+their `repo.yaml` configuration file, and push these changes upstream.
+
+> **Note** the GitHub terminal client needs to be installed for inventory generation, push, pull-request operations.
+
+In order to generate an inventory across all the linkorb repositories you have access to, the following command can be
+used (an arbitrarily large limit of 1000 results was chosen so it works for all possible users):
+
+```shell
+gh search repos --owner=linkorb --limit=1000 \
+  --json name --jq '.[] | .name + " ansible_host=localhost"' \
+  | tee generated-inventory.ini
+```
+
+> **Note** `generated-inventory.ini` is part of `.gitignore` to avoid accidental commits of the file.
+
+> An entry within the inventory is of the form `REPOSITORY_NAME ansible_host=localhost`, hence why jq is used to
+> concatenate the string for each result returned from `gh repos` command.
+
+After the inventory is generated you can selectively run the playbooks defined within this repository. For example you
+could check them all out within the `./workspace/` directory (by default) using:
+
+```shell
+ansible-playbook -i generated-inventory.ini playbook-checkout.yaml
+```
+
+> **Note** `./workspace` is part of `.gitignore` to avoid accidental commits of checkout repositories.
+
+> If you'd like to checkout the repositories in a different directory, specify an absolute directory path via the
+> `REPO_ANSIBLE_BASE_PATH` environment variable.
+
 ## Improvements
 
 If `repo-ansible` generates configuration that is sub-optimal, you can add a configuration option (in `repo.schema.yaml) to improve the logic, or to disable a certain template or check.
