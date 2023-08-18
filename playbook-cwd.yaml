@@ -1,6 +1,24 @@
 - hosts: localhost
   connection: local
+  tasks:
+    - set_fact:
+        repo_path: "{{ lookup('env', 'PWD') }}"
 
-- import_playbook: playbook-apply.yaml
-  vars:
-    repo_path: "{{ lookup('env','PWD') }}"
+    - import_tasks: set_facts.yaml
+
+    - import_tasks: tasks/generate-files.yaml
+
+    - import_tasks: tasks/devcontainer.yaml
+
+    - import_tasks: tasks/husky.yaml
+
+    - import_tasks: tasks/helm.yaml
+      when: repo.type == 'application'
+
+    - import_tasks: tasks/php-qa.yaml
+      when: false
+      #when: repo.type in ['application','library','symfony-bundle']
+
+    - import_tasks: tasks/pull-request.yaml
+      when: false
+      #when: change_mode == 'pr'
