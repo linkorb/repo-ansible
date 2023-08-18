@@ -1,0 +1,6 @@
+- name: "repository checkout"
+  ansible.builtin.git:
+    repo: "git@github.com:{{ organization if organization is defined else 'linkorb' }}/{{ repository }}.git"
+    dest: "{{ repo_ansible_base_path }}/{{ repository }}"
+    force: true
+    depth: 1

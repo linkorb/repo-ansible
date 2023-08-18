@@ -3,40 +3,11 @@
   strategy: free
   gather_facts: false
   vars:
-    repo_ansible_base_path: "{{ lookup('env', 'REPO_ANSIBLE_BASE_PATH') }}"
+    repo_ansible_base_path: "{{ lookup('env', 'REPO_ANSIBLE_BASE_PATH') or (playbook_dir + '/workspace') }}"
     #repo_path: "{{ repo_ansible_base_path }}/{{ inventory_hostname }}"
   tasks:
     - name: Include task set_facts
       include_tasks: set_facts.yaml
       when: repo is not defined
 
-    - name: detect main branch
-      command: git branch --show-current
-      args:
-        chdir: "{{ repo_path }}"
-      register: current_branch
-
-    - name: generate pull request branch
-      set_fact:
-        pr_branch: "repo-ansible-{{ lookup('pipe', 'date +%s') }}"
-
-    - name: create repo-ansible branch
-      command: "git switch --create {{ pr_branch }}"
-      args:
-        chdir: "{{ repo_path }}"
-
-    - name: create commit
-      shell: "git add . && git commit -m 'chore: repo-ansible run'"
-      args:
-        chdir: "{{ repo_path }}"
-
-    # required because no write permission is granted to the base repository
-    - name: create fork
-      command: "gh repo fork --remote"
-      args:
-        chdir: "{{ repo_path }}"
-
-    - name: create pull request
-      shell: "git push -u origin {{ pr_branch }} && gh pr create --fill --base {{ current_branch.stdout }}"
-      args:
-        chdir: "{{ repo_path }}"
+    - import_tasks: tasks/pull-request.yaml

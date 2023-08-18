@@ -3,12 +3,8 @@
   strategy: free
   gather_facts: false
   vars:
-    repo_ansible_base_path: "{{ lookup('env', 'REPO_ANSIBLE_BASE_PATH') }}"
+    repo_ansible_base_path: "{{ lookup('env', 'REPO_ANSIBLE_BASE_PATH') or (playbook_dir + '/workspace') }}"
   tasks:
-    - fail:
-        msg: 'REPO_ANSIBLE_BATH_PATH environment variable must be defined'
-      when: repo_ansible_base_path == ''
-
     - fail:
         msg: 'change_mode variable must be defined to either: push OR pr'
       when: change_mode is not defined or change_mode not in ['push', 'pr']
@@ -16,9 +12,25 @@
     - set_fact:
         repo_path: "{{ repo_ansible_base_path }}/{{ inventory_hostname }}"
 
-- ansible.builtin.import_playbook: playbook-checkout.yaml
+    - import_tasks: tasks/checkout.yaml
+      vars:
+        repository: "{{ inventory_hostname }}"
 
-- ansible.builtin.import_playbook: playbook-apply.yaml
+    - import_tasks: set_facts.yaml
 
-- ansible.builtin.import_playbook: playbook-pull-request.yaml
-  when: change_mode == 'pr'
+    - import_tasks: tasks/generate-files.yaml
+
+    - import_tasks: tasks/devcontainer.yaml
+
+    - import_tasks: tasks/husky.yaml
+
+    - import_tasks: tasks/helm.yaml
+      when: repo.type == 'application'
+
+    - import_tasks: tasks/php-qa.yaml
+      when: false
+      #when: repo.type in ['application','library','symfony-bundle']
+
+    - import_tasks: tasks/pull-request.yaml
+      when: false
+      #when: change_mode == 'pr'
