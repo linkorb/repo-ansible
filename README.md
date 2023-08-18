@@ -6,7 +6,8 @@ An ansible playbook with templated configuration to apply to all LinkORB code re
 ## Installation
 
 * Ensure [ansible](https://www.ansible.com/) is installed
-* Ensure [GitHub cli](https://cli.github.com/) is installed
+* Ensure [GitHub cli](https://cli.github.com/) is installed. *Only required for bulk operations via repo-ansible:
+repository inventory generation, bulk operations (playbook-all.yaml).*
 * Ensure you have a local copy of this repository somewhere on your system
 
 ## Configuration
