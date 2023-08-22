@@ -1,9 +1,3 @@
-- name: detect main branch
-  command: git branch --show-current
-  args:
-    chdir: "{{ repo_path }}"
-  register: current_branch
-
 - name: generate pull request branch
   set_fact:
     pr_branch: "repo-ansible-{{ lookup('pipe', 'date +%s') }}"
@@ -25,6 +19,11 @@
     chdir: "{{ repo_path }}"
 
 - name: create pull request
-  shell: "git push -u origin {{ pr_branch }} && gh pr create --fill --base {{ current_branch.stdout }}"
+  shell: "git push -u origin {{ pr_branch }} && gh pr create --fill --base {{ default_branch }}"
+  args:
+    chdir: "{{ repo_path }}"
+
+- name: switch back clone to default_branch
+  command: "git switch {{ default_branch }}"
   args:
     chdir: "{{ repo_path }}"
