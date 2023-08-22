@@ -1,0 +1,9 @@
+- name: create commit
+  shell: "git add . && git commit -m 'chore: repo-ansible run'"
+  args:
+    chdir: "{{ repo_path }}"
+
+- name: push changes
+  command: "git push origin {{ default_branch }}"
+  args:
+    chdir: "{{ repo_path }}"

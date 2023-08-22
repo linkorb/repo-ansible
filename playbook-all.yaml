@@ -29,3 +29,6 @@
 
     - import_tasks: tasks/pull-request.yaml
       when: changes == 'pull-request'
+
+    - import_tasks: tasks/push.yaml
+      when: changes == 'push'
