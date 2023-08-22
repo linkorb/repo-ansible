@@ -6,8 +6,9 @@ An ansible playbook with templated configuration to apply to all LinkORB code re
 ## Installation
 
 * Ensure [ansible](https://www.ansible.com/) is installed
-* Ensure [GitHub cli](https://cli.github.com/) is installed. *Only required for bulk operations via repo-ansible:
-repository inventory generation, bulk operations (playbook-all.yaml).*
+* Ensure [GitHub cli](https://cli.github.com/) and [jq](https://jqlang.github.io/jq/) are installed. *Only required for
+bulk operations via repo-ansible: repository inventory generation, [bulk operations](#bulk-operations)
+(e.g. playbook-all.yaml).*
 * Ensure you have a local copy of this repository somewhere on your system
 
 ## Configuration
@@ -41,6 +42,8 @@ These types of bulk operations require an inventory file that makes up the "host
 context the hosts are the names of the repositories, which should be in an automatic fashion: checked out, modified per
 their `repo.yaml` configuration file, and push these changes upstream.
 
+### Generating an inventory
+
 > **Note** the GitHub terminal client needs to be installed for inventory generation, push, pull-request operations.
 
 In order to generate an inventory across all the linkorb repositories you have access to, the following command can be
@@ -55,10 +58,12 @@ gh search repos --owner=linkorb --limit=1000 \
 
 > **Note** `generated-inventory.ini` is part of `.gitignore` to avoid accidental commits of the file.
 
-> An entry within the inventory is of the form `REPOSITORY_NAME ansible_host=localhost`, hence why jq is used to
-> concatenate the string for each result returned from `gh repos` command.
+> An entry within the inventory is of the form `REPOSITORY_NAME default_branch=DEFAULT_BRANCH ansible_host=localhost`
 
-After the inventory is generated you can selectively run the playbooks defined within this repository. For example you
+
+### Running playbook in bulk
+
+You can selectively run the playbooks defined within this repository. For example you
 could check them all out within the `./workspace/` directory (by default) using:
 
 ```shell
