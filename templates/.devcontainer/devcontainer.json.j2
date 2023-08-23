@@ -33,5 +33,6 @@
   },
   "forwardPorts": [80, 3306],
   "remoteUser": "vscode",
-  "postCreateCommand": "composer config --global --auth http-basic.repo.packagist.com $PACKAGIST_USER  $PACKAGIST_TOKEN && composer install"
+  "initializeCommand": "echo $CR_PAT | docker login ghcr.io -u $GITHUB_USER --password-stdin",
+  "postCreateCommand": "composer config --global --auth http-basic.repo.packagist.com $GITHUB_USER $PACKAGIST_TOKEN && composer install"
 }
