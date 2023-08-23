@@ -1,0 +1,70 @@
+$meta:
+  version: 1.0
+name: repo-ansible
+description: "Ansible configuration project."
+license: mit
+visibility: public
+website: https://engineering.linkorb.com
+codeowners:
+  /:
+    - joostfaassen
+    - kidkafka9
+  /docs:
+    - mawentowski
+todo:
+  - text: Implement new feature
+    state: open
+envoi:
+  owner: Joost Faassen
+  email: joostfaassen@linkorb.com
+related:
+  - related-repo-1
+  - related-repo-2
+fixtures:
+  demo_data: true
+readme:
+  template: basic
+github:
+  archived: false
+  topics:
+    - ansible
+    - automation
+  features:
+    wiki: true
+    issues: true
+type: library
+php:
+  version: 7.4
+  dependencies:
+    - symfony/console
+docker:
+  image: my-repo-image
+devcontainer:
+  enabled: true
+path: /repos/my-awesome-repo
+phpqa:
+  phpstan:
+    level: 3
+    path:
+      - src
+  php_fixer:
+    path:
+      - src
+    rules:
+      - psr12
+  composer_unused:
+    filtered_packages:
+      - /^vendor\//
+security:
+  email: security@my-repo.com
+  pgp-url: https://my-repo.com/pgp-key
+gitignore:
+  - .github
+  - .husky
+  - .dockerignore
+  - .editorconfig
+  - CODEOWNERS
+  - commitlint.config.js
+  - LICENSE
+  - README_generated.md
+  - SECURITY.md

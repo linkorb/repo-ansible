@@ -1,9 +1,10 @@
-# {{ repo_managed }}
+# Code Owners
 
-# Directories
-{% for owner in codeowners %}
-{% set pattern = owner.pattern %}
-{% set owners = owner.owners %}
-{{ pattern }} {% for owner in owners %}{{ owner }} {% endfor %}
+The following individuals are designated as code owner(s) for specific files/directories in the repository:
 
+{% for path, owners in repo.codeowners.items() %}
+{{ path }}
+{% for owner in owners %}
+{{ owner }}
+{% endfor %}
 {% endfor %}

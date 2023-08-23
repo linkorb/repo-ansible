@@ -41,19 +41,27 @@ properties:
     type: string
     description: URL with more information about of this repository
 
-  # owner:
-  #   type: string
-  #   description: Owner
-  #   default: jfaassen
-
   codeowners:
-    type: array
-    description: CODEOWNERS settings
+    type: object
+    patternProperties:
+      "^/.*$":
+        type: array
+        items:
+          type: string
 
   todo:
     type: array
-    description: TODO settings
-
+    items:
+      type: object
+      properties:
+        text:
+          type: string
+        state:
+          type: string
+          enum:
+            - open
+            - in-progress
+            - closed
 
   envoi:
     type: object
@@ -159,3 +167,5 @@ properties:
         type: string
         default: https://engineering.linkorb.com/pgp-key
         description: link to current pgp key that reporters can use to encrypt confidential messages sent to the security email address
+  gitignore:
+    type: array

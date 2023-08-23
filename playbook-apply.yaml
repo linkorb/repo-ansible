@@ -12,7 +12,7 @@
     - name: generate README.md file
       ansible.builtin.template:
         src: "{{ './templates/README.md.j2' }}"
-        dest: "{{ repo_path + '/README.md' }}"
+        dest: "{{ repo_path + '/README_generated.md' }}"
 
     - name: generate SECURITY.md file
       ansible.builtin.template:

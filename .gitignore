@@ -1,4 +1,4 @@
-# {{ repo_managed }}
+# Managed by https://github.com/linkorb/repo-ansible. Manual changes will be overwritten.
 
 ###> symfony/framework-bundle ###
 /.env.local
@@ -22,8 +22,12 @@ docker-compose.override.yml
 .php-cs-fixer.cache
 /tmp-phpqa
 
-{% if repo.gitignore is defined %}
-{% for file in repo.gitignore %}
-{{ file }}
-{% endfor %}
-{% endif %}
+.github
+.husky
+.dockerignore
+.editorconfig
+CODEOWNERS
+commitlint.config.js
+LICENSE
+README_generated.md
+SECURITY.md
