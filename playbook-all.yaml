@@ -1,0 +1,34 @@
+- hosts: all
+  connection: local
+  strategy: free
+  gather_facts: false
+  vars:
+    base_path: "{{ lookup('env', 'REPO_ANSIBLE_BASE_PATH') or (playbook_dir + '/workspace') }}"
+    repo_path: "{{ base_path }}/{{ inventory_hostname }}"
+    changes: "{{ lookup('env', 'REPO_ANSIBLE_CHANGES') }}"
+  tasks:
+    - import_tasks: tasks/checkout.yaml
+      vars:
+        repository: "{{ inventory_hostname }}"
+        destination: "{{ repo_path }}"
+
+    - import_tasks: tasks/load-data.yaml
+
+    - import_tasks: tasks/generate-files.yaml
+
+    - import_tasks: tasks/devcontainer.yaml
+
+    - import_tasks: tasks/husky.yaml
+
+    - import_tasks: tasks/helm.yaml
+      when: repo.type == 'application'
+
+    - import_tasks: tasks/php-qa.yaml
+      when: false
+      #when: repo.type in ['application','library','symfony-bundle']
+
+    - import_tasks: tasks/pull-request.yaml
+      when: changes == 'pull-request'
+
+    - import_tasks: tasks/push.yaml
+      when: changes == 'push'

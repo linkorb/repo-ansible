@@ -1,0 +1,73 @@
+# TODO after PR https://github.com/linkorb/repo-ansible/pull/21 is merged this file should be updated with the changes
+# made within that PR within the playbook-apply.yaml file
+
+- name: generate README.md file
+  ansible.builtin.template:
+    src: "{{ './templates/README.md.j2' }}"
+    dest: "{{ repo_path + '/README.md' }}"
+
+- name: generate SECURITY.md file
+  ansible.builtin.template:
+    src: "{{ './templates/SECURITY.md.j2' }}"
+    dest: "{{ repo_path + '/SECURITY.md' }}"
+
+- name: generate license file
+  ansible.builtin.template:
+    src: "{{ './templates/licenses/' + repo.license + '.md.j2' }}"
+    dest: "{{ repo_path + '/LICENSE' }}"
+
+- name: copy github actions workflow files
+  ansible.builtin.copy:
+    src: "./templates/.github/workflows/"
+    dest: "{{ repo_path + '/.github/workflows' }}"
+
+- name: generate .github/settings.yml
+  ansible.builtin.template:
+    src: "{{ './templates/.github/settings.yml.j2' }}"
+    dest: "{{ repo_path + '/.github/settings.yml' }}"
+
+- name: generate .dockerignore
+  ansible.builtin.template:
+    src: "{{ './templates/.dockerignore.j2' }}"
+    dest: "{{ repo_path + '/.dockerignore' }}"
+
+- name: generate .gitignore
+  ansible.builtin.template:
+    src: "{{ './templates/.gitignore.j2' }}"
+    dest: "{{ repo_path + '/.gitignore' }}"
+
+- name: generate .editorconfig
+  ansible.builtin.template:
+    src: "{{ './templates/.editorconfig.j2' }}"
+    dest: "{{ repo_path + '/.editorconfig' }}"
+
+- name: Check if composer.json exists
+  stat:
+    path: "{{ repo_path + '/composer.json' }}"
+  register: composer_json
+
+- name: Find composer.json or package.json
+  find:
+    paths: "{{ repo_path }}"
+    patterns:
+      - composer.json
+      - package.json
+  register: find_result
+  ignore_errors: yes
+
+- name: Generate CODEOWNERS file
+  template:
+    src: "./templates/codeowners.j2"
+    dest: "{{ repo_path }}/CODEOWNERS"
+  vars:
+    codeowners: "{{ repo.codeowners }}"
+
+- name: Generate pull request template file
+  template:
+    src: "./templates/pull_request_template.md.j2"
+    dest: "{{ repo_path }}/.github/pull_request_template.md"
+
+- name: Generate code of conduct file
+  template:
+    src: "./templates/CODE_OF_CONDUCT.j2"
+    dest: "{{ repo_path }}/.github/CODE_OF_CONDUCT"

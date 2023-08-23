@@ -3,6 +3,7 @@ import yaml
 import json
 
 import sys
+import os.path
 
 
 def extract_defaults(schema_yaml):
@@ -54,6 +55,10 @@ def deep_update(mapping, *updating_mappings):
 with open('repo.schema.yaml', 'r') as file:
     schema_yaml = yaml.safe_load(file)
     defaults = extract_defaults(schema_yaml)
+
+if not os.path.isfile(sys.argv[1]):
+    sys.stderr.write(f'{sys.argv[1]} file not found!')
+    sys.exit(1)
 
 with open(sys.argv[1], 'r') as file:
     repo_yaml = yaml.safe_load(file)

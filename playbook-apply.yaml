@@ -1,7 +1,10 @@
+# TODO after merge of https://github.com/linkorb/repo-ansible/pull/21 sync the changes there
+# with tasks/generate-files.yaml and have the playbook reuse the task groups instead of importing
+# playbooks
 - name: Apply repo standards
   # metadata:
   #   u: i
-  hosts: localhost
+  hosts: all
   connection: local
   gather_facts: no
   tasks:
@@ -87,3 +90,7 @@
 
 - import_playbook: playbook-helm.yaml
   when: repo.type == 'application'
+
+- import_playbook: playbook-phpqa.yaml
+  when: false
+  #when: repo.type in ['application','library','symfony-bundle']

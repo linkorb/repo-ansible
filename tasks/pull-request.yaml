@@ -1,0 +1,29 @@
+- name: generate pull request branch
+  set_fact:
+    pr_branch: "repo-ansible-{{ lookup('pipe', 'date +%s') }}"
+
+- name: create repo-ansible branch
+  command: "git switch --create {{ pr_branch }}"
+  args:
+    chdir: "{{ repo_path }}"
+
+- name: create commit
+  shell: "git add . && git commit -m 'chore: repo-ansible run'"
+  args:
+    chdir: "{{ repo_path }}"
+
+# required because no write permission is granted to the base repository
+- name: create fork
+  command: "gh repo fork --remote"
+  args:
+    chdir: "{{ repo_path }}"
+
+- name: create pull request
+  shell: "git push -u origin {{ pr_branch }} && gh pr create --fill --base {{ default_branch }}"
+  args:
+    chdir: "{{ repo_path }}"
+
+- name: switch back clone to default_branch
+  command: "git switch {{ default_branch }}"
+  args:
+    chdir: "{{ repo_path }}"

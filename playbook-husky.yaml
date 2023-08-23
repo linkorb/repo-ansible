@@ -1,5 +1,7 @@
+# TODO after merge of https://github.com/linkorb/repo-ansible/pull/21 sync the changes there
+# with tasks/husky.yaml and have the playbook reuse the task groups
 - name: Apply husky configuration
-  hosts: localhost
+  hosts: all
   connection: local
   gather_facts: no
   tasks:
