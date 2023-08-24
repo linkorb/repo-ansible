@@ -141,9 +141,12 @@ properties:
           level:
             type: number
             description: phpstan level
+            default: 0
           path:
             type: array
             description: Path to directories for phpstan
+            default:
+              - src
       php_fixer:
         type: object
         properties:
