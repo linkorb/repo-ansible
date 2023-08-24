@@ -1,4 +1,3 @@
-# TODO after merging https://github.com/linkorb/repo-ansible/pull/21 this file replaces set_facts.yaml usage
 - name: merge repo.yaml data with defaults
   ansible.builtin.command: "./repo_data.py {{ repo_path }}/repo.yaml"
   register: repo_data
