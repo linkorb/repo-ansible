@@ -12,7 +12,7 @@
     - name: generate README.md file
       ansible.builtin.template:
         src: "{{ './templates/README.md.j2' }}"
-        dest: "{{ repo_path + '/README_generated.md' }}"
+        dest: "{{ repo_path + '/README.md' }}"
 
     - name: generate SECURITY.md file
       ansible.builtin.template:
@@ -38,11 +38,6 @@
       ansible.builtin.template:
         src: "{{ './templates/.dockerignore.j2' }}"
         dest: "{{ repo_path + '/.dockerignore' }}"
-
-    - name: generate .gitignore
-      ansible.builtin.template:
-        src: "{{ './templates/.gitignore.j2' }}"
-        dest: "{{ repo_path + '/.gitignore' }}"
 
     - name: generate .editorconfig
       ansible.builtin.template:

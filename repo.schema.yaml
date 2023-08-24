@@ -1,6 +1,6 @@
 type: object
 description: reprime.yaml structure for LinkORB
-required: [ name, description, license, type ]
+required: [ name, description, type ]
 additionalProperties: false
 properties:
   $meta:
@@ -23,6 +23,7 @@ properties:
   license:
     type: string
     description: Repository license
+    default: mit
 
     enum:
     - mit
@@ -40,6 +41,7 @@ properties:
   website:
     type: string
     description: URL with more information about of this repository
+    default: https://engineering.linkorb.com
 
   codeowners:
     type: object
