@@ -1,0 +1,15 @@
+- name: Generate README file
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  tasks:
+    - name: Include task set_facts
+      include_tasks: set_facts.yaml
+      when: repo is not defined    
+    
+    - name: generate README.md file
+      ansible.builtin.template:
+        src: "{{ './templates/README.md.j2' }}"
+        dest: "{{ repo_path + '/README.md' }}"
+      when: repo.readme.usage.enabled == true
