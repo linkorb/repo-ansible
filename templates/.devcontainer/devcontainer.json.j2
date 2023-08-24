@@ -46,5 +46,5 @@
   },
 
   "initializeCommand": "echo $CR_PAT | docker login ghcr.io -u $GITHUB_USER --password-stdin",
-  "postCreateCommand": "composer config --global --auth http-basic.repo.packagist.com $GITHUB_USER $PACKAGIST_TOKEN && composer install"
+  "postCreateCommand": ".devcontainer/postCreate.sh"
 }
