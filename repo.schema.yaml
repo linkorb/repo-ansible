@@ -128,7 +128,7 @@ properties:
         default: ghcr.io/linkorb/php-docker-base
       tag:
         type: string
-        default: php8
+        default: php8-review
   path:
     type: string
   phpqa:
