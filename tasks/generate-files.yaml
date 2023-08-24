@@ -58,3 +58,10 @@
   template:
     src: "./templates/CODE_OF_CONDUCT.j2"
     dest: "{{ repo_path }}/.github/CODE_OF_CONDUCT"
+
+
+- name: generate README.md file
+  ansible.builtin.template:
+    src: "{{ './templates/README.md.j2' }}"
+    dest: "{{ repo_path + '/README.md' }}"
+  when: repo.readme.usage.enabled == true
