@@ -169,5 +169,3 @@ properties:
         type: string
         default: https://engineering.linkorb.com/pgp-key
         description: link to current pgp key that reporters can use to encrypt confidential messages sent to the security email address
-  gitignore:
-    type: array
