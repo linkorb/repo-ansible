@@ -1,0 +1,19 @@
+$meta:
+  version: 1.0
+name: repo-ansible
+description: "Ansible configuration project."
+codeowners:
+  /:
+    - joostfaassen
+    - kidkafka9
+  /docs:
+    - mawentowski
+github:
+  archived: false
+  topics:
+    - ansible
+    - automation
+  features:
+    wiki: true
+    issues: true
+type: library
