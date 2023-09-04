@@ -44,12 +44,19 @@ properties:
     default: https://engineering.linkorb.com
 
   codeowners:
-    type: object
-    patternProperties:
-      "^/.*$":
-        type: array
-        items:
+    description: List of object that contain pattern and owner properties for CODEOWNERS file generation
+    type: array
+    items:
+      type: object
+      properties:
+        pattern:
           type: string
+          description: Glob-like pattern, eg. *.js
+        owners:
+          type: array
+          description: GitHub usernames, enclosed within quotes, eg. "@github"
+          items:
+            type: string
 
   todo:
     type: array
