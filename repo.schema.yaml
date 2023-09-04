@@ -183,9 +183,13 @@ properties:
         default: https://engineering.linkorb.com/pgp-key
   readme:
     type: object
-    additionalProperties: false
     properties:
       section:
         type: object
       usage:
         type: object
+        properties:
+          enabled:
+            type: bool
+            default: true
+            description: README.md file generation
