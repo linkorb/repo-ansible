@@ -18,6 +18,17 @@
     src: "{{ './templates/.devcontainer/devcontainer.json.j2' }}"
     dest: "{{ repo_path + '/.devcontainer/devcontainer.json' }}"
 
+- name: copy .devcontainer/git directory
+  ansible.builtin.copy:
+    src: "{{ './templates/.devcontainer/git' }}"
+    dest: "{{ repo_path + '/.devcontainer/' }}"
+
+- name: copy .devcontainer/postCreate.sh
+  ansible.builtin.copy:
+    src: "{{ './templates/.devcontainer/postCreate.sh' }}"
+    dest: "{{ repo_path + '/.devcontainer/postCreate.sh' }}"
+    mode: '0755'
+
 - name: Get value from object
   ansible.builtin.set_fact:
     postCreateCommand: "{{ repo.devcontainer | json_query('postCreateCommand') }}"

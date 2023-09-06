@@ -17,3 +17,6 @@ github:
     wiki: true
     issues: true
 type: library
+readme:
+  usage:
+    enabled: false

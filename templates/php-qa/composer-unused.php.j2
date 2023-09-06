@@ -15,9 +15,11 @@ return static function (Configuration $config): Configuration {
         ->addPatternFilter(PatternFilter::fromString('{{ filter }}'))
         {% endfor %}
 
+        {% if repo.phpqa.composer_unused.filtered_packages is defined -%}
         // phpqa.composer_unused.filtered_packages
         {% for filter in repo.phpqa.composer_unused.filtered_packages -%}
         ->addPatternFilter(PatternFilter::fromString('{{ filter }}'))
         {% endfor -%}
+        {% endif %}
         ;
 };

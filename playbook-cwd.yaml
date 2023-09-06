@@ -15,5 +15,4 @@
       when: repo.type == 'application'
 
     - import_tasks: tasks/php-qa.yaml
-      when: false
-      #when: repo.type in ['application','library','symfony-bundle']
+      when: repo.type in ['application','library','symfony-bundle']
