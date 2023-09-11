@@ -4,6 +4,6 @@
 {% if repo.codeowners is defined and repo.codeowners %}
 {% for path, owners in repo.codeowners.items() %}
 
-{{ path }} {% for owner in owners %}{{ owner }} {% endfor %}
+{{ path }} {% for owner in owners %}@{{ owner }} {% endfor %}
 {% endfor %}
 {% endif %}
