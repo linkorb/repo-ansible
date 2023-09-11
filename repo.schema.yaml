@@ -13,7 +13,6 @@ properties:
     pattern: ^[a-z0-9-]+$
     minLength: 1
     maxLength: 50
-
   description:
     type: string
     description: Repository description
@@ -23,7 +22,7 @@ properties:
   license:
     type: string
     description: Repository license
-    default: mit
+    default: proprietary
 
     enum:
     - mit
@@ -146,7 +145,7 @@ properties:
         type: object
         properties:
           level:
-            type: number
+            type: numberf
             description: phpstan level
             default: 0
           path:
@@ -184,12 +183,38 @@ properties:
   readme:
     type: object
     properties:
-      section:
-        type: object
+      about:
+        $ref: "#/definitions/section"
+      installation:
+        $ref: "#/definitions/section"
+      configuration:
+        $ref: "#/definitions/section"
       usage:
-        type: object
-        properties:
-          enabled:
-            type: bool
-            default: true
-            description: README.md file generation
+        $ref: "#/definitions/section"
+      todo:
+        type: array
+        items:
+          type: object
+          properties:
+            text:
+              type: string
+            state:
+              type: string
+              enum:
+                - open
+                - closed
+      enabled:
+        type: boolean
+        default: true
+definitions:
+  section:
+    type: object
+    properties:
+      title:
+        type: string
+      content:
+        type: string
+      after:
+        type: string
+      before:
+        type: string

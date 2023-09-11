@@ -3,16 +3,35 @@
   vars:
     repo_path: "{{ lookup('env', 'PWD') }}"
   tasks:
-    - import_tasks: tasks/load-data.yaml
 
+    - import_tasks: tasks/retrieve-validate-repo-data.yaml
+    - import_tasks: tasks/retrieve-docs-data.yaml
+      when: repo.type in ['application', 'library']
     - import_tasks: tasks/generate-files.yaml
+    - name: Execute application-specific tasks
+      block:
+      - import_tasks: tasks/devcontainer.yaml
+      - import_tasks: tasks/husky.yaml
+      - import_tasks: tasks/helm.yaml
+      when: 
+        - repo.type in ['application']
 
-    - import_tasks: tasks/devcontainer.yaml
 
-    - import_tasks: tasks/husky.yaml
 
-    - import_tasks: tasks/helm.yaml
-      when: repo.type == 'application'
 
-    - import_tasks: tasks/php-qa.yaml
-      when: repo.type in ['application','library','symfony-bundle']
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

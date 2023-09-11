@@ -1,0 +1,18 @@
+- name: Check if docs folder in repo exists
+  stat:
+    path: "{{ repo_path + '/docs' }}"
+  register: docs_folder
+  failed_when: False
+
+- name: Retrieve docs folder file details
+  block:
+    - name: Get list of files in the docs folder
+      find:
+        paths: "{{ repo_path + '/docs/partials/' }}"
+        patterns: "*.*"
+      register: doc_files
+    - name: Create doc_files_array
+      set_fact:
+        doc_files_array: "{{ doc_files_array | default([]) | union([{'file_name': item.path | basename, 'path': item.path}]) }}"
+      loop: "{{ doc_files.files }}"
+  when: docs_folder.stat.exists

@@ -1,36 +1,45 @@
-- name: Creates directory
-  ansible.builtin.file:
-    path: "{{ repo_path + '/.devcontainer' }}"
-    state: "{{ 'directory' if repo.type == 'application' else 'absent' }}"
+- name: Generate .devcontainer folder if repo is an application
+  block:
+  - name: Check if .devcontainer folder exists
+    stat:
+      path: "{{ repo_path + '/.devcontainer' }}"
+    register: devcontainer_folder
 
-- name: generate .devcontainer/docker-compose.yml
-  ansible.builtin.template:
-    src: "{{ './templates/.devcontainer/docker-compose.yml.j2' }}"
-    dest: "{{ repo_path + '/.devcontainer/docker-compose.yml' }}"
+  - name: Create .devcontainer folder if it does not exist
+    file:
+      path: "{{ repo_path + '/.devcontainer' }}"
+      state: directory
+    when: not devcontainer_folder.stat.exists
+    
+  - name: generate .devcontainer/docker-compose.yml
+    ansible.builtin.template:
+      src: "{{ './templates/.devcontainer/docker-compose.yml.j2' }}"
+      dest: "{{ repo_path + '/.devcontainer/docker-compose.yml' }}"
 
-- name: generate .devcontainer/Dockerfile
-  ansible.builtin.template:
-    src: "{{ './templates/.devcontainer/Dockerfile.j2' }}"
-    dest: "{{ repo_path + '/.devcontainer/Dockerfile' }}"
+  - name: generate .devcontainer/Dockerfile
+    ansible.builtin.template:
+      src: "{{ './templates/.devcontainer/Dockerfile.j2' }}"
+      dest: "{{ repo_path + '/.devcontainer/Dockerfile' }}"
 
-- name: generate .devcontainer/devcontainer.json
-  ansible.builtin.template:
-    src: "{{ './templates/.devcontainer/devcontainer.json.j2' }}"
-    dest: "{{ repo_path + '/.devcontainer/devcontainer.json' }}"
+  - name: generate .devcontainer/devcontainer.json
+    ansible.builtin.template:
+      src: "{{ './templates/.devcontainer/devcontainer.json.j2' }}"
+      dest: "{{ repo_path + '/.devcontainer/devcontainer.json' }}"
 
-- name: copy .devcontainer/git directory
-  ansible.builtin.copy:
-    src: "{{ './templates/.devcontainer/git' }}"
-    dest: "{{ repo_path + '/.devcontainer/' }}"
+  - name: copy .devcontainer/git directory
+    ansible.builtin.copy:
+      src: "{{ './templates/.devcontainer/git' }}"
+      dest: "{{ repo_path + '/.devcontainer/' }}"
 
-- name: copy .devcontainer/postCreate.sh
-  ansible.builtin.copy:
-    src: "{{ './templates/.devcontainer/postCreate.sh' }}"
-    dest: "{{ repo_path + '/.devcontainer/postCreate.sh' }}"
-    mode: '0755'
+  - name: copy .devcontainer/postCreate.sh
+    ansible.builtin.copy:
+      src: "{{ './templates/.devcontainer/postCreate.sh' }}"
+      dest: "{{ repo_path + '/.devcontainer/postCreate.sh' }}"
+      mode: '0755'
 
-- name: Get value from object
-  ansible.builtin.set_fact:
-    postCreateCommand: "{{ repo.devcontainer | json_query('postCreateCommand') }}"
-  register: postCreateCommand
-  when: repo.devcontainer.postCreateCommand is defined
+  - name: Get value from object
+    ansible.builtin.set_fact:
+      postCreateCommand: "{{ repo.devcontainer | json_query('postCreateCommand') }}"
+    register: postCreateCommand
+    when: repo.devcontainer.postCreateCommand is defined
+  when: repo.type == 'application'
