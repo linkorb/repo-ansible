@@ -5,9 +5,6 @@ description: "Ansible configuration project."
 codeowners:
   '*':
     - joostfaassen
-    - kidkafka9
-  '/docs/*':
-    - mawentowski
 github:
   archived: false
   topics:
