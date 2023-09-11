@@ -3,10 +3,10 @@ $meta:
 name: repo-ansible
 description: "Ansible configuration project."
 codeowners:
-  /:
+  '*':
     - joostfaassen
     - kidkafka9
-  /docs:
+  '/docs/*':
     - mawentowski
 github:
   archived: false
