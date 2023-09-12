@@ -33,11 +33,6 @@
     path: "{{ repo_path + '/composer.json' }}"
   register: composer_json
 
-- name: Generate php-qa files when project contains a composer.json file
-  block:
-    - import_tasks: tasks/php-qa.yaml
-  when: composer_json.stat.exists
-
 - name: Generate CODEOWNERS file
   template:
     src: "./templates/CODEOWNERS.j2"

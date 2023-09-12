@@ -3,8 +3,9 @@ $meta:
 name: repo-ansible
 description: "Ansible configuration project."
 codeowners:
-  '*':
-    - joostfaassen
+  - pattern: '*'
+    owners: 
+      - '@joostfaassen'
 github:
   archived: false
   topics:
@@ -31,20 +32,3 @@ readme:
     Organization-wide Dependabot alerts and pull requests are enabled for security vulnerabilities. Initially this
     repository generated a separate `dependabot.yaml` configuration file which would have served the same purpose as the
     global organization-wide settings.
-  todo:
-    - text: Add configuration options to disable Docker related content for non-applications.
-      state: open
-    - text: Add code quality config files for phpcs, phpstan, psalm, phpmd, etc.
-      state: open
-    - text: Add consistency checks for `composer.json`, `package.json`, etc to validate that name, license, etc are consistent with `repo.yml`.
-      state: open
-    - text: Improve the README.md template to conditionally include sections about doctrine, fixtures, etc.
-      state: open
-    - text: Improve configuration to support non-PHP repositories.
-      state: open
-    - text: Generate configuration documentation from .env.yaml if it exists.
-      state: open
-    - text: Refactor checks for CI.
-      state: open
-    - text: Add bulk-repo operations to pull/fetch, apply and push changes to all repositories in a given organization.
-      state: open
