@@ -4,7 +4,6 @@
 
 {% if repo.codeowners is defined and repo.codeowners %}
 {% for entry in repo.codeowners %}
-{{ entry.pattern }} {% for owner in entry.owners %}{{ owner }} 
-{% endfor %}
+{{ entry.pattern }}{% for owner in entry.owners %} {{ owner }}{% endfor %}  
 {% endfor %}
 {% endif %}
