@@ -61,26 +61,3 @@ jobs:
           checkAllCommitMessages: 'true' # optional: this checks all commits associated with a pull request
           accessToken: ${{ secrets.GITHUB_TOKEN }} # github access token is only required if checkAllCommitMessages is true
         if: ${{ github.event_name != 'workflow_dispatch' }}
-
-      #- name: Checkout Policy Library
-      #  uses: actions/checkout@v3
-      #  with:
-      #    repository: reposaur/policy
-      #  if: ${{ github.event_name != 'workflow_dispatch' }}
-
-      #- name: Setup Reposaur
-      #  uses: reposaur/repo-audit-action@main
-
-      #- name: Execute Policies
-      #  run: |
-      #    echo "${{ github.event }}" \
-      #    | jq -r '.pull_request' \
-      #    | rsr exec > report.sarif
-      #  env:
-      #    GITHUB_TOKEN: ${{ github.token }}
-
-      #- name: Upload Report
-      #  uses: github/codeql-action/upload-sarif@v2
-      #  with:
-      #    sarif_file: report.sarif
-      #    category: reposaur
