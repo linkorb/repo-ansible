@@ -31,7 +31,9 @@ jobs:
       - name: Check Card# reference
         uses: gsactions/commit-message-checker@v2
         with:
-          pattern: '#\d{4}$'
+          # Matches lines that end in a card number:                  #1234
+          # Matches lines that end in a card number and PR reference: #1234 (#20)
+          pattern: '#\d{4}(\s+\(#\d+\))?'
           flags: 'gm'
           error: 'Your commit message has to end with a card number like "#1234".'
           excludeDescription: 'true' # optional: this excludes the description body of a pull request
