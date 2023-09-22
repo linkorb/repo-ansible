@@ -140,6 +140,12 @@ either `pull-request`, or `push` to invoke the desired commit path to be taken (
 REPO_ANSIBLE_CHANGES=pull-request \
   ansible-playbook -i generated-inventory.ini playbook-all.yaml
 ```
+## Dependencies security
+
+Organization-wide Dependabot alerts and pull requests are enabled for security vulnerabilities. Initially this
+repository generated a separate `dependabot.yaml` configuration file which would have served the same purpose as the
+global organization-wide settings.
+ 
 
 ## Brought to you by the LinkORB Engineering team
 

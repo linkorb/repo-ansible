@@ -51,7 +51,7 @@ properties:
       properties:
         pattern:
           type: string
-          description: | 
+          description: |
             Define patterns that match files or directories within your repository. These patterns can use wildcard characters (e.g., * for any characters) to match multiple files or directories. Ensure to enclose patterns containing asterisks in quotation marks, e.g. '/docs/*'. A single asterisk '*' indicates default owners for everything in the repo.
         owners:
           type: array
@@ -170,8 +170,11 @@ properties:
         default: https://engineering.linkorb.com/pgp-key
   readme:
     type: object
+    additionalProperties: false
     properties:
       about:
+        $ref: "#/definitions/section"
+      intro:
         $ref: "#/definitions/section"
       installation:
         $ref: "#/definitions/section"
