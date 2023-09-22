@@ -2,9 +2,9 @@
 repo-ansible
 ============
 
-An ansible playbook with templated configuration to apply to all LinkORB code repositories. 
+An ansible playbook with templated configuration to apply to all LinkORB code repositories.
 
-Build status: [![Release](https://github.com/linkorb/repo-ansible/actions/workflows/30-release-and-build.yaml/badge.svg)](https://github.com/linkorb/repo-ansible/actions/workflows/30-release-and-build.yaml) 
+
 
 ## Installation
 
@@ -145,7 +145,7 @@ REPO_ANSIBLE_CHANGES=pull-request \
 Organization-wide Dependabot alerts and pull requests are enabled for security vulnerabilities. Initially this
 repository generated a separate `dependabot.yaml` configuration file which would have served the same purpose as the
 global organization-wide settings.
- 
+
 
 ## Brought to you by the LinkORB Engineering team
 
