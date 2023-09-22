@@ -17,5 +17,6 @@
       block:
       - import_tasks: tasks/devcontainer.yaml
       - import_tasks: tasks/php-qa.yaml
+      - import_tasks: tasks/other-dev-generated-files.yaml
       when:
         - repo.type in ['application', 'library', 'symfony-bundle']

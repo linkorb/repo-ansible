@@ -1,0 +1,14 @@
+- name: copy github actions workflow files
+  ansible.builtin.copy:
+    src: "./templates/.github/workflows/"
+    dest: "{{ repo_path + '/.github/workflows' }}"
+
+- name: generate .dockerignore
+  ansible.builtin.template:
+    src: "{{ './templates/.dockerignore.j2' }}"
+    dest: "{{ repo_path + '/.dockerignore' }}"
+
+- name: generate .editorconfig
+  ansible.builtin.template:
+    src: "{{ './templates/.editorconfig.j2' }}"
+    dest: "{{ repo_path + '/.editorconfig' }}"
