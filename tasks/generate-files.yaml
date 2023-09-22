@@ -29,7 +29,7 @@
 - name: Generate pull request template file
   template:
     src: "./templates/pull_request_template.md.j2"
-    dest: "{{ repo_path }}/pull_request_template.md"
+    dest: "{{ repo_path }}/.github/pull_request_template.md"
 
 - name: Generate CODE_OF_CONDUCT file
   template:
