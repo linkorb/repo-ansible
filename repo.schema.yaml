@@ -1,5 +1,5 @@
 type: object
-description: reprime.yaml structure for LinkORB
+description: JSONSchema for repo.yaml configuration file
 required: [ name, description, type, codeowners ]
 additionalProperties: false
 properties:
