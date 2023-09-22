@@ -59,18 +59,6 @@ properties:
           items:
             type: string
 
-  envoi:
-    type: object
-    description: Envoi settings
-
-  related:
-    type: array
-    description: Related repos
-
-  fixtures:
-    type: object
-    description: Fixture settings
-
   github:
     type: object
     description: GitHub specific values
