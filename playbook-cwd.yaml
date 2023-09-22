@@ -6,17 +6,16 @@
 
     - import_tasks: tasks/retrieve-validate-repo-data.yaml
     - import_tasks: tasks/retrieve-docs-data.yaml
-      when: repo.type in ['application', 'library']
     - import_tasks: tasks/generate-files.yaml
     - name: Execute application-specific tasks
       block:
       - import_tasks: tasks/husky.yaml
       - import_tasks: tasks/helm.yaml
-      when: 
+      when:
         - repo.type in ['application']
     - name: Execute tasks for applications, libraries, and symfony-bundles
       block:
       - import_tasks: tasks/devcontainer.yaml
       - import_tasks: tasks/php-qa.yaml
-      when: 
+      when:
         - repo.type in ['application', 'library', 'symfony-bundle']

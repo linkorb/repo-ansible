@@ -4,7 +4,7 @@ name: repo-ansible
 description: "Ansible configuration project."
 codeowners:
   - pattern: '*'
-    owners: 
+    owners:
       - '@joostfaassen'
 github:
   archived: false
@@ -14,7 +14,7 @@ github:
   features:
     wiki: true
     issues: true
-type: library
+type: other
 readme:
   intro:
     content: An ansible playbook with templated configuration to apply to all LinkORB code repositories.
