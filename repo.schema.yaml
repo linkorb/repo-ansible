@@ -1,6 +1,6 @@
 type: object
 description: reprime.yaml structure for LinkORB
-required: [ name, description, type ]
+required: [ name, description, type, codeowners ]
 additionalProperties: false
 properties:
   $meta:
