@@ -1,46 +1,27 @@
 - name: generate SECURITY.md file
   ansible.builtin.template:
     src: "{{ './templates/SECURITY.md.j2' }}"
-    dest: "{{ repo_path + '/SECURITY.md' }}"
+    dest: "{{ repo_path }}/SECURITY.md"
 
 - name: generate license file
   ansible.builtin.template:
     src: "{{ './templates/licenses/' + repo.license + '.md.j2' }}"
-    dest: "{{ repo_path + '/LICENSE' }}"
+    dest: "{{ repo_path }}/LICENSE"
 
-- name: copy github actions workflow files
-  ansible.builtin.copy:
-    src: "./templates/.github/workflows/"
-    dest: "{{ repo_path + '/.github/workflows' }}"
+- name: Create .github directory
+  ansible.builtin.file:
+    path: "{{ repo_path }}/.github"
+    state: 'directory'
 
 - name: generate .github/settings.yml
   ansible.builtin.template:
     src: "{{ './templates/.github/settings.yml.j2' }}"
-    dest: "{{ repo_path + '/.github/settings.yml' }}"
-
-- name: generate .dockerignore
-  ansible.builtin.template:
-    src: "{{ './templates/.dockerignore.j2' }}"
-    dest: "{{ repo_path + '/.dockerignore' }}"
+    dest: "{{ repo_path }}/.github/settings.yml"
 
 - name: generate .editorconfig
   ansible.builtin.template:
     src: "{{ './templates/.editorconfig.j2' }}"
-    dest: "{{ repo_path + '/.editorconfig' }}"
-
-- name: Check if composer.json exists
-  stat:
-    path: "{{ repo_path + '/composer.json' }}"
-  register: composer_json
-
-- name: Find composer.json or package.json
-  find:
-    paths: "{{ repo_path }}"
-    patterns:
-      - composer.json
-      - package.json
-  register: find_result
-  ignore_errors: yes
+    dest: "{{ repo_path }}/.editorconfig"
 
 - name: Generate CODEOWNERS file
   template:
@@ -59,9 +40,18 @@
     src: "./templates/CODE_OF_CONDUCT.j2"
     dest: "{{ repo_path }}/.github/CODE_OF_CONDUCT"
 
-
 - name: generate README.md file
   ansible.builtin.template:
     src: "{{ './templates/README.md.j2' }}"
-    dest: "{{ repo_path + '/README.md' }}"
+    dest: "{{ repo_path }}/README.md"
   when: repo.readme.usage.enabled == true
+
+- name: copy github actions workflow files
+  ansible.builtin.copy:
+    src: "./templates/.github/workflows/"
+    dest: "{{ repo_path }}/.github/workflows"
+
+- name: generate .dockerignore
+  ansible.builtin.template:
+    src: "{{ './templates/.dockerignore.j2' }}"
+    dest: "{{ repo_path }}/.dockerignore"

@@ -7,21 +7,25 @@
   ansible.builtin.template:
     src: "{{ './templates/php-qa/composer-unused.php.j2' }}"
     dest: "{{ repo_path + '/composer-unused.php' }}"
+  when: is_php
 
 - name: Generate .php-cs-fixer.dist.php file
   ansible.builtin.template:
     src: "{{ './templates/php-qa/php-cs-fixer.dist.php.j2' }}"
     dest: "{{ repo_path + '/.php-cs-fixer.dist.php' }}"
+  when: is_php
 
 - name: Generate phpstan.neon file
   ansible.builtin.template:
     src: "{{ './templates/php-qa/phpstan.neon.j2' }}"
     dest: "{{ repo_path + '/phpstan.neon' }}"
+  when: is_php
 
 - name: Generate reviewdog.yaml for GitHub actions file
   ansible.builtin.template:
     src: "{{ './templates/php-qa/reviewdog.yaml.j2' }}"
     dest: "{{ repo_path + '/.reviewdog.yaml' }}"
+  when: is_php
 
 - name: Generate yamllint.yaml file
   ansible.builtin.template:
@@ -32,3 +36,4 @@
   ansible.builtin.template:
     src: "{{ './templates/php-qa/twigcs.yaml.j2' }}"
     dest: "{{ repo_path + '/.twigcs.yaml' }}"
+  when: is_php

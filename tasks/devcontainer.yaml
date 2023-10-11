@@ -1,32 +1,81 @@
-- name: Creates directory
+- name: Create .devcontainer directory
   ansible.builtin.file:
-    path: "{{ repo_path + '/.devcontainer' }}"
+    path: "{{ repo_path }}/.devcontainer"
     state: "{{ 'directory' if repo.type == 'application' else 'absent' }}"
 
-- name: generate .devcontainer/docker-compose.yml
-  ansible.builtin.template:
-    src: "{{ './templates/.devcontainer/docker-compose.yml.j2' }}"
-    dest: "{{ repo_path + '/.devcontainer/docker-compose.yml' }}"
+- name: Check if composer.json exists
+  stat:
+    path: "{{ repo_path }}/composer.json"
+  register: composer_json
+
+- name: Check if package.json exists
+  stat:
+    path: "{{ repo_path }}/package.json"
+  register: package_json
+
+- name: Check if postCreateCommand is run with Ansible
+  stat:
+    path: "{{ repo_path }}/ansible"
+  register: ansible_folder
+
+- name: Read composer.json's contents
+  ansible.builtin.set_fact:
+    composer_contents: "{{ lookup('file', composer_json.stat.path) | from_yaml }}"
+    private_packagist: False
+
+- name: Search for linkorb/* packages
+  ansible.builtin.shell: "jq '[.require | keys[] | select(startswith(\"linkorb\"))]' {{ repo_path }}/composer.json"
+  register: linkorb_packages
+
+- name: Gather devcontainer facts
+  ansible.builtin.set_fact:
+    linkorb_php_image: "{{ repo.devcontainer.repository == criteria.properties.devcontainer.properties.repository.default }}"
+    is_php: composer_json.stat.exists
+    is_node: package_json.stat.exists
+    config_with_ansible: ansible_folder.stat.exists
+    private_packagist: "{{ linkorb_packages.stdout | from_json | length > 0 }}"
 
 - name: generate .devcontainer/Dockerfile
   ansible.builtin.template:
-    src: "{{ './templates/.devcontainer/Dockerfile.j2' }}"
-    dest: "{{ repo_path + '/.devcontainer/Dockerfile' }}"
+    src: ./templates/.devcontainer/Dockerfile.j2
+    dest: "{{ repo_path }}/.devcontainer/Dockerfile"
+
+- name: Check if .env.yaml exists
+  stat:
+    path: "{{ repo_path }}/.env.yaml"
+  register: env_yaml
+
+- name: Read .env.yaml as a dictionary
+  when: env_yaml.stat.exists
+  ansible.builtin.set_fact:
+    repo_env: "{{ lookup('file', env_yaml.stat.path) | from_yaml }}"
+    use_db: False
+
+- name: Check if a Symfony application connects to a database
+  ansible.builtin.set_fact:
+    use_db: True
+  loop: "{{ lookup('ansible.builtin.dict', repo_env) }}"
+  when: "'DATABASE_URL' in item.key"
+
+- name: generate .devcontainer/docker-compose.yml
+  ansible.builtin.template:
+    src: ./templates/.devcontainer/docker-compose.yml.j2
+    dest: "{{ repo_path }}/.devcontainer/docker-compose.yml"
 
 - name: generate .devcontainer/devcontainer.json
   ansible.builtin.template:
-    src: "{{ './templates/.devcontainer/devcontainer.json.j2' }}"
-    dest: "{{ repo_path + '/.devcontainer/devcontainer.json' }}"
+    src: ./templates/.devcontainer/devcontainer.json.j2
+    dest: "{{ repo_path }}/.devcontainer/devcontainer.json"
 
 - name: copy .devcontainer/git directory
   ansible.builtin.copy:
-    src: "{{ './templates/.devcontainer/git' }}"
-    dest: "{{ repo_path + '/.devcontainer/' }}"
+    src: ./templates/.devcontainer/git
+    dest: "{{ repo_path }}/.devcontainer/"
 
-- name: copy .devcontainer/postCreate.sh
-  ansible.builtin.copy:
-    src: "{{ './templates/.devcontainer/postCreate.sh' }}"
-    dest: "{{ repo_path + '/.devcontainer/postCreate.sh' }}"
+- name: Generate .devcontainer/postCreate.sh
+  ansible.builtin.template:
+    src: ./templates/.devcontainer/postCreate.sh.j2
+    dest: "{{ repo_path }}/.devcontainer/postCreate.sh"
     mode: '0755'
 
 - name: Get value from object

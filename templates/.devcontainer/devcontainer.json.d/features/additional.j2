@@ -1,0 +1,9 @@
+{% if repo.devcontainer.features is defined %}
+{% for feature_key, feature_value in repo.devcontainer.features.items() %}
+{% if loop.last %}
+    "{{ feature_key }}": {{ feature_value }}
+{% else %}
+    "{{ feature_key }}": {{ feature_value }},
+{% endif %}
+{% endfor %}
+{% endif %}

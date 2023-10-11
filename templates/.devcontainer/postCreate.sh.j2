@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+git config commit.template .devcontainer/git/linkorb_commit.template
+
+cp .devcontainer/git/hooks/pre-push .git/hooks/pre-push
+chmod +x .git/hooks/pre-push
+
+{% if config_with_ansible %}
+ansible-playbook /app/ansible/main.yaml
+{% endif %}
+
+{% if repo.devcontainer.postCreateCommand is defined %}
+"{{ repo.devcontainer.postCreateCommand }}"
+{% endif %}
+
+{% if is_php and is_node and not config_with_ansible %}
+npm install
+npm run build
+{% if repo.php.private_packagist %}
+composer config --global --auth http-basic.repo.packagist.com "$PACKAGIST_USER" "$PACKAGIST_TOKEN"
+{% endif %}
+composer install
+{% endif %}
+
+exit

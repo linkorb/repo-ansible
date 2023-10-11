@@ -1,0 +1,52 @@
+{% if is_php and not linkorb_php_image %}
+ENV APACHE_SERVER_NAME {{ repo.name }}
+
+COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+
+RUN apt update \
+  && apt -y upgrade \
+  && apt install -y --no-install-recommends \
+      curl \
+      gosu \
+      iputils-ping \
+      joe \
+      jq \
+      libbz2-dev \
+      openssh-client \
+      software-properties-common \
+      telnet \
+      unzip \
+      vim \
+      zip \
+      ca-certificates \
+      gnupg \
+  && docker-php-ext-install bz2 \
+  && install-php-extensions \
+      apcu \
+      gd \
+      gmp \
+      intl \
+      opcache \
+      pdo_mysql \
+      pdo_pgsql \
+      sockets \
+      zip \
+      imap \
+      mailparse \
+      soap \
+      nano \
+      w3m \
+  && apt-get autoremove \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
+
+# Add node devcontainer feature
+
+RUN mkdir -p /app/config/secrets/dev \
+  && mkdir -p /app/public/build \
+  && chown -R ${USERNAME}:${USERNAME} /app \
+  && chown -R ${USERNAME}:${USERNAME} /var/www \
+  && a2enmod rewrite \
+  && a2enmod headers
+{% endif %}

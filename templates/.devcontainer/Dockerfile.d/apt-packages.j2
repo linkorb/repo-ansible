@@ -1,0 +1,11 @@
+{% if repo.devcontainer.apt.install is defined %}
+# Install additional apt packages
+RUN apt -y install \
+{% for apt_package in repo.devcontainer.apt.install %}
+{% if loop.last %}
+    {{ apt_package }}
+{% else %}
+    {{ apt_package }} \
+{% endif %}
+{% endfor %}
+{% endif %}

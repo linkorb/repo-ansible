@@ -111,7 +111,6 @@ properties:
             type: boolean
             default: false
 
-
   type:
     type: string
     description: Repository type
@@ -123,6 +122,11 @@ properties:
   php:
     type: object
     description: PHP specific values
+    properties:
+      private_packagist:
+        type: boolean
+        description: Determines whether setting up a repository requires Private packagist credentials
+        default: false
   docker:
     type: object
     description: Docker specific values
@@ -136,6 +140,42 @@ properties:
       tag:
         type: string
         default: php8-review
+      run:
+        type: array
+        description: A list of additional commands to run during image build using the RUN directive
+        items:
+          type:
+            command:
+              type: string
+              description: A command that may be passed directly to RUN or bash -c
+            with_bash:
+              type: boolean
+              description: Whether to execute the command with BASH shell
+              default: false
+            as:
+              type: string
+              description: What user runs the command. E.g., root
+              default: root
+      apt:
+        type: object
+        description: A dictionary of apt package manager operations
+        properties:
+          install:
+            type: array
+            description: A list of additional apt packages to install in the Docker image
+            items:
+              type: string
+      use_ansible:
+        type: boolean
+        description: Setup repo-ansible inside the image
+        default: false
+      features:
+        type: object
+        description: |
+          Features to add to the dev container. E.g., `"ghcr.io/devcontainers/features/docker-in-docker:1": {}`. See https://containers.dev/features for a list of available devcontainer features.
+      postCreateCommand:
+        type: string
+        description: The command that runs immediately after the is built but before the container starts.
   path:
     type: string
   phpqa:
