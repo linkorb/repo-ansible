@@ -31,6 +31,7 @@ used (an arbitrarily large limit of 1000 results was chosen so it works for all 
 
 ```shell
 gh search repos --owner=linkorb --limit=1000 \
+  --archived=false \
   --json name,defaultBranch \
   --jq '.[] | .name + " default_branch=" + .defaultBranch + " ansible_host=localhost"' \
   | tee generated-inventory.ini
