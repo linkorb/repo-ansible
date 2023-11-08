@@ -45,3 +45,4 @@
   ansible.builtin.template:
     src: "{{ './templates/README.md.j2' }}"
     dest: "{{ repo_path + '/README.md' }}"
+  when: repo.readme.enable_generation

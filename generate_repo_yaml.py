@@ -110,7 +110,10 @@ for directory in os.listdir('workspace'):
       'owners': [
         '@joostfaassen'
       ]
-    }]
+    }],
+    'readme': {
+      'enable_generation': False
+    }
   }
 
   if not os.path.isfile(target):

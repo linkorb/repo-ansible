@@ -158,6 +158,10 @@ properties:
     type: object
     additionalProperties: false
     properties:
+      enable_generation:
+        type: boolean
+        default: true
+        description: README.md file generation (enabled by default)
       about:
         $ref: "#/definitions/section"
       intro:
