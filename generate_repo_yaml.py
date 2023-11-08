@@ -95,9 +95,11 @@ def detect_license(in_directory):
   return None
 
 
+repo_ansible_base_path = os.getenv('REPO_ANSIBLE_BASE_PATH')
+workspace = repo_ansible_base_path if repo_ansible_base_path is not None else 'workspace'
 
-for directory in os.listdir('workspace'):
-  in_directory = os.path.abspath('workspace/' + directory)
+for directory in os.listdir(workspace):
+  in_directory = os.path.abspath(workspace + '/' + directory)
 
   target = in_directory + '/repo.yaml'
 
