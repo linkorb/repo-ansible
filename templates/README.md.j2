@@ -11,7 +11,7 @@
 {% if markdown_file_path in doc_files_array | map(attribute='path') %}
 {{ lookup('file', markdown_file_path) }}
 {% elif repo.readme.intro.before is defined %}
-{{ repo.readme.intro.before }} 
+{{ repo.readme.intro.before }}
 {% else %}
 {% endif %}
 {################# about.content #################}
@@ -19,7 +19,7 @@
 {% if markdown_file_path in doc_files_array | map(attribute='path') %}
 {{ lookup('file', markdown_file_path) }}
 {% elif repo.readme.intro.content is defined %}
-{{ repo.readme.intro.content }} 
+{{ repo.readme.intro.content }}
 {% else %}
 {% endif %}
 {################# about.after ###################}
@@ -27,11 +27,14 @@
 {% if markdown_file_path in doc_files_array | map(attribute='path') %}
 {{ lookup('file', markdown_file_path) }}
 {% elif repo.readme.intro.after is defined %}
-{{ repo.readme.intro.after }} 
+{{ repo.readme.intro.after }}
 {% else %}
 {% endif %}
 
-Build status: [![Release](https://github.com/linkorb/{{ repo.name }}/actions/workflows/30-release-and-build.yaml/badge.svg)](https://github.com/linkorb/{{ repo.name }}/actions/workflows/30-release-and-build.yaml) 
+{% if repo.type != 'other' %}
+Build status: [![Release](https://github.com/linkorb/{{ repo.name }}/actions/workflows/30-release-and-build.yaml/badge.svg)](https://github.com/linkorb/{{ repo.name }}/actions/workflows/30-release-and-build.yaml)
+{% endif %}
+
 {#################################################}
 {################# INSTALLATION ##################}
 {#################################################}
@@ -40,7 +43,7 @@ Build status: [![Release](https://github.com/linkorb/{{ repo.name }}/actions/wor
 {% if markdown_file_path in doc_files_array | map(attribute='path') %}
 {{ lookup('file', markdown_file_path) }}
 {% elif repo.readme.installation.before is defined %}
-{{ repo.readme.installation.before }} 
+{{ repo.readme.installation.before }}
 {% else %}
 {% endif %}
 
@@ -50,9 +53,9 @@ Build status: [![Release](https://github.com/linkorb/{{ repo.name }}/actions/wor
 {{ lookup('file', markdown_file_path) }}
 {% elif repo.readme.installation.content is defined %}
 
-## {{ repo.readme.installation.title }} 
+## {{ repo.readme.installation.title }}
 
-{{ repo.readme.installation.content }} 
+{{ repo.readme.installation.content }}
 {% else %}
 {% endif %}
 
@@ -61,7 +64,7 @@ Build status: [![Release](https://github.com/linkorb/{{ repo.name }}/actions/wor
 {% if markdown_file_path in doc_files_array | map(attribute='path') %}
 {{ lookup('file', markdown_file_path) }}
 {% elif repo.readme.installation.after is defined %}
-{{ repo.readme.installation.after }} 
+{{ repo.readme.installation.after }}
 {% else %}
 {% endif %}
 {#################################################}
@@ -72,7 +75,7 @@ Build status: [![Release](https://github.com/linkorb/{{ repo.name }}/actions/wor
 {% if markdown_file_path in doc_files_array | map(attribute='path') %}
 {{ lookup('file', markdown_file_path) }}
 {% elif repo.readme.configuration.before is defined %}
-{{ repo.readme.configuration.before }} 
+{{ repo.readme.configuration.before }}
 {% else %}
 {% endif %}
 {############# configuration.content #############}
@@ -80,9 +83,9 @@ Build status: [![Release](https://github.com/linkorb/{{ repo.name }}/actions/wor
 {% if markdown_file_path in doc_files_array | map(attribute='path') %}
 {{ lookup('file', markdown_file_path) }}
 {% elif repo.readme.configuration.content is defined %}
-## {{ repo.readme.configuration.title }} 
+## {{ repo.readme.configuration.title }}
 
-{{ repo.readme.configuration.content }} 
+{{ repo.readme.configuration.content }}
 {% else %}
 {% endif %}
 {############## configuration.after ##############}
@@ -90,7 +93,7 @@ Build status: [![Release](https://github.com/linkorb/{{ repo.name }}/actions/wor
 {% if markdown_file_path in doc_files_array | map(attribute='path') %}
 {{ lookup('file', markdown_file_path) }}
 {% elif repo.readme.configuration.after is defined %}
-{{ repo.readme.configuration.after }} 
+{{ repo.readme.configuration.after }}
 {% else %}
 {% endif %}
 
@@ -102,7 +105,7 @@ Build status: [![Release](https://github.com/linkorb/{{ repo.name }}/actions/wor
 {% if markdown_file_path in doc_files_array | map(attribute='path') %}
 {{ lookup('file', markdown_file_path) }}
 {% elif repo.readme.usage.before is defined %}
-{{ repo.readme.usage.before }} 
+{{ repo.readme.usage.before }}
 {% else %}
 {% endif %}
 {################# usage.content #################}
@@ -110,9 +113,9 @@ Build status: [![Release](https://github.com/linkorb/{{ repo.name }}/actions/wor
 {% if markdown_file_path in doc_files_array | map(attribute='path') %}
 {{ lookup('file', markdown_file_path) }}
 {% elif repo.readme.usage.content is defined %}
-## {{ repo.readme.usage.title }} 
+## {{ repo.readme.usage.title }}
 
-{{ repo.readme.usage.content }} 
+{{ repo.readme.usage.content }}
 {% else %}
 {% endif %}
 {################## usage.after ##################}
@@ -120,7 +123,7 @@ Build status: [![Release](https://github.com/linkorb/{{ repo.name }}/actions/wor
 {% if markdown_file_path in doc_files_array | map(attribute='path') %}
 {{ lookup('file', markdown_file_path) }}
 {% elif repo.readme.usage.after is defined %}
-{{ repo.readme.usage.after }} 
+{{ repo.readme.usage.after }}
 {% else %}
 {% endif %}
 {#################################################}

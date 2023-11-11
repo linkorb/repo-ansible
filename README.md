@@ -2,9 +2,9 @@
 repo-ansible
 ============
 
-An ansible playbook with templated configuration to apply to all LinkORB code repositories. 
+An ansible playbook with templated configuration to apply to all LinkORB code repositories.
 
-Build status: [![Release](https://github.com/linkorb/repo-ansible/actions/workflows/30-release-and-build.yaml/badge.svg)](https://github.com/linkorb/repo-ansible/actions/workflows/30-release-and-build.yaml) 
+
 
 ## Installation
 
@@ -97,6 +97,7 @@ used (an arbitrarily large limit of 1000 results was chosen so it works for all 
 
 ```shell
 gh search repos --owner=linkorb --limit=1000 \
+  --archived=false \
   --json name,defaultBranch \
   --jq '.[] | .name + " default_branch=" + .defaultBranch + " ansible_host=localhost"' \
   | tee generated-inventory.ini
@@ -140,6 +141,12 @@ either `pull-request`, or `push` to invoke the desired commit path to be taken (
 REPO_ANSIBLE_CHANGES=pull-request \
   ansible-playbook -i generated-inventory.ini playbook-all.yaml
 ```
+## Dependencies security
+
+Organization-wide Dependabot alerts and pull requests are enabled for security vulnerabilities. Initially this
+repository generated a separate `dependabot.yaml` configuration file which would have served the same purpose as the
+global organization-wide settings.
+
 
 ## Brought to you by the LinkORB Engineering team
 

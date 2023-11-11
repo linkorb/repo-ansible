@@ -1,5 +1,5 @@
 type: object
-description: reprime.yaml structure for LinkORB
+description: JSONSchema for repo.yaml configuration file
 required: [ name, description, type, codeowners ]
 additionalProperties: false
 properties:
@@ -51,25 +51,13 @@ properties:
       properties:
         pattern:
           type: string
-          description: | 
+          description: |
             Define patterns that match files or directories within your repository. These patterns can use wildcard characters (e.g., * for any characters) to match multiple files or directories. Ensure to enclose patterns containing asterisks in quotation marks, e.g. '/docs/*'. A single asterisk '*' indicates default owners for everything in the repo.
         owners:
           type: array
           description: A list of individuals or teams responsible for reviewing and maintaining files/directories matching the specified pattern. For GitHub usernames, add an @ symbol before the username and enclose the entire pattern in quotation marks, e.g. '@joostfaassen'.
           items:
             type: string
-
-  envoi:
-    type: object
-    description: Envoi settings
-
-  related:
-    type: array
-    description: Related repos
-
-  fixtures:
-    type: object
-    description: Fixture settings
 
   github:
     type: object
@@ -123,8 +111,6 @@ properties:
       tag:
         type: string
         default: php8-review
-  path:
-    type: string
   phpqa:
     type: object
     description: phpqa tools specific values
@@ -170,8 +156,15 @@ properties:
         default: https://engineering.linkorb.com/pgp-key
   readme:
     type: object
+    additionalProperties: false
     properties:
+      enable_generation:
+        type: boolean
+        default: true
+        description: README.md file generation (enabled by default)
       about:
+        $ref: "#/definitions/section"
+      intro:
         $ref: "#/definitions/section"
       installation:
         $ref: "#/definitions/section"

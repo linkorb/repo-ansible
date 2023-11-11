@@ -1,4 +1,4 @@
-- name: generate SECURITY.md file
+- name: Generate SECURITY.md file
   ansible.builtin.template:
     src: "{{ './templates/SECURITY.md.j2' }}"
     dest: "{{ repo_path + '/SECURITY.md' }}"
@@ -8,30 +8,16 @@
 #     src: "{{ './templates/licenses/' + repo.license + '.md.j2' }}"
 #     dest: "{{ repo_path + '/LICENSE' }}"
 
-- name: copy github actions workflow files
-  ansible.builtin.copy:
-    src: "./templates/.github/workflows/"
-    dest: "{{ repo_path + '/.github/workflows' }}"
 
-- name: generate .github/settings.yml
+- name: Create .github directory
+  ansible.builtin.file:
+    path: "{{ repo_path + '/.github' }}"
+    state: directory
+
+- name: Generate .github/settings.yml
   ansible.builtin.template:
     src: "{{ './templates/.github/settings.yml.j2' }}"
     dest: "{{ repo_path + '/.github/settings.yml' }}"
-
-- name: generate .dockerignore
-  ansible.builtin.template:
-    src: "{{ './templates/.dockerignore.j2' }}"
-    dest: "{{ repo_path + '/.dockerignore' }}"
-
-- name: generate .editorconfig
-  ansible.builtin.template:
-    src: "{{ './templates/.editorconfig.j2' }}"
-    dest: "{{ repo_path + '/.editorconfig' }}"
-
-- name: Check if composer.json exists
-  stat:
-    path: "{{ repo_path + '/composer.json' }}"
-  register: composer_json
 
 - name: Generate CODEOWNERS file
   template:
@@ -43,7 +29,7 @@
 - name: Generate pull request template file
   template:
     src: "./templates/pull_request_template.md.j2"
-    dest: "{{ repo_path }}/pull_request_template.md"
+    dest: "{{ repo_path }}/.github/pull_request_template.md"
 
 - name: Generate CODE_OF_CONDUCT file
   template:
@@ -54,8 +40,9 @@
   template:
     src: "./templates/CONTRIBUTING.md.j2"
     dest: "{{ repo_path }}/CONTRIBUTING.md"
-  
+
 - name: generate README.md file
   ansible.builtin.template:
     src: "{{ './templates/README.md.j2' }}"
     dest: "{{ repo_path + '/README.md' }}"
+  when: repo.readme.enable_generation
