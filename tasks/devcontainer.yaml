@@ -1,8 +1,14 @@
-- name: Creates directory
-  ansible.builtin.file:
+- name: Check if .devcontainer folder exists
+  stat:
     path: "{{ repo_path + '/.devcontainer' }}"
-    state: "{{ 'directory' if repo.type == 'application' else 'absent' }}"
+  register: devcontainer_folder
 
+- name: Create .devcontainer folder if it does not exist
+  file:
+    path: "{{ repo_path + '/.devcontainer' }}"
+    state: directory
+  when: not devcontainer_folder.stat.exists
+  
 - name: generate .devcontainer/docker-compose.yml
   ansible.builtin.template:
     src: "{{ './templates/.devcontainer/docker-compose.yml.j2' }}"

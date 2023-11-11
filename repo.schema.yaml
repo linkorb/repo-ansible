@@ -1,6 +1,6 @@
 type: object
 description: reprime.yaml structure for LinkORB
-required: [ name, description, type ]
+required: [ name, description, type, codeowners ]
 additionalProperties: false
 properties:
   $meta:
@@ -13,7 +13,6 @@ properties:
     pattern: ^[a-z0-9-]+$
     minLength: 1
     maxLength: 50
-
   description:
     type: string
     description: Repository description
@@ -23,7 +22,7 @@ properties:
   license:
     type: string
     description: Repository license
-    default: mit
+    default: proprietary
 
     enum:
     - mit
@@ -44,33 +43,21 @@ properties:
     default: https://engineering.linkorb.com
 
   codeowners:
-    description: List of object that contain pattern and owner properties for CODEOWNERS file generation
     type: array
+    description: |
+      Each array item contains a file/directory pattern and an array of individuals or teams responsible for reviewing and maintaining files/directories that match the specified pattern. For a list of allowed patterns, refer to [CODEOWNERS syntax](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners).
     items:
       type: object
       properties:
         pattern:
           type: string
-          description: Glob-like pattern, eg. *.js
+          description: | 
+            Define patterns that match files or directories within your repository. These patterns can use wildcard characters (e.g., * for any characters) to match multiple files or directories. Ensure to enclose patterns containing asterisks in quotation marks, e.g. '/docs/*'. A single asterisk '*' indicates default owners for everything in the repo.
         owners:
           type: array
-          description: GitHub usernames, enclosed within quotes, eg. "@github"
+          description: A list of individuals or teams responsible for reviewing and maintaining files/directories matching the specified pattern. For GitHub usernames, add an @ symbol before the username and enclose the entire pattern in quotation marks, e.g. '@joostfaassen'.
           items:
             type: string
-
-  todo:
-    type: array
-    items:
-      type: object
-      properties:
-        text:
-          type: string
-        state:
-          type: string
-          enum:
-            - open
-            - in-progress
-            - closed
 
   envoi:
     type: object
@@ -184,12 +171,26 @@ properties:
   readme:
     type: object
     properties:
-      section:
-        type: object
+      about:
+        $ref: "#/definitions/section"
+      installation:
+        $ref: "#/definitions/section"
+      configuration:
+        $ref: "#/definitions/section"
       usage:
-        type: object
-        properties:
-          enabled:
-            type: bool
-            default: true
-            description: README.md file generation
+        $ref: "#/definitions/section"
+      enabled:
+        type: boolean
+        default: true
+definitions:
+  section:
+    type: object
+    properties:
+      title:
+        type: string
+      content:
+        type: string
+      after:
+        type: string
+      before:
+        type: string

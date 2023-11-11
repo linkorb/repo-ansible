@@ -1,4 +1,4 @@
-# {{ repo_managed }}
+# Managed by https://github.com/linkorb/repo-ansible. Manual changes will be overwritten.
 
 root = true
 
@@ -9,3 +9,6 @@ indent_style = space
 indent_size = 2
 insert_final_newline = true
 trim_trailing_whitespace = true
+
+[*.php]
+indent_size = 4

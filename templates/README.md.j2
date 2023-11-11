@@ -2,109 +2,145 @@
 {{ repo.name }}
 ============
 
-Build status: [![Release](https://github.com/linkorb/{{ repo.name }}/actions/workflows/30-release-and-build.yaml/badge.svg)](https://github.com/linkorb/{{ repo.name }}/actions/workflows/30-release-and-build.yaml)
-
-{% if repo.description is defined %}
-{{ repo.description }}
+{% set markdown_file_path_prefix = repo_path + '/docs/partials/readme.' %}
+{#################################################}
+{#################### ABOUT ######################}
+{#################################################}
+{################# about.before ##################}
+{% set markdown_file_path =  markdown_file_path_prefix + 'about.before.md' %}
+{% if markdown_file_path in doc_files_array | map(attribute='path') %}
+{{ lookup('file', markdown_file_path) }}
+{% elif repo.readme.intro.before is defined %}
+{{ repo.readme.intro.before }} 
+{% else %}
+{% endif %}
+{################# about.content #################}
+{% set markdown_file_path =  markdown_file_path_prefix + 'about.md' %}
+{% if markdown_file_path in doc_files_array | map(attribute='path') %}
+{{ lookup('file', markdown_file_path) }}
+{% elif repo.readme.intro.content is defined %}
+{{ repo.readme.intro.content }} 
+{% else %}
+{% endif %}
+{################# about.after ###################}
+{% set markdown_file_path =  markdown_file_path_prefix + 'about.after.md' %}
+{% if markdown_file_path in doc_files_array | map(attribute='path') %}
+{{ lookup('file', markdown_file_path) }}
+{% elif repo.readme.intro.after is defined %}
+{{ repo.readme.intro.after }} 
+{% else %}
 {% endif %}
 
-{% if repo.readme.section.introduction is defined %}
-### {{ repo.readme.section.introduction.title }}
-{% if repo.readme.section.introduction.before is defined %}
-{{repo.readme.section.introduction.before}}
-{% endif -%}
-{% if repo.readme.section.introduction.content is defined %}
-{{repo.readme.section.introduction.content}}
-{% endif -%}
-{% if repo.readme.section.introduction.after is defined %}
-{{repo.readme.section.introduction.after}}
-{% endif -%}
-{% endif -%}
+Build status: [![Release](https://github.com/linkorb/{{ repo.name }}/actions/workflows/30-release-and-build.yaml/badge.svg)](https://github.com/linkorb/{{ repo.name }}/actions/workflows/30-release-and-build.yaml) 
+{#################################################}
+{################# INSTALLATION ##################}
+{#################################################}
+{############## installation.before ##############}
+{% set markdown_file_path =  markdown_file_path_prefix + 'installation.before.md' %}
+{% if markdown_file_path in doc_files_array | map(attribute='path') %}
+{{ lookup('file', markdown_file_path) }}
+{% elif repo.readme.installation.before is defined %}
+{{ repo.readme.installation.before }} 
+{% else %}
+{% endif %}
 
+{############## installation.content ##############}
+{% set markdown_file_path =  markdown_file_path_prefix + 'installation.md' %}
+{% if markdown_file_path in doc_files_array | map(attribute='path') %}
+{{ lookup('file', markdown_file_path) }}
+{% elif repo.readme.installation.content is defined %}
 
-{% if repo.type == 'application' %}
+## {{ repo.readme.installation.title }} 
 
-{% if repo.readme.section.prerequisites is defined %}
-### {{ repo.readme.section.prerequisites.title }}
-{% if repo.readme.section.prerequisites.before is defined %}
-{{repo.readme.section.prerequisites.before}}
-{% endif -%}
-{% if repo.readme.section.prerequisites.content is defined %}
-{{repo.readme.section.prerequisites.content}}
-{% endif -%}
-{% if repo.readme.section.prerequisites.after is defined %}
-{{repo.readme.section.prerequisites.after}}
-{% endif -%}
-{% endif -%}
+{{ repo.readme.installation.content }} 
+{% else %}
+{% endif %}
 
+{###############installation.after ###############}
+{% set markdown_file_path =  markdown_file_path_prefix + 'installation.after.md' %}
+{% if markdown_file_path in doc_files_array | map(attribute='path') %}
+{{ lookup('file', markdown_file_path) }}
+{% elif repo.readme.installation.after is defined %}
+{{ repo.readme.installation.after }} 
+{% else %}
+{% endif %}
+{#################################################}
+{################ CONFIGURATION ##################}
+{#################################################}
+{############# configuration.before ##############}
+{% set markdown_file_path =  markdown_file_path_prefix + 'configuration.before.md' %}
+{% if markdown_file_path in doc_files_array | map(attribute='path') %}
+{{ lookup('file', markdown_file_path) }}
+{% elif repo.readme.configuration.before is defined %}
+{{ repo.readme.configuration.before }} 
+{% else %}
+{% endif %}
+{############# configuration.content #############}
+{% set markdown_file_path =  markdown_file_path_prefix + 'configuration.md' %}
+{% if markdown_file_path in doc_files_array | map(attribute='path') %}
+{{ lookup('file', markdown_file_path) }}
+{% elif repo.readme.configuration.content is defined %}
+## {{ repo.readme.configuration.title }} 
 
-{% if repo.readme.section.installation is defined %}
-### {{ repo.readme.section.installation.title }}
-{% if repo.readme.section.installation.before is defined %}
-{{repo.readme.section.installation.before}}
-{% endif -%}
-{% if repo.readme.section.installation.content is defined %}
-{{repo.readme.section.installation.content}}
-{% endif -%}
-{% if repo.readme.section.installation.after is defined %}
-{{repo.readme.section.installation.after}}
-{% endif -%}
-{% endif -%}
+{{ repo.readme.configuration.content }} 
+{% else %}
+{% endif %}
+{############## configuration.after ##############}
+{% set markdown_file_path =  markdown_file_path_prefix + 'configuration.after.md' %}
+{% if markdown_file_path in doc_files_array | map(attribute='path') %}
+{{ lookup('file', markdown_file_path) }}
+{% elif repo.readme.configuration.after is defined %}
+{{ repo.readme.configuration.after }} 
+{% else %}
+{% endif %}
 
-{% endif -%}
+{#################################################}
+{#################### USAGE ######################}
+{#################################################}
+{################# usage.before ##################}
+{% set markdown_file_path =  markdown_file_path_prefix + 'usage.before.md' %}
+{% if markdown_file_path in doc_files_array | map(attribute='path') %}
+{{ lookup('file', markdown_file_path) }}
+{% elif repo.readme.usage.before is defined %}
+{{ repo.readme.usage.before }} 
+{% else %}
+{% endif %}
+{################# usage.content #################}
+{% set markdown_file_path =  markdown_file_path_prefix + 'usage.md' %}
+{% if markdown_file_path in doc_files_array | map(attribute='path') %}
+{{ lookup('file', markdown_file_path) }}
+{% elif repo.readme.usage.content is defined %}
+## {{ repo.readme.usage.title }} 
 
+{{ repo.readme.usage.content }} 
+{% else %}
+{% endif %}
+{################## usage.after ##################}
+{% set markdown_file_path =  markdown_file_path_prefix + 'usage.after.md' %}
+{% if markdown_file_path in doc_files_array | map(attribute='path') %}
+{{ lookup('file', markdown_file_path) }}
+{% elif repo.readme.usage.after is defined %}
+{{ repo.readme.usage.after }} 
+{% else %}
+{% endif %}
+{#################################################}
+{################## CONTRIBUTING #################}
+{#################################################}
 
-{% if repo.readme.section.usage is defined %}
-### {{ repo.readme.section.usage.title }}
-{% if repo.readme.section.usage.before is defined %}
-{{repo.readme.section.usage.before}}
-{% endif -%}
-{% if repo.readme.section.usage.content is defined %}
-{{repo.readme.section.installation.content}}
-{% endif -%}
-{% if repo.readme.section.usage.after is defined %}
-{{repo.readme.section.usage.after}}
-{% endif -%}
-{% endif -%}
+{% if repo.visibility == 'public' %}
+## Contributing
 
+We welcome contributions to make this repository even better. Whether it's fixing a bug, adding a feature, or improving documentation, your help is highly appreciated. To get started, fork this repository then clone your fork.
 
-{% if repo.readme.section.contributing is defined %}
-### {{ repo.readme.section.contributing.title }}
-{% if repo.readme.section.contributing.before is defined %}
-{{repo.readme.section.contributing.before}}
-{% endif -%}
-{% if repo.readme.section.contributing.content is defined %}
-{{repo.readme.section.contributing.content}}
-{% endif -%}
-{% if repo.readme.section.contributing.after is defined %}
-{{repo.readme.section.contributing.after}}
-{% endif -%}
-{% endif -%}
+Be sure to familiarize yourself with LinkORB's [Contribution Guidelines](/CONTRIBUTING.md) for our standards around commits, branches, and pull requests, as well as our [code of conduct](/CODE_OF_CONDUCT.md) before submitting any changes.
 
+If you are unable to implement changes you like yourself, don't hesitate to open a new issue report so that we or others may take care of it.
+{% endif %}
+{#################################################}
+{##################### FOOTER ####################}
+{#################################################}
+## Brought to you by the LinkORB Engineering team
 
-{% if repo.readme.section.acknowledgments is defined %}
-### {{ repo.readme.section.acknowledgments.title }}
-{% if repo.readme.section.acknowledgments.before is defined %}
-{{repo.readme.section.acknowledgments.before}}
-{% endif -%}
-{% if repo.readme.section.acknowledgments.content is defined %}
-{{repo.readme.section.acknowledgments.content}}
-{% endif -%}
-{% if repo.readme.section.acknowledgments.after is defined %}
-{{repo.readme.section.acknowledgments.after}}
-{% endif -%}
-{% endif -%}
-
-
-{% if repo.readme.section.linkorb_engineering is defined %}
-### {{ repo.readme.section.linkorb_engineering.title }}
-{% if repo.readme.section.linkorb_engineering.before is defined %}
-{{repo.readme.section.linkorb_engineering.before}}
-{% endif -%}
-{% if repo.readme.section.linkorb_engineering.content is defined %}
-{{repo.readme.section.linkorb_engineering.content}}
-{% endif -%}
-{% if repo.readme.section.linkorb_engineering.after is defined %}
-{{repo.readme.section.linkorb_engineering.after}}
-{% endif -%}
-{% endif -%}
+<img src="http://www.linkorb.com/d/meta/tier1/images/linkorbengineering-logo.png" width="200px" /><br />
+Check out our other projects at [linkorb.com/engineering](http://www.linkorb.com/engineering).
+By the way, we're hiring!
