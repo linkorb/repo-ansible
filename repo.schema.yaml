@@ -29,6 +29,11 @@ properties:
     - gpl-v3
     - proprietary
 
+  license_year:
+    type: number
+    description: Year when the license was applied (required for MIT license file generation). Default to current year.
+
+
   visibility:
     type: string
     description: Repository visibility

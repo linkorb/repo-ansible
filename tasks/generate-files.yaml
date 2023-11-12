@@ -3,10 +3,15 @@
     src: "{{ './templates/SECURITY.md.j2' }}"
     dest: "{{ repo_path + '/SECURITY.md' }}"
 
-# - name: generate license file
-#   ansible.builtin.template:
-#     src: "{{ './templates/licenses/' + repo.license + '.md.j2' }}"
-#     dest: "{{ repo_path + '/LICENSE' }}"
+- name: generate license file
+  ansible.builtin.template:
+    src: "{{ './templates/licenses/' + repo.license + '.md.j2' }}"
+    dest: "{{ repo_path + '/LICENSE' }}"
+
+- name: ensure no LICENSE.md file
+  ansible.builtin.file:
+    path: "{{ repo_path }}/LICENSE.md"
+    state: absent
 
 
 - name: Create .github directory

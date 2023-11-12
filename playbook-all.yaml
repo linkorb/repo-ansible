@@ -1,7 +1,6 @@
 - hosts: all
   connection: local
   strategy: free
-  gather_facts: false
   vars:
     base_path: "{{ lookup('env', 'REPO_ANSIBLE_BASE_PATH') or (playbook_dir + '/workspace') }}"
     repo_path: "{{ base_path }}/{{ inventory_hostname }}"
