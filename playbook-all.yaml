@@ -6,11 +6,13 @@
     base_path: "{{ lookup('env', 'REPO_ANSIBLE_BASE_PATH') or (playbook_dir + '/workspace') }}"
     repo_path: "{{ base_path }}/{{ inventory_hostname }}"
     changes: "{{ lookup('env', 'REPO_ANSIBLE_CHANGES') }}"
+    skip_checkout: "{{ lookup('env', 'REPO_ANSIBLE_SKIP_CHECKOUT')|default(False) }}"
   tasks:
     - import_tasks: tasks/checkout.yaml
       vars:
         repository: "{{ inventory_hostname }}"
         destination: "{{ repo_path }}"
+      when: not skip_checkout
 
     - import_tasks: tasks/retrieve-validate-repo-data.yaml
     - import_tasks: tasks/retrieve-docs-data.yaml
