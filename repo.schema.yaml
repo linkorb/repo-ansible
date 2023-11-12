@@ -79,6 +79,7 @@ properties:
         description: GitHub topics
         items:
           type: string
+
       features:
         type: object
         description: GitHub features
