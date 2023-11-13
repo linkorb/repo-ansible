@@ -1,9 +1,13 @@
 <?php
+// {{ repo_managed }}
 
-// Ansible managed
 $finder = PhpCsFixer\Finder::create()
-    ->in('src')
-    ->in(__DIR__)
+{% for path in repo.phpqa.php_cs_fixer.paths %}
+    ->in("{{ path }}")
+{% endfor -%}
+{% for path in repo.phpqa.php_cs_fixer.paths_exclude %}
+    ->exclude("{{ path }}")
+{% endfor %}
 ;
 
 $config = new PhpCsFixer\Config();

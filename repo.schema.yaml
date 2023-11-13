@@ -120,6 +120,7 @@ properties:
   phpqa:
     type: object
     description: phpqa tools specific values
+    additionalProperties: false
     properties:
       phpstan:
         type: object
@@ -133,12 +134,18 @@ properties:
             description: Path to directories for phpstan
             default:
               - src
-      php_fixer:
+      php_cs_fixer:
         type: object
         properties:
-          path:
+          paths:
             type: array
-            description: Path to directories for php-cs-fixer
+            description: Paths to included directories
+            default:
+              - src
+          paths_exclude:
+            type: array
+            description: Paths to excluded directories
+            default: []
       composer_unused:
         type: object
         properties:
