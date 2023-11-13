@@ -13,14 +13,16 @@
     src: "{{ './templates/helm/Chart.yaml.j2' }}"
     dest: "{{ repo_path + '/helm-chart/Chart.yaml' }}"
 
+- name: Set chart_name
+  ansible.builtin.set_fact:
+    chart_name: "{{ repo.name }}"
+
 - name: Generate deployment.yaml file
   ansible.builtin.template:
     src: "{{ './templates/helm/deployment.yaml.j2' }}"
     dest: "{{ repo_path + '/helm-chart/templates/deployment.yaml' }}"
     variable_start_string: '[['
     variable_end_string: ']]'
-  vars:
-    chart_name: "[[ repo.name ]]"
 
 - name: Generate _helpers.tpl file
   ansible.builtin.template:
@@ -28,8 +30,6 @@
     dest: "{{ repo_path + '/helm-chart/templates/_helpers.tpl' }}"
     variable_start_string: '[['
     variable_end_string: ']]'
-  vars:
-    chart_name: "[[ repo.name ]]"
 
 - name: Generate hpa.yaml file
   ansible.builtin.template:
@@ -37,8 +37,6 @@
     dest: "{{ repo_path + '/helm-chart/templates/hpa.yaml' }}"
     variable_start_string: '[['
     variable_end_string: ']]'
-  vars:
-    chart_name: "[[ repo.name ]]"
 
 - name: Generate ingress.yaml file
   ansible.builtin.template:
@@ -46,8 +44,6 @@
     dest: "{{ repo_path + '/helm-chart/templates/ingress.yaml' }}"
     variable_start_string: '[['
     variable_end_string: ']]'
-  vars:
-    chart_name: "[[ repo.name ]]"
 
 - name: Generate NOTES.txt file
   ansible.builtin.template:
@@ -55,8 +51,6 @@
     dest: "{{ repo_path + '/helm-chart/templates/NOTES.txt' }}"
     variable_start_string: '[['
     variable_end_string: ']]'
-  vars:
-    chart_name: "[[ repo.name ]]"
 
 - name: Generate service.yaml file
   ansible.builtin.template:
@@ -64,8 +58,6 @@
     dest: "{{ repo_path + '/helm-chart/templates/service.yaml' }}"
     variable_start_string: '[['
     variable_end_string: ']]'
-  vars:
-    chart_name: "[[ repo.name ]]"
 
 - name: Generate serviceaccount.yaml file
   ansible.builtin.template:
@@ -73,5 +65,3 @@
     dest: "{{ repo_path + '/helm-chart/templates/serviceaccount.yaml' }}"
     variable_start_string: '[['
     variable_end_string: ']]'
-  vars:
-    chart_name: "[[ repo.name ]]"
