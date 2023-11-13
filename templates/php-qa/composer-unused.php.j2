@@ -1,25 +1,23 @@
 <?php
+
 // {{ repo_managed }}
 
 declare(strict_types=1);
 
 use ComposerUnused\ComposerUnused\Configuration\Configuration;
-use ComposerUnused\ComposerUnused\Configuration\NamedFilter;
 use ComposerUnused\ComposerUnused\Configuration\PatternFilter;
-use Webmozart\Glob\Glob;
 
 return static function (Configuration $config): Configuration {
     return $config
         // phpqa.composer_unused.default_filtered_packages
-        {% for filter in repo.phpqa.composer_unused.default_filtered_packages -%}
+{% for filter in repo.phpqa.composer_unused.default_filtered_packages %}
         ->addPatternFilter(PatternFilter::fromString('{{ filter }}'))
-        {% endfor %}
-
-        {% if repo.phpqa.composer_unused.filtered_packages is defined -%}
+{% endfor %}
+{% if repo.phpqa.composer_unused.filtered_packages is defined %}
         // phpqa.composer_unused.filtered_packages
-        {% for filter in repo.phpqa.composer_unused.filtered_packages -%}
+{% for filter in repo.phpqa.composer_unused.filtered_packages %}
         ->addPatternFilter(PatternFilter::fromString('{{ filter }}'))
-        {% endfor -%}
-        {% endif %}
-        ;
+{% endfor %}
+{% endif %}
+    ;
 };
