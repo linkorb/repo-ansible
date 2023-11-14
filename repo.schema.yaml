@@ -107,7 +107,9 @@ properties:
   docker:
     type: object
     description: Docker specific values
+
   devcontainer:
+    additionalProperties: false
     type: object
     description: Devcontainer specific values
     properties:
@@ -117,6 +119,10 @@ properties:
       tag:
         type: string
         default: php8-review
+      postCreateCommand:
+        description: Additional shell commands to run during the postCreate lifecycle event
+        type: string
+
   phpqa:
     type: object
     description: phpqa tools specific values
