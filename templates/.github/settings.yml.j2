@@ -20,9 +20,6 @@ repository:
   topics: {{ repo.github.topics|to_json }}
   {% endif %}
 
-  {% if repo.github.archived is defined %}
-  {% endif %}
-
   # Either `true` to make the repository private, or `false` to make it public.
   private: {{ 'true' if repo.visibility == 'private' else 'false' }}
 

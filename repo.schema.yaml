@@ -69,11 +69,6 @@ properties:
     description: GitHub specific values
     additionalProperties: false
     properties:
-      archived:
-        type: boolean
-        default: false
-        description: is this repository archived?
-
       topics:
         type: array
         description: GitHub topics
