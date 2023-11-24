@@ -27,27 +27,27 @@ repository:
 
   # Either `true` to enable projects for this repository, or `false` to disable them.
   # If projects are disabled for the organization, passing `true` will cause an API error.
-  has_projects: false
+  has_projects: {{ 'true' if repo.github.features.projects else 'false' }}
 
   has_wiki: {{ 'true' if repo.github.features.wiki else 'false' }}
 
   # Either `true` to enable downloads for this repository, `false` to disable them.
-  has_downloads: false
+  has_downloads: {{ 'true' if repo.github.features.downloads else 'false' }}
 
   # Updates the default branch for this repository.
   default_branch: {{ default_branch|default("main") }}
 
   # Either `true` to allow squash-merging pull requests, or `false` to prevent
   # squash-merging.
-  allow_squash_merge: true
+  allow_squash_merge: {{ 'true' if repo.github.features.squash_merge else 'false' }}
 
   # Either `true` to allow merging pull requests with a merge commit, or `false`
   # to prevent merging pull requests with merge commits.
-  allow_merge_commit: false
+  allow_merge_commit: {{ 'true' if repo.github.features.merge_commit else 'false' }}
 
   # Either `true` to allow rebase-merging pull requests, or `false` to prevent
   # rebase-merging.
-  allow_rebase_merge: false
+  allow_rebase_merge: {{ 'true' if repo.github.features.rebase_merge else 'false' }}
 
   # Either `true` to enable automatic deletion of branches on merge, or `false` to disable
   delete_branch_on_merge: true

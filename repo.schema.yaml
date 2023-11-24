@@ -81,11 +81,33 @@ properties:
         additionalProperties: false
         properties:
           wiki:
+            description: Enable Wiki (default false)
             type: boolean
             default: false
           issues:
+            description: Enable issues (default false)
             type: boolean
             default: false
+          projects:
+            description: Enable projects (default false)
+            type: boolean
+            default: false
+          downloads:
+            description: Enable repository downloads (default true)
+            type: boolean
+            default: true
+          squash_merge:
+            description: Allow squash-merging pull requests (default true)
+            type: boolean
+            default: true
+          merge_commit:
+            description: Allow merging pull requests with merge commit (default true)
+            type: boolean
+            default: true
+          rebase_merge:
+            description: Allow rebase-merging pull requests (default true)
+            type: boolean
+            default: true
 
 
   type:
