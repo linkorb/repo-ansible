@@ -29,6 +29,11 @@ properties:
     - gpl-v3
     - proprietary
 
+  license_year:
+    type: number
+    description: Year when the license was applied (required for MIT license file generation). Default to current year.
+
+
   visibility:
     type: string
     description: Repository visibility
@@ -64,27 +69,45 @@ properties:
     description: GitHub specific values
     additionalProperties: false
     properties:
-      archived:
-        type: boolean
-        default: false
-        description: is this repository archived?
-
       topics:
         type: array
         description: GitHub topics
         items:
           type: string
+
       features:
         type: object
         description: GitHub features
         additionalProperties: false
         properties:
           wiki:
+            description: Enable Wiki (default false)
             type: boolean
             default: false
           issues:
+            description: Enable issues (default false)
             type: boolean
             default: false
+          projects:
+            description: Enable projects (default false)
+            type: boolean
+            default: false
+          downloads:
+            description: Enable repository downloads (default true)
+            type: boolean
+            default: true
+          squash_merge:
+            description: Allow squash-merging pull requests (default true)
+            type: boolean
+            default: true
+          merge_commit:
+            description: Allow merging pull requests with merge commit (default true)
+            type: boolean
+            default: true
+          rebase_merge:
+            description: Allow rebase-merging pull requests (default true)
+            type: boolean
+            default: true
 
 
   type:
@@ -101,7 +124,9 @@ properties:
   docker:
     type: object
     description: Docker specific values
+
   devcontainer:
+    additionalProperties: false
     type: object
     description: Devcontainer specific values
     properties:
@@ -111,9 +136,14 @@ properties:
       tag:
         type: string
         default: php8-review
+      postCreateCommand:
+        description: Additional shell commands to run during the postCreate lifecycle event
+        type: string
+
   phpqa:
     type: object
     description: phpqa tools specific values
+    additionalProperties: false
     properties:
       phpstan:
         type: object
@@ -127,12 +157,18 @@ properties:
             description: Path to directories for phpstan
             default:
               - src
-      php_fixer:
+      php_cs_fixer:
         type: object
         properties:
-          path:
+          paths:
             type: array
-            description: Path to directories for php-cs-fixer
+            description: Paths to included directories
+            default:
+              - src
+          paths_exclude:
+            type: array
+            description: Paths to excluded directories
+            default: []
       composer_unused:
         type: object
         properties:

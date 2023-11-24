@@ -8,7 +8,7 @@
     path: "{{ repo_path + '/.devcontainer' }}"
     state: directory
   when: not devcontainer_folder.stat.exists
-  
+
 - name: generate .devcontainer/docker-compose.yml
   ansible.builtin.template:
     src: "{{ './templates/.devcontainer/docker-compose.yml.j2' }}"
@@ -30,13 +30,7 @@
     dest: "{{ repo_path + '/.devcontainer/' }}"
 
 - name: copy .devcontainer/postCreate.sh
-  ansible.builtin.copy:
-    src: "{{ './templates/.devcontainer/postCreate.sh' }}"
+  ansible.builtin.template:
+    src: "{{ './templates/.devcontainer/postCreate.sh.j2' }}"
     dest: "{{ repo_path + '/.devcontainer/postCreate.sh' }}"
     mode: '0755'
-
-- name: Get value from object
-  ansible.builtin.set_fact:
-    postCreateCommand: "{{ repo.devcontainer | json_query('postCreateCommand') }}"
-  register: postCreateCommand
-  when: repo.devcontainer.postCreateCommand is defined
