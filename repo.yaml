@@ -7,7 +7,6 @@ codeowners:
     owners:
       - '@joostfaassen'
 github:
-  archived: false
   topics:
     - ansible
     - automation
