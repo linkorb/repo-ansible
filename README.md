@@ -2,7 +2,9 @@
 repo-ansible
 ============
 
-An ansible playbook with templated configuration to apply to all LinkORB code repositories.
+An ansible playbook with templated configuration to apply to all LinkORB code repositories. To enable
+support for repo.yaml file autocompletion refer to [Schema IDE support](./docs/SchemaIDESupport.md)
+
 
 
 
