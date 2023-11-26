@@ -47,6 +47,17 @@ properties:
     description: URL with more information about of this repository
     default: https://engineering.linkorb.com
 
+  lifecycle:
+    type: string
+    description: Project lifecycle stage
+    enum:
+      - dev-research
+      - dev-prod-bound
+      - dev-prod
+      - dev-maintenance
+      - deprecated-prod
+      - archived
+
   codeowners:
     type: array
     description: |
