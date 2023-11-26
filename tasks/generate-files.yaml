@@ -24,6 +24,16 @@
     src: "{{ './templates/.github/settings.yml.j2' }}"
     dest: "{{ repo_path + '/.github/settings.yml' }}"
 
+- name: Generate .github/workflows directory
+  ansible.builtin.file:
+    path: "{{ repo_path }}/.github/workflows"
+    state: directory
+
+- name: Generate repo-ansible workflow
+  ansible.builtin.copy:
+    src: ./templates/.github/workflows/repo-ansible.yaml
+    dest: "{{ repo_path }}/.github/workflows/repo-ansible.yaml"
+
 - name: Generate CODEOWNERS file
   template:
     src: "./templates/CODEOWNERS.j2"
