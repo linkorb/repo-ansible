@@ -58,6 +58,17 @@ properties:
       - deprecated-prod
       - archived
 
+  user_scope:
+    type: array
+    items:
+      type: string
+      enum:
+        - external-customer-facing-app
+        - internal-team-facing-app
+        - enables-external-customer-facing-apps
+        - enables-internal-team-facing-apps
+        - internal-devops-tooling
+
   codeowners:
     type: array
     description: |
