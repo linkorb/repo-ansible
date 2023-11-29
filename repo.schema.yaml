@@ -159,8 +159,10 @@ properties:
     properties:
       repository:
         type: string
+        description: Image to use for devcontainer (registry image URL)
         default: ghcr.io/linkorb/php-docker-base
       tag:
+        description: Image tag
         type: string
         default: php8-review
       postCreateCommand:
