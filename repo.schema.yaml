@@ -159,13 +159,19 @@ properties:
     properties:
       repository:
         type: string
+        description: Image to use for devcontainer (registry image URL)
         default: ghcr.io/linkorb/php-docker-base
       tag:
+        description: Image tag
         type: string
         default: php8-review
       postCreateCommand:
         description: Additional shell commands to run during the postCreate lifecycle event
         type: string
+      private_packagist:
+        type: boolean
+        default: false
+        description: Enable if repository requires private packagist access (default false)
 
   phpqa:
     type: object
