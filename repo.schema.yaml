@@ -136,6 +136,13 @@ properties:
             type: boolean
             default: true
 
+          sdlc_workflows:
+            description: >
+              EXPERIMENTAL Software Development Lifecycle Workflows (default false). Property will likely be removed in
+              the future, and true by default, when workflows have been stabilized.
+            type: boolean
+            default: false
+
 
   type:
     type: string
