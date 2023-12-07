@@ -131,8 +131,8 @@ properties:
             type: boolean
             default: true
 
-          dependabot_automerge:
-            description: Enable automatic merging of backwards compatible Dependabot PRs
+          dependabot_auto_merge:
+            description: Automatic merging of Dependabot PRs for patch/minor versions (default true)
             type: boolean
             default: true
 

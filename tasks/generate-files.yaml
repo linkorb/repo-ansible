@@ -34,6 +34,12 @@
     src: ./templates/.github/workflows/repo-ansible.yaml
     dest: "{{ repo_path }}/.github/workflows/repo-ansible.yaml"
 
+- name: Generate dependabot automerge workflow
+  ansible.builtin.copy:
+    src: ./templates/.github/workflows/dependabot-auto-merge.yaml
+    dest: "{{ repo_path }}/.github/workflows/dependabot-auto-merge.yaml"
+  when: repo.github.features.dependabot_auto_merge
+
 - name: Generate CODEOWNERS file
   template:
     src: "./templates/CODEOWNERS.j2"
