@@ -2,6 +2,7 @@
   ansible.builtin.copy:
     src: "./templates/.github/workflows/"
     dest: "{{ repo_path + '/.github/workflows' }}"
+  when: repo.github.features.sdlc_workflows
 
 - name: generate .dockerignore
   ansible.builtin.template:
