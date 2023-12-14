@@ -132,7 +132,9 @@ properties:
             default: true
 
           dependabot_auto_merge:
-            description: Automatic merging of Dependabot PRs for patch/minor versions (default true)
+            description: >
+              Automatic merging of Dependabot PRs for patch/minor versions (default true). This action, even if it does
+              push updated branches, will not trigger other GitHub workflows.
             type: boolean
             default: true
 
