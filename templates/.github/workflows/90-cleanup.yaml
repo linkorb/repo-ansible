@@ -11,18 +11,12 @@ jobs:
   cleanup:
     runs-on: ubuntu-latest
     steps:
-
     - name: GitHub Environment Variables Action
       uses: FranzDiebold/github-env-vars-action@v2
 
-    - name: Delete old unused container images
-      uses: snok/container-retention-policy@v2
+    - name: Delete an old version of the package, keeping a few of the newest
+      uses: actions/delete-package-versions@v4
       with:
-        image-names: "${{ env.CI_REPOSITORY_NAME }}"
-        cut-off: A month ago UTC
-        account-type: org
-        org-name: linkorb
-        keep-at-least: 5
-        skip-tags: latest
-        untagged-only: false
-        token: ${{ secrets.DOCKER_PASSWORD }}
+        package-name: "${{ env.CI_REPOSITORY_NAME }}"
+        package-type: container
+        min-versions-to-keep: 5

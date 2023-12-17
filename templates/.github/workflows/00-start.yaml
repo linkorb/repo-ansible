@@ -27,11 +27,14 @@ jobs:
     uses: ./.github/workflows/40-helm.yaml
     needs: releaseandbuild
     secrets: inherit
+    with:
+      new-release-published: ${{ needs.releaseandbuild.outputs.new-release-published }}
+      release-version: ${{ needs.releaseandbuild.outputs.release-version }}
   security:
     uses: ./.github/workflows/50-security.yaml
-    needs: helm
+    needs: releaseandbuild
     secrets: inherit
   cleanup:
     uses: ./.github/workflows/90-cleanup.yaml
-    needs: security
+    needs: releaseandbuild
     secrets: inherit

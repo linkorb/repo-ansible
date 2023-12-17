@@ -4,10 +4,20 @@ name: Release
 on:
   workflow_dispatch:
   workflow_call:
+    outputs:
+      new-release-published:
+        description: "Whether or not a new release was published."
+        value: ${{ jobs.build.outputs.new-release-published }}
+      release-version:
+        description: "The version string of the newly published release"
+        value: ${{ jobs.build.outputs.release-version }}
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      new-release-published: ${{ steps.semantic-release.outputs.new-release-published }}
+      release-version: ${{ steps.semantic-release.outputs.release-version }}
 
     steps:
     - name: GitHub Environment Variables Action
@@ -16,6 +26,17 @@ jobs:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+      with:
+        # moby/buildkit v0.11.0 causes untagged images to appear in github
+        # packages and the workaround does not seem to have any effect
+        # (set provenance=false in docker/build-push-action@v4)
+        driver-opts: network=host,image=moby/buildkit:v0.10.5
 
     - name: write semantic-release config
       uses: DamianReeves/write-file-action@v1.2
@@ -70,17 +91,7 @@ jobs:
                         ],
                         "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
                     }
-                ],
-                ["@semantic-release/exec", {
-                    "prepareCmd": "echo ${ process.env.DOCKER_PASSWORD } | docker login ghcr.io --username automation@linkorb.com --password-stdin",
-                    "publishCmd": "git checkout package.json; git checkout package-lock.json; docker build . --build-arg PACKAGIST_USER='token'
-                                      --build-arg PACKAGIST_TOKEN=${ process.env.PACKAGIST_TOKEN}
-                                     --label org.opencontainers.image.source=https://github.com/linkorb/${ process.env.CI_REPOSITORY_NAME}
-                                     --tag ghcr.io/linkorb/${ process.env.CI_REPOSITORY_NAME }:${nextRelease.version} --file Dockerfile &&
-                                   docker push ghcr.io/linkorb/${ process.env.CI_REPOSITORY_NAME }:${nextRelease.version} &&
-                                   docker tag ghcr.io/linkorb/${ process.env.CI_REPOSITORY_NAME }:${nextRelease.version} ghcr.io/linkorb/${ process.env.CI_REPOSITORY_NAME }:latest &&
-                                   docker push ghcr.io/linkorb/${ process.env.CI_REPOSITORY_NAME }:latest"
-                }]
+                ]
              ]
           }
         write-mode: overwrite
@@ -89,18 +100,60 @@ jobs:
     - name: Set repo name in .releaserc
       run: "sed -i s/REPOPLACEHOLDER/${{ env.CI_REPOSITORY_NAME }}/ .releaserc"
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
+    - name: Create release
+      id: semantic-release
+      uses: codfish/semantic-release-action@v2
       with:
-        node-version: 'lts/*'
-
-    - name: Install dependencies for release
-      run: npm install
-
-    - name: Create release and push container image
-      run: npx semantic-release
+        # support releasing the "main" branch
+        # whilst preserving the action defaults
+        branches: |
+          [
+            '+([0-9])?(.{+([0-9]),x}).x',
+            'main',
+            'next',
+            'next-major',
+            {
+              name: 'beta',
+              prerelease: true
+            },
+            {
+              name: 'alpha',
+              prerelease: true
+            }
+          ]
+        additional_packages: |
+          ['@semantic-release/changelog', '@semantic-release/git']
+        tag_format: 'v${version}'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         PACKAGIST_TOKEN: ${{ secrets.PACKAGIST_TOKEN }}
-        CI_REPOSITORY_NAME: ${{ env.CI_REPOSITORY_NAME }}
+
+    - name: Docker meta
+      id: meta
+      uses: docker/metadata-action@v4
+      with:
+        images: |
+          ghcr.io/linkorb/${{ env.CI_REPOSITORY_NAME }}
+        tags: |
+          type=sha
+          type=raw,value=latest,enable={{is_default_branch}}
+          type=raw,value=${{ steps.semantic-release.outputs.release-version }}
+
+    - name: Login to Container Registry ghcr.io
+      uses: docker/login-action@v2
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Build and push
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        provenance: false
+        push: ${{ github.event_name != 'pull_request' }}
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        build-args: |
+          PACKAGIST_USER=token
+          PACKAGIST_TOKEN=${{ secrets.PACKAGIST_TOKEN }}
