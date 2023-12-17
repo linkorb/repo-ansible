@@ -2,11 +2,6 @@
 name: ReviewCode
 
 on:
-  workflow_dispatch:
-  workflow_call:
-  pull_request:
-    branches: [master, main]
-    types: [opened, edited, reopened, synchronize]
   pull_request_target:
     types: [opened, edited, reopened, synchronize]
 
@@ -19,14 +14,7 @@ jobs:
 
       # interesting alternative: https://github.com/cocogitto/cocogitto
       - name: Conventional commit checker
-        uses: webiny/action-conventional-commits@v1.1.0
-        if: ${{ github.event_name != 'workflow_dispatch' }}
-
-      #- name: Extra conventional commits check
-      #  uses: gsactions/commit-message-checker@v2
-      #  with:
-      #    pattern: '^(feat|fix|test|docs|chore|style|refactor|ci|cd):'
-      #    error: 'You need to start with a conventional commits action.'
+        uses: webiny/action-conventional-commits@v1
 
       - name: Check Card# reference
         uses: gsactions/commit-message-checker@v2
@@ -40,7 +28,6 @@ jobs:
           excludeTitle: 'true' # optional: this excludes the title of a pull request
           checkAllCommitMessages: 'true' # optional: this checks all commits associated with a pull request
           accessToken: ${{ secrets.GITHUB_TOKEN }} # github access token is only required if checkAllCommitMessages is true
-        if: ${{ github.event_name != 'workflow_dispatch' }}
 
       - name: Check Line Length
         uses: gsactions/commit-message-checker@v2
@@ -51,7 +38,6 @@ jobs:
           excludeTitle: 'true' # optional: this excludes the title of a pull request
           checkAllCommitMessages: 'true' # optional: this checks all commits associated with a pull request
           accessToken: ${{ secrets.GITHUB_TOKEN }} # github access token is only required if checkAllCommitMessages is true
-        if: ${{ github.event_name != 'workflow_dispatch' }}
 
       - name: Check Body Length
         uses: gsactions/commit-message-checker@v2
@@ -62,4 +48,3 @@ jobs:
           excludeTitle: 'true' # optional: this excludes the title of a pull request
           checkAllCommitMessages: 'true' # optional: this checks all commits associated with a pull request
           accessToken: ${{ secrets.GITHUB_TOKEN }} # github access token is only required if checkAllCommitMessages is true
-        if: ${{ github.event_name != 'workflow_dispatch' }}
