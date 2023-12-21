@@ -28,10 +28,10 @@ jobs:
         fetch-depth: 0
 
     - name: Set up QEMU
-      uses: docker/setup-qemu-action@v2
+      uses: docker/setup-qemu-action@v3
 
     - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
+      uses: docker/setup-buildx-action@v3
       with:
         # moby/buildkit v0.11.0 causes untagged images to appear in github
         # packages and the workaround does not seem to have any effect
@@ -39,7 +39,7 @@ jobs:
         driver-opts: network=host,image=moby/buildkit:v0.10.5
 
     - name: write semantic-release config
-      uses: DamianReeves/write-file-action@v1.2
+      uses: DamianReeves/write-file-action@v1
       with:
         path: package.json
         contents: |
@@ -64,14 +64,14 @@ jobs:
         write-mode: overwrite
 
     - name: write semantic-release config
-      uses: DamianReeves/write-file-action@v1.2
+      uses: DamianReeves/write-file-action@v1
       with:
         path: .releaserc
         contents: |
           {
             "branches": ["master", "main" ],
             "debug": "True",
-            "repositoryUrl": 'git+https://github.com/linkorb/REPOPLACEHOLDER.git',
+            "repositoryUrl": 'git+https://github.com/linkorb/${{ env.CI_REPOSITORY_NAME }}.git',
             "plugins": [
                 "@semantic-release/commit-analyzer",
                 "@semantic-release/github",
@@ -96,13 +96,9 @@ jobs:
           }
         write-mode: overwrite
 
-
-    - name: Set repo name in .releaserc
-      run: "sed -i s/REPOPLACEHOLDER/${{ env.CI_REPOSITORY_NAME }}/ .releaserc"
-
     - name: Create release
       id: semantic-release
-      uses: codfish/semantic-release-action@v2
+      uses: codfish/semantic-release-action@v3
       with:
         # support releasing the "main" branch
         # whilst preserving the action defaults
@@ -121,16 +117,16 @@ jobs:
               prerelease: true
             }
           ]
-        additional_packages: |
+        additional-packages: |
           ['@semantic-release/changelog', '@semantic-release/git']
-        tag_format: 'v${version}'
+        tag-format: 'v${version}'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         PACKAGIST_TOKEN: ${{ secrets.PACKAGIST_TOKEN }}
 
     - name: Docker meta
       id: meta
-      uses: docker/metadata-action@v4
+      uses: docker/metadata-action@v5
       with:
         images: |
           ghcr.io/linkorb/${{ env.CI_REPOSITORY_NAME }}
@@ -140,14 +136,14 @@ jobs:
           type=raw,value=${{ steps.semantic-release.outputs.release-version }}
 
     - name: Login to Container Registry ghcr.io
-      uses: docker/login-action@v2
+      uses: docker/login-action@v3
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Build and push
-      uses: docker/build-push-action@v4
+      uses: docker/build-push-action@v5
       with:
         context: .
         provenance: false

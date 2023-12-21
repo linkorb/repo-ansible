@@ -1,40 +1,33 @@
 # {{ repo_managed }}
 name: RunGithubActionsWorkflows
 
-# triggers on master and main commits and merges
-# schedule/cron is optional
 # workflow_dispatch enables option for manual runs
 # workflow_call: it can be started by other workflows
 
 on:
-  push:
-    branches: [master, main]
   workflow_dispatch:
   workflow_call:
-  pull_request:
-    branches: [justheretomakegithubhappy]
-    types: [opened, edited, reopened, synchronize]
 
 jobs:
   review:
     uses: ./.github/workflows/10-review.yaml
     secrets: inherit
-  releaseandbuild:
+  release-and-build:
     uses: ./.github/workflows/30-release-and-build.yaml
     needs: review
     secrets: inherit
   helm:
     uses: ./.github/workflows/40-helm.yaml
-    needs: releaseandbuild
+    needs: release-and-build
     secrets: inherit
     with:
-      new-release-published: ${{ needs.releaseandbuild.outputs.new-release-published }}
-      release-version: ${{ needs.releaseandbuild.outputs.release-version }}
+      new-release-published: ${{ needs.release-and-build.outputs.new-release-published }}
+      release-version: ${{ needs.release-and-build.outputs.release-version }}
   security:
     uses: ./.github/workflows/50-security.yaml
-    needs: releaseandbuild
+    needs: release-and-build
     secrets: inherit
   cleanup:
     uses: ./.github/workflows/90-cleanup.yaml
-    needs: releaseandbuild
+    needs: release-and-build
     secrets: inherit
