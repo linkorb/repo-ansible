@@ -32,14 +32,14 @@ used (an arbitrarily large limit of 1000 results was chosen so it works for all 
 ```shell
 gh search repos --owner=linkorb --limit=1000 \
   --archived=false \
-  --json name,defaultBranch \
-  --jq '.[] | .name + " default_branch=" + .defaultBranch + " ansible_host=localhost"' \
+  --json name \
+  --jq '.[] | .name + " ansible_host=localhost"' \
   | tee generated-inventory.ini
 ```
 
 > **Note** `generated-inventory.ini` is part of `.gitignore` to avoid accidental file commits.
 
-> An entry within the inventory is of the form `REPOSITORY_NAME default_branch=DEFAULT_BRANCH ansible_host=localhost`
+> An entry within the inventory is of the form `REPOSITORY_NAME ansible_host=localhost`
 
 #### Run a playbook in bulk
 

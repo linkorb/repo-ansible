@@ -97,6 +97,13 @@ properties:
         items:
           type: string
 
+      default_branch:
+        type: string
+        default: main
+        description: >
+          Default branch configuration in GitHub (default main). Override for older repositories that still use master
+          branch. Consider updating your repository to include a main branch and remove this option.
+
       features:
         type: object
         description: GitHub features

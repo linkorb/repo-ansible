@@ -19,11 +19,11 @@
     chdir: "{{ repo_path }}"
 
 - name: create pull request
-  shell: "git push -u origin {{ pr_branch }} && gh pr create --fill --base {{ default_branch }}"
+  shell: "git push -u origin {{ pr_branch }} && gh pr create --fill --base {{ repo.github.default_branch }}"
   args:
     chdir: "{{ repo_path }}"
 
 - name: switch back clone to default_branch
-  command: "git switch {{ default_branch }}"
+  command: "git switch {{ repo.github.default_branch }}"
   args:
     chdir: "{{ repo_path }}"
