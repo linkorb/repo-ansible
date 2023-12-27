@@ -4,6 +4,6 @@
     chdir: "{{ repo_path }}"
 
 - name: push changes
-  command: "git push origin {{ default_branch }}"
+  command: "git push origin {{ repo.github.default_branch }}"
   args:
     chdir: "{{ repo_path }}"

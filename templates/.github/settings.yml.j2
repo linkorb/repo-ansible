@@ -35,7 +35,7 @@ repository:
   has_downloads: {{ 'true' if repo.github.features.downloads else 'false' }}
 
   # Updates the default branch for this repository.
-  default_branch: {{ default_branch|default("main") }}
+  default_branch: {{ repo.github.default_branch }}
 
   # Either `true` to allow squash-merging pull requests, or `false` to prevent
   # squash-merging.
