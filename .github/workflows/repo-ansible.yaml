@@ -25,12 +25,12 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - if: ${{ env.is_pull_request == '0' }}
+      - if: ${{ env.IS_PULL_REQUEST == '0' }}
         uses: actions/checkout@v4
         with:
           path: current
 
-      - if: ${{ env.is_pull_request == '1' }}
+      - if: ${{ env.IS_PULL_REQUEST == '1' }}
         uses: actions/checkout@v4
         with:
           path: current
