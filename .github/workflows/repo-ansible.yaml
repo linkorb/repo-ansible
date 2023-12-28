@@ -1,6 +1,8 @@
 name: repo-ansible
 
 on:
+  workflow_dispatch:
+
   pull_request_target:
     paths:
       - 'repo.yaml'
