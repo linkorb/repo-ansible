@@ -31,7 +31,7 @@
 {% else %}
 {% endif %}
 
-{% if repo.type != 'other' %}
+{% if repo.type != 'other' and repo.github.features.sdlc_workflows %}
 Build status: [![Release](https://github.com/linkorb/{{ repo.name }}/actions/workflows/30-release-and-build.yaml/badge.svg)](https://github.com/linkorb/{{ repo.name }}/actions/workflows/30-release-and-build.yaml)
 {% endif %}
 
