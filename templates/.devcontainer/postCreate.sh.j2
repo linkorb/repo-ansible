@@ -10,6 +10,12 @@ chmod +x .git/hooks/pre-push
 composer config --global --auth http-basic.repo.packagist.com "$GITHUB_USER" "$PACKAGIST_TOKEN"
 {% endif %}
 
+{% if repo.type in ['application', 'library', 'symfony-bundle'] %}
 composer install
+{% endif %}
+
+{% if repo.type == 'application-nodejs' %}
+npm ci
+{% endif %}
 
 {{ repo.devcontainer.postCreateCommand|default('') }}

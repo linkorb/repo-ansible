@@ -29,7 +29,7 @@
         - import_tasks: tasks/devcontainer.yaml
         - import_tasks: tasks/other-dev-generated-files.yaml
       when:
-        - repo.type in ['application', 'library', 'symfony-bundle']
+        - repo.type in ['application', 'library', 'symfony-bundle', 'application-nodejs']
 
     - name: Execute tasks for PHP application, libraries, and symfony-bundles
       block:

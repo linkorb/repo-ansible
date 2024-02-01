@@ -27,6 +27,7 @@ properties:
       - application
       - library
       - symfony-bundle
+      - application-nodejs
       - other
 
   codeowners:
