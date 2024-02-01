@@ -190,13 +190,16 @@ properties:
         description: Image tag
         type: string
         default: php8-review
-      postCreateCommand:
-        description: Additional shell commands to run during the postCreate lifecycle event
-        type: string
       private_packagist:
         type: boolean
         default: true
         description: Repository requires private packagist access (default true)
+      postCreateCommand:
+        description: Additional shell commands to run during the postCreate lifecycle event
+        type: string
+      postStartCommand:
+        description: Additional shell commands to run after the postStart lifecycle event
+        type: string
 
   phpqa:
     type: object

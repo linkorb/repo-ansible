@@ -34,3 +34,9 @@
     src: "{{ './templates/.devcontainer/postCreate.sh.j2' }}"
     dest: "{{ repo_path + '/.devcontainer/postCreate.sh' }}"
     mode: '0755'
+
+- name: copy .devcontainer/postStart.sh
+  ansible.builtin.template:
+    src: "{{ './templates/.devcontainer/postStart.sh.j2' }}"
+    dest: "{{ repo_path + '/.devcontainer/postStart.sh' }}"
+    mode: '0755'
