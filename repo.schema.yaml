@@ -31,18 +31,26 @@ properties:
 
   codeowners:
     type: array
-    description: |
-      Each array item contains a file/directory pattern and an array of individuals or teams responsible for reviewing and maintaining files/directories that match the specified pattern. For a list of allowed patterns, refer to [CODEOWNERS syntax](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners).
+    description: >
+      Each array item contains a file/directory pattern and an array of individuals or teams responsible for reviewing
+      and maintaining files/directories that match the specified pattern. For a list of allowed patterns, refer to
+      [CODEOWNERS syntax](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners).
     items:
       type: object
       properties:
         pattern:
           type: string
-          description: |
-            Define patterns that match files or directories within your repository. These patterns can use wildcard characters (e.g., * for any characters) to match multiple files or directories. Ensure to enclose patterns containing asterisks in quotation marks, e.g. '/docs/*'. A single asterisk '*' indicates default owners for everything in the repo.
+          description: >
+            Define patterns that match files or directories within your repository. These patterns can use wildcard
+            characters (e.g., * for any characters) to match multiple files or directories. Ensure to enclose patterns
+            containing asterisks in quotation marks, e.g. '/docs/*'. A single asterisk '*' indicates default owners for
+            everything in the repo.
         owners:
           type: array
-          description: A list of individuals or teams responsible for reviewing and maintaining files/directories matching the specified pattern. For GitHub usernames, add an @ symbol before the username and enclose the entire pattern in quotation marks, e.g. '@joostfaassen'.
+          description: >
+            A list of individuals or teams responsible for reviewing and maintaining files/directories matching the
+            specified pattern. For GitHub usernames, add an @ symbol before the username and enclose the entire pattern
+            in quotation marks, e.g. '@joostfaassen'.
           items:
             type: string
 
