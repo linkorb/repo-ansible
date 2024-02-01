@@ -27,8 +27,13 @@
     - name: Execute tasks for applications, libraries, and symfony-bundles
       block:
         - import_tasks: tasks/devcontainer.yaml
-        - import_tasks: tasks/php-qa.yaml
         - import_tasks: tasks/other-dev-generated-files.yaml
+      when:
+        - repo.type in ['application', 'library', 'symfony-bundle']
+
+    - name: Execute tasks for PHP application, libraries, and symfony-bundles
+      block:
+        - import_tasks: tasks/php-qa.yaml
       when:
         - repo.type in ['application', 'library', 'symfony-bundle']
 
