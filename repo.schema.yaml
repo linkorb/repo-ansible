@@ -24,11 +24,18 @@ properties:
     type: string
     description: Repository type
     enum:
+      - php-web
+      - php-library
+      - php-cli
+      - nodejs-web
+      - nodejs-library
+      - nodejs-cli
+      - other
+      # DEPRECATED enums
       - application
       - library
       - symfony-bundle
       - application-nodejs
-      - other
 
   codeowners:
     type: array
@@ -170,6 +177,11 @@ properties:
               the future, and true by default, when workflows have been stabilized.
             type: boolean
             default: false
+
+  helm_charts:
+    type: boolean
+    default: false
+    description: Enable generation of Helm charts (default false)
 
   php:
     type: object

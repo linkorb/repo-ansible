@@ -17,25 +17,24 @@
     - import_tasks: tasks/retrieve-docs-data.yaml
     - import_tasks: tasks/generate-files.yaml
 
-    - name: Execute application-specific tasks
-      block:
-        - import_tasks: tasks/husky.yaml
-        - import_tasks: tasks/helm.yaml
-      when:
-        - repo.type in ['application']
-        -
+    - import_tasks: tasks/husky.yaml
+      when: repo.type != 'other'
+
+    - import_tasks: tasks/helm.yaml
+      when: repo.helm_charts
+
     - name: Execute tasks for applications, libraries, and symfony-bundles
       block:
         - import_tasks: tasks/devcontainer.yaml
         - import_tasks: tasks/other-dev-generated-files.yaml
-      when:
-        - repo.type in ['application', 'library', 'symfony-bundle', 'application-nodejs']
+      when: >
+        repo.type in ['application', 'library', 'symfony-bundle']
+        or repo.type.startswith('php-') or repo.type.startswith('nodejs-')
 
-    - name: Execute tasks for PHP application, libraries, and symfony-bundles
-      block:
-        - import_tasks: tasks/php-qa.yaml
-      when:
-        - repo.type in ['application', 'library', 'symfony-bundle']
+    - import_tasks: tasks/php-qa.yaml
+      when: >
+        repo.type in ['application', 'library', 'symfony-bundle']
+        or repo.type.startswith('php-')
 
     - import_tasks: tasks/pull-request.yaml
       when: changes == 'pull-request'
