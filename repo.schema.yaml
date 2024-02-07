@@ -13,11 +13,54 @@ properties:
     pattern: ^[a-z0-9-]+$
     minLength: 1
     maxLength: 50
+
   description:
     type: string
     description: Repository description
     minLength: 1
     maxLength: 100
+
+  type:
+    type: string
+    description: Repository type
+    enum:
+      - php-web
+      - php-library
+      - php-cli
+      - nodejs-web
+      - nodejs-library
+      - nodejs-cli
+      - other
+      # DEPRECATED enums
+      - application
+      - library
+      - symfony-bundle
+      - application-nodejs
+
+  codeowners:
+    type: array
+    description: >
+      Each array item contains a file/directory pattern and an array of individuals or teams responsible for reviewing
+      and maintaining files/directories that match the specified pattern. For a list of allowed patterns, refer to
+      [CODEOWNERS syntax](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners).
+    items:
+      type: object
+      properties:
+        pattern:
+          type: string
+          description: >
+            Define patterns that match files or directories within your repository. These patterns can use wildcard
+            characters (e.g., * for any characters) to match multiple files or directories. Ensure to enclose patterns
+            containing asterisks in quotation marks, e.g. '/docs/*'. A single asterisk '*' indicates default owners for
+            everything in the repo.
+        owners:
+          type: array
+          description: >
+            A list of individuals or teams responsible for reviewing and maintaining files/directories matching the
+            specified pattern. For GitHub usernames, add an @ symbol before the username and enclose the entire pattern
+            in quotation marks, e.g. '@joostfaassen'.
+          items:
+            type: string
 
   license:
     type: string
@@ -68,23 +111,6 @@ properties:
         - enables-external-customer-facing-apps
         - enables-internal-team-facing-apps
         - internal-devops-tooling
-
-  codeowners:
-    type: array
-    description: |
-      Each array item contains a file/directory pattern and an array of individuals or teams responsible for reviewing and maintaining files/directories that match the specified pattern. For a list of allowed patterns, refer to [CODEOWNERS syntax](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners).
-    items:
-      type: object
-      properties:
-        pattern:
-          type: string
-          description: |
-            Define patterns that match files or directories within your repository. These patterns can use wildcard characters (e.g., * for any characters) to match multiple files or directories. Ensure to enclose patterns containing asterisks in quotation marks, e.g. '/docs/*'. A single asterisk '*' indicates default owners for everything in the repo.
-        owners:
-          type: array
-          description: A list of individuals or teams responsible for reviewing and maintaining files/directories matching the specified pattern. For GitHub usernames, add an @ symbol before the username and enclose the entire pattern in quotation marks, e.g. '@joostfaassen'.
-          items:
-            type: string
 
   github:
     type: object
@@ -152,15 +178,11 @@ properties:
             type: boolean
             default: false
 
+  helm_charts:
+    type: boolean
+    default: false
+    description: Enable generation of Helm charts (default false)
 
-  type:
-    type: string
-    description: Repository type
-    enum:
-    - application
-    - library
-    - symfony-bundle
-    - other
   php:
     type: object
     description: PHP specific values
@@ -181,13 +203,16 @@ properties:
         description: Image tag
         type: string
         default: php8-review
-      postCreateCommand:
-        description: Additional shell commands to run during the postCreate lifecycle event
-        type: string
       private_packagist:
         type: boolean
         default: true
         description: Repository requires private packagist access (default true)
+      postCreateCommand:
+        description: Additional shell commands to run during the postCreate lifecycle event
+        type: string
+      postStartCommand:
+        description: Additional shell commands to run after the postStart lifecycle event
+        type: string
 
   phpqa:
     type: object

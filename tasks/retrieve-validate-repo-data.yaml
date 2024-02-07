@@ -1,5 +1,5 @@
 - name: merge repo.yaml data with defaults
-  ansible.builtin.command: "./repo_data.py {{ repo_path }}/repo.yaml"
+  ansible.builtin.command: "./library/repo_data.py {{ repo_path }}/repo.yaml"
   register: repo_data
   changed_when: false
 

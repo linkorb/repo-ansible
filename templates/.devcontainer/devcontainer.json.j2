@@ -37,7 +37,7 @@
           ]
       }
   },
-  "forwardPorts": [80, 3306],
+  "forwardPorts": [ 80, 8000 ],
   "remoteUser": "vscode",
 
   "secrets": {
@@ -48,5 +48,6 @@
     }
 {% endif %}
   },
-  "postCreateCommand": ".devcontainer/postCreate.sh"
+  "postCreateCommand": ".devcontainer/postCreate.sh",
+  "postStartCommand": ".devcontainer/postStart.sh"
 }

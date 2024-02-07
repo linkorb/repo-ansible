@@ -20,4 +20,5 @@
       set_fact:
         doc_files_array: "{{ doc_files_array | union([{'file_name': item.path | basename, 'path': item.path}]) }}"
       loop: "{{ doc_files.files }}"
+      no_log: true
   when: docs_folder.stat.exists
