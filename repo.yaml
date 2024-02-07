@@ -1,7 +1,7 @@
 $meta:
   version: 1.0
 name: repo-ansible
-description: "Ansible configuration project."
+description: "Ansible playbooks with templated configuration to apply to all LinkORB code repositories."
 codeowners:
   - pattern: '*'
     owners:
