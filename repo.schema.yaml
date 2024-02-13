@@ -35,7 +35,6 @@ properties:
       - application
       - library
       - symfony-bundle
-      - application-nodejs
 
   codeowners:
     type: array
@@ -206,7 +205,9 @@ properties:
       private_packagist:
         type: boolean
         default: true
-        description: Repository requires private packagist access (default true)
+        description: >
+          Repository requires private packagist access (default true). Property is ignored is not of type php-*, or the
+          other (deprecated) types: application, library, symfony-bundle.
       postCreateCommand:
         description: Additional shell commands to run during the postCreate lifecycle event
         type: string
