@@ -10,11 +10,11 @@ git config commit.template .devcontainer/git/linkorb_commit.template
 cp .devcontainer/git/hooks/pre-push .git/hooks/pre-push
 chmod +x .git/hooks/pre-push
 
+{% if repo.type in ['application', 'library', 'symfony-bundle'] or repo.type.startswith('php-') %}
 {% if repo.devcontainer.private_packagist %}
 composer config --global --auth http-basic.repo.packagist.com "$GITHUB_USER" "$PACKAGIST_TOKEN"
 {% endif %}
 
-{% if repo.type in ['application', 'library', 'symfony-bundle'] or repo.type.startswith('php-') %}
 composer install
 {% endif %}
 

@@ -41,7 +41,7 @@
   "remoteUser": "vscode",
 
   "secrets": {
-{% if repo.devcontainer.private_packagist %}
+{% if repo.devcontainer.private_packagist and (repo.type in ['application', 'library', 'symfony-bundle'] or repo.type.startswith('php-')) %}
     "PACKAGIST_TOKEN": {
       "description": "Packagist access token, required for installation of composer packages from private packagist",
       "documentationUrl": "https://packagist.com/orgs/linkorb"
