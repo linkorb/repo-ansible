@@ -10,15 +10,15 @@ repository:
   # A short description of the repository that will show up on GitHub
   description: "{{ repo.description }}"
 
-  {% if repo.website is defined %}
+{% if repo.website is defined %}
   # A URL with more information about the repository
   homepage: {{ repo.website }}
-  {% endif %}
+{% endif %}
 
-  {% if repo.github.topics is defined %}
+{% if repo.github.topics is defined %}
   # A comma-separated list of topics to set on the repository
   topics: {{ repo.github.topics|to_json }}
-  {% endif %}
+{% endif %}
 
   # Either `true` to make the repository private, or `false` to make it public.
   private: {{ 'true' if repo.visibility == 'private' else 'false' }}

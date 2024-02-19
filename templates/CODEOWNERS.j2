@@ -1,9 +1,7 @@
 # Code Owners
 
-# The following individuals are designated as code owner(s) for specific files/directories in the repository:
+The following individuals are designated as code owner(s) for specific files/directories in the repository:
 
-{% if repo.codeowners is defined and repo.codeowners %}
-{% for entry in repo.codeowners %}
-{{ entry.pattern }}{% for owner in entry.owners %} {{ owner }}{% endfor %}  
+{% for entry in repo.codeowners | default([]) %}
+{{ entry.pattern }} {{ entry.owners | join(' ') }}
 {% endfor %}
-{% endif %}
