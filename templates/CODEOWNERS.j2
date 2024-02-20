@@ -1,6 +1,6 @@
 # Code Owners
 
-The following individuals are designated as code owner(s) for specific files/directories in the repository:
+# The following individuals are designated as code owner(s) for specific files/directories in the repository:
 
 {% for entry in repo.codeowners | default([]) %}
 {{ entry.pattern }} {{ entry.owners | join(' ') }}
