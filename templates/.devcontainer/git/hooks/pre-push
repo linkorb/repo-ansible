@@ -3,8 +3,8 @@
 temporary_file=$(mktemp)
 # Temporary workaround on issue reported in #8432
 # shellcheck disable=2024
-sudo composer-unused --no-progress --output-format=github > $temporary_file
+sudo composer-unused --no-progress --output-format=github > "$temporary_file"
 exit_code=$?
 
-cat $temporary_file | grep -v 'ignored'
+grep -v 'ignored' "$temporary_file"
 exit $exit_code
