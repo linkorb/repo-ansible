@@ -36,6 +36,13 @@ properties:
       - library
       - symfony-bundle
 
+  archived:
+    type: boolean
+    default: false
+    description: >
+      Archive repository (default false). Once archived, the repository will have to be manually unarchived through
+      the GitHub UI.
+
   codeowners:
     type: array
     description: >

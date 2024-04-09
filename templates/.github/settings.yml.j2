@@ -10,6 +10,10 @@ repository:
   # A short description of the repository that will show up on GitHub
   description: "{{ repo.description }}"
 
+{% if repo.archived %}
+  archived: true
+{% endif %}
+
 {% if repo.website is defined %}
   # A URL with more information about the repository
   homepage: {{ repo.website }}

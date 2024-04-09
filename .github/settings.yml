@@ -10,12 +10,13 @@ repository:
   # A short description of the repository that will show up on GitHub
   description: "Ansible playbooks with templated configuration to apply to all LinkORB code repositories."
 
-    # A URL with more information about the repository
+
+  # A URL with more information about the repository
   homepage: https://engineering.linkorb.com
-  
-    # A comma-separated list of topics to set on the repository
+
+  # A comma-separated list of topics to set on the repository
   topics: ["ansible", "automation"]
-  
+
   # Either `true` to make the repository private, or `false` to make it public.
   private: false
 
@@ -73,4 +74,3 @@ labels:
 
 
 # Milestones: define milestones for Issues and Pull Requests
-
