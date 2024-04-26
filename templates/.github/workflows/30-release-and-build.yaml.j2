@@ -1,4 +1,4 @@
-# {{ repo_managed }}
+# [[ repo_managed ]]
 name: Release
 
 on:
@@ -11,6 +11,9 @@ on:
       release-version:
         description: "The version string of the newly published release"
         value: ${{ jobs.build.outputs.release-version }}
+  push:
+    branches:
+      - [[ repo.github.default_branch ]]
 
 jobs:
   build:
