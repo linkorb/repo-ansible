@@ -42,7 +42,7 @@ jobs:
         driver-opts: network=host,image=moby/buildkit:v0.10.5
 
     - name: write semantic-release config
-      uses: DamianReeves/write-file-action@v1
+      uses: DamianReeves/write-file-action@v1.3 # XXX does not support short version format
       with:
         path: package.json
         contents: |
@@ -67,7 +67,7 @@ jobs:
         write-mode: overwrite
 
     - name: write semantic-release config
-      uses: DamianReeves/write-file-action@v1
+      uses: DamianReeves/write-file-action@v1.3 # XXX does not support short version format
       with:
         path: .releaserc
         contents: |
