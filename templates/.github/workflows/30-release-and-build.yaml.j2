@@ -44,31 +44,6 @@ jobs:
     - name: write semantic-release config
       uses: DamianReeves/write-file-action@v1.3 # XXX does not support short version format
       with:
-        path: package.json
-        contents: |
-          {
-            "name": "linkorb-releases",
-            "version": "1.0.0",
-            "description": "Dependencies for the LinkORB release workflow",
-            "main": "index.js",
-            "scripts": {
-              "test": "echo \"Error: no test specified\" && exit 1"
-            },
-            "author": "",
-            "license": "ISC",
-            "devDependencies": {
-              "@codedependant/semantic-release-docker": "^4.1.0",
-              "@semantic-release-plus/docker": "^3.1.2",
-              "@semantic-release/changelog": "^6.0.1",
-              "@semantic-release/exec": "^6.0.3",
-              "@semantic-release/git": "^10.0.1"
-            }
-          }
-        write-mode: overwrite
-
-    - name: write semantic-release config
-      uses: DamianReeves/write-file-action@v1.3 # XXX does not support short version format
-      with:
         path: .releaserc
         contents: |
           {
@@ -122,10 +97,10 @@ jobs:
           ]
         additional-packages: |
           ['@semantic-release/changelog', '@semantic-release/git']
+        repository-url: 'git+https://github.com/linkorb/${{ env.CI_REPOSITORY_NAME }}.git'
         tag-format: 'v${version}'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        PACKAGIST_TOKEN: ${{ secrets.PACKAGIST_TOKEN }}
 
     - name: Docker meta
       id: meta
