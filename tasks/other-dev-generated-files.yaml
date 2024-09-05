@@ -1,17 +1,23 @@
-- name: copy github actions workflow files
-  ansible.builtin.template:
-    src: "./templates/.github/workflows/{{ item }}.j2"
-    dest: "{{ repo_path + '/.github/workflows/' + item }}"
-    variable_start_string: '[['
-    variable_end_string: ']]'
-  loop:
-    - 00-start.yaml
-    - 10-review.yaml
-    - 30-release-and-build.yaml
-    - 40-helm.yaml
-    - 50-security.yaml
-    - 90-cleanup.yaml
-  when: repo.github.features.sdlc_workflows
+- when: repo.github.features.sdlc_workflows
+  block:
+  - name: copy semantic-release .releaserc file
+    ansible.builtin.copy:
+      src: "./templates/.releaserc"
+      dest: "{{ repo_path }}/.releaserc"
+
+  - name: copy github actions workflow files
+    ansible.builtin.template:
+      src: "./templates/.github/workflows/{{ item }}.j2"
+      dest: "{{ repo_path + '/.github/workflows/' + item }}"
+      variable_start_string: '[['
+      variable_end_string: ']]'
+    loop:
+      - 00-start.yaml
+      - 10-review.yaml
+      - 30-release-and-build.yaml
+      - 40-helm.yaml
+      - 50-security.yaml
+      - 90-cleanup.yaml
 
 - name: generate .dockerignore
   ansible.builtin.template:

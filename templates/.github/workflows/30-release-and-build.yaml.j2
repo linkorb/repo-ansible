@@ -41,32 +41,6 @@ jobs:
         # (set provenance=false in docker/build-push-action@v4)
         driver-opts: network=host,image=moby/buildkit:v0.10.5
 
-    - name: write semantic-release config
-      uses: DamianReeves/write-file-action@v1.3 # XXX does not support short version format
-      with:
-        path: .releaserc
-        contents: |
-          {
-            "branches": ["master", "main" ],
-            "debug": "True",
-            "plugins": [
-                "@semantic-release/commit-analyzer",
-                "@semantic-release/github",
-                "@semantic-release/release-notes-generator",
-                "@semantic-release/changelog",
-                [
-                    "@semantic-release/git",
-                    {
-                        "assets": [
-                            "CHANGELOG.md"
-                        ],
-                        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
-                    }
-                ]
-             ]
-          }
-        write-mode: overwrite
-
     - name: Create release
       id: semantic-release
       uses: codfish/semantic-release-action@v3
