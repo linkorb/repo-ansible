@@ -41,64 +41,6 @@ jobs:
         # (set provenance=false in docker/build-push-action@v4)
         driver-opts: network=host,image=moby/buildkit:v0.10.5
 
-    - name: write semantic-release config
-      uses: DamianReeves/write-file-action@v1.3 # XXX does not support short version format
-      with:
-        path: package.json
-        contents: |
-          {
-            "name": "linkorb-releases",
-            "version": "1.0.0",
-            "description": "Dependencies for the LinkORB release workflow",
-            "main": "index.js",
-            "scripts": {
-              "test": "echo \"Error: no test specified\" && exit 1"
-            },
-            "author": "",
-            "license": "ISC",
-            "devDependencies": {
-              "@codedependant/semantic-release-docker": "^4.1.0",
-              "@semantic-release-plus/docker": "^3.1.2",
-              "@semantic-release/changelog": "^6.0.1",
-              "@semantic-release/exec": "^6.0.3",
-              "@semantic-release/git": "^10.0.1"
-            }
-          }
-        write-mode: overwrite
-
-    - name: write semantic-release config
-      uses: DamianReeves/write-file-action@v1.3 # XXX does not support short version format
-      with:
-        path: .releaserc
-        contents: |
-          {
-            "branches": ["master", "main" ],
-            "debug": "True",
-            "repositoryUrl": 'git+https://github.com/linkorb/${{ env.CI_REPOSITORY_NAME }}.git',
-            "plugins": [
-                "@semantic-release/commit-analyzer",
-                "@semantic-release/github",
-                "@semantic-release/release-notes-generator",
-                [
-                  "@semantic-release/npm",
-                      {
-                        "npmPublish": false
-                      }
-                ],
-                "@semantic-release/changelog",
-                [
-                    "@semantic-release/git",
-                    {
-                        "assets": [
-                            "CHANGELOG.md"
-                        ],
-                        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
-                    }
-                ]
-             ]
-          }
-        write-mode: overwrite
-
     - name: Create release
       id: semantic-release
       uses: codfish/semantic-release-action@v3
@@ -122,17 +64,17 @@ jobs:
           ]
         additional-packages: |
           ['@semantic-release/changelog', '@semantic-release/git']
+        repository-url: 'https://github.com/${{ github.repository_owner }}/${{ env.CI_REPOSITORY_NAME }}.git'
         tag-format: 'v${version}'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        PACKAGIST_TOKEN: ${{ secrets.PACKAGIST_TOKEN }}
 
     - name: Docker meta
       id: meta
       uses: docker/metadata-action@v5
       with:
         images: |
-          ghcr.io/linkorb/${{ env.CI_REPOSITORY_NAME }}
+          ghcr.io/${{ github.repository_owner }}/${{ env.CI_REPOSITORY_NAME }}
         tags: |
           type=sha
           type=raw,value=latest,enable={{is_default_branch}}
