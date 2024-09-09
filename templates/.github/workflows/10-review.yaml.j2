@@ -4,6 +4,7 @@ name: ReviewCode
 on:
   pull_request_target:
     types: [opened, edited, reopened, synchronize]
+  workflow_call:
 
 jobs:
   check-for-cc:
