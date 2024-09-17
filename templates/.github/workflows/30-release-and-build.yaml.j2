@@ -68,7 +68,7 @@ jobs:
             }
           ]
         additional-packages: |
-          ['@semantic-release/changelog', '@semantic-release/git']
+          ['@semantic-release/changelog', '@semantic-release/git', '@semantic-release/exec']
         repository-url: 'https://github.com/${{ github.repository_owner }}/${{ env.CI_REPOSITORY_NAME }}.git'
         tag-format: 'v${version}'
       env:
