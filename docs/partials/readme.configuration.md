@@ -10,9 +10,9 @@ For example, you use `repo.yml` to define your projects repository name, descrip
 etc.
 
 For all the options and switches, please refer to the JSON Schema definition of the configuration file:
-[repo.schema.yaml](repo.schema.yaml).
+[repo.schema.yaml](/repo.schema.yaml).
 
- - [Looking for repo.yaml schema integration within your IDE?](./docs/SchemaIDESupport.md)
+ - [Looking for repo.yaml schema integration within your IDE?](/docs/SchemaIDESupport.md)
 
 <details>
 <summary>Review README.md file auto-generation, switches and rules</summary>
