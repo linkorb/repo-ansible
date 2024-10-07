@@ -3,10 +3,16 @@
     path: "{{ repo_path + '/.github/' }}"
   register: directory_exists
 
-- name: Generate composer-unused.php file
-  ansible.builtin.template:
-    src: "{{ './templates/php-qa/composer-unused.php.j2' }}"
-    dest: "{{ repo_path + '/composer-unused.php' }}"
+- name: Ensure composer-unused.php is absent
+  ansible.builtin.file:
+    path: "{{ repo_path + '/composer-unused.php' }}"
+    state: absent
+
+# XXX: composer-unused as part of Card (epic) 8980
+#- name: Generate composer-unused.php file
+#  ansible.builtin.template:
+#    src: "{{ './templates/php-qa/composer-unused.php.j2' }}"
+#    dest: "{{ repo_path + '/composer-unused.php' }}"
 
 - name: Generate .php-cs-fixer.dist.php file
   ansible.builtin.template:
