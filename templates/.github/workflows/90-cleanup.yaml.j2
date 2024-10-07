@@ -10,6 +10,10 @@ on:
 jobs:
   cleanup:
     runs-on: ubuntu-latest
+
+    permissions:
+      packages: write
+
     steps:
     - name: GitHub Environment Variables Action
       uses: FranzDiebold/github-env-vars-action@v2
