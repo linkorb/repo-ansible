@@ -1,24 +1,21 @@
 <!-- Managed by https://github.com/linkorb/repo-ansible. Manual changes will be overwritten. -->
-repo-ansible
-============
+
+# repo-ansible
 
 Ansible playbooks with templated configuration to apply to all LinkORB code repositories.
 
 What benefits do you get from using repo-ansible for your repository?
 
- - **CodeSpace devcontainers**<br>
-   LAMP-based devcontainer with Apache, MariaDB and a phpMyAdmin.
- - **automated security and dependency updates via Dependabot**<br>
-   Organization-wide settings ensure security alerts and pull requests are enabled for all repositories,
-   and repo-ansible, doubles down on this configuration, makes sure that security and minor version updates
-   created by Dependabot will automatically get merged.
- - **Contributors support**<br>
-   Community guidelines, contributing notes, git hooks, codeowners for automated PR assignment, QA tooling/configuration,
-   and the standardized LinkORB pull request template.
- - **Standardized repository files, GitHub repository management, and much more to come!**
-
-
-
+- **CodeSpace devcontainers**<br>
+  LAMP-based devcontainer with Apache, MariaDB and a phpMyAdmin.
+- **automated security and dependency updates via Dependabot**<br>
+  Organization-wide settings ensure security alerts and pull requests are enabled for all repositories,
+  and repo-ansible, doubles down on this configuration, makes sure that security and minor version updates
+  created by Dependabot will automatically get merged.
+- **Contributors support**<br>
+  Community guidelines, contributing notes, git hooks, codeowners for automated PR assignment, QA tooling/configuration,
+  and the standardized LinkORB pull request template.
+- **Standardized repository files, GitHub repository management, and much more to come!**
 
 ## Get Started
 
@@ -34,7 +31,7 @@ etc.
 For all the options and switches, please refer to the JSON Schema definition of the configuration file:
 [repo.schema.yaml](repo.schema.yaml).
 
- - [Looking for repo.yaml schema integration within your IDE?](./docs/SchemaIDESupport.md)
+- [Looking for repo.yaml schema integration within your IDE?](./docs/SchemaIDESupport.md)
 
 <details>
 <summary>Review README.md file auto-generation, switches and rules</summary>
@@ -55,6 +52,7 @@ in the `/docs` foder, the dynamic README inserts the Markdown content.
 To make this possible, tasks defined in `retrieve-docs-data.yaml` retrieve the docs files data such as the filename
 and path for each Markdown file so `README.md.j2` can check for the presence of Markdown files for each README section
 and insert Markdown content if there is a match.
+
 </details>
 
 ### Install repo-ansible and its dependencies
@@ -76,8 +74,7 @@ $ pip3 install -r /tmp/repo-ansible/requirements.txt
 > [!NOTE]
 > During execution your repository's' **README.md will be overwritten** with the generation rules used in repo-ansible.
 > If you're running the playbook for the first time on your repository, be sure to
-> *Review README.md file auto-generation, switches and rules* ↑
-
+> _Review README.md file auto-generation, switches and rules_ ↑
 
 ```shell
 /your-repository $ ansible-playbook /tmp/repo-ansible/playbook-cwd.yaml
@@ -93,7 +90,28 @@ ok: [localhost]
 The playbook will load and validate `repo.yaml` according to the schema; then proceed to apply templates and checks to
 your repository.
 
- - [Looking for a way to apply repo-ansible across multiple repositories?](./docs/BulkOperations.md)
+- [Looking for a way to apply repo-ansible across multiple repositories?](./docs/BulkOperations.md)
+
+### Running with Docker
+
+You can run `repo-ansible` using Docker to avoid installing Ansible and its dependencies locally.
+
+#### Steps
+
+1. **Build the Docker image** from the root of the `repo-ansible` repository:
+
+   ```bash
+   docker build -t repo-ansible .
+   ```
+
+2. **Run the Docker container** in your repository:
+
+   ```bash
+   cd /path/to/your-repository
+   docker run --rm -v "$(pwd)":/app repo-ansible
+   ```
+
+   Ensure that `repo.yaml` is present in the root of your repository. This command mounts your current repository into the Docker container and runs the Ansible playbook.
 
 ## Contributing
 
@@ -102,6 +120,7 @@ We welcome contributions to make this repository even better. Whether it's fixin
 Be sure to familiarize yourself with LinkORB's [Contribution Guidelines](/CONTRIBUTING.md) for our standards around commits, branches, and pull requests, as well as our [code of conduct](/CODE_OF_CONDUCT.md) before submitting any changes.
 
 If you are unable to implement changes you like yourself, don't hesitate to open a new issue report so that we or others may take care of it.
+
 ## Brought to you by the LinkORB Engineering team
 
 <img src="http://www.linkorb.com/d/meta/tier1/images/linkorbengineering-logo.png" width="200px" /><br />
