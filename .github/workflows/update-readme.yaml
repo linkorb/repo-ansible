@@ -30,9 +30,9 @@ jobs:
 
       - name: commit README.md changes
         run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add README.md
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md docs/partials
           if git commit -m "chore: auto-update README.md"; then
             git push
           fi
