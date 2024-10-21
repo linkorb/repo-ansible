@@ -106,9 +106,11 @@ your repository.
 | github<br>features<br>issues `boolean` |false| Enable issues tab.|
 | github<br>features<br>projects `boolean` |false| Enable projects tab.|
 | helm_charts `boolean` |false| Enable generation of Helm charts.|
-| devcontainer<br>private_packagist `boolean` |true| Repository requires private packagist access. Property is ignored is not of type php-*, or the other (deprecated) types: application, library, symfony-bundle.|
 | devcontainer<br>postCreateCommand `string` |-| Additional (shell) commands to run when the containers is created. For a typical project you would specify commands that only need to run once when the project is setup. For example you might add a command in here to load database fixtures for your project.|
 | devcontainer<br>postStartCommand `string` |-| Additional (shell) commands to run when the container is started. This event takes place after the create event, but opposed to the create event it's triggered every time the container is started (including when it's resumed from a suspended state). In a typical JavaScript application you might set it to run a `npm run dev` or equivalent step.|
+| devcontainer<br>customizations_vscode<br>extensions `array` |-| Additional extensions to install. Refer to the [group_vars/all.yaml](group_vars/all.yaml) file for extensions installed by default.|
+| devcontainer<br>customizations_vscode<br>settings `object` |-| Settings overrides for VSCode and installed extensions. Refer to the [group_vars/all.yaml](group_vars/all.yaml) file regarding proper format and default values.|
+| devcontainer<br>private_packagist `boolean` |true| Repository requires private packagist access. Property is ignored is not of type php-*, or the other (deprecated) types: application, library, symfony-bundle.|
 | devcontainer<br>repository `string` |ghcr.io/linkorb/php-docker-base| Image to use for devcontainer (registry image URL)|
 | devcontainer<br>tag `string` |php8-review| Image tag|
 | archived `boolean` |false| Setting this option to `true` will cause the repository to be archived. Once archived, it can only be unarchived manually.|

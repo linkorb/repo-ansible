@@ -23,6 +23,8 @@
   ansible.builtin.template:
     src: "{{ './templates/.devcontainer/devcontainer.json.j2' }}"
     dest: "{{ repo_path + '/.devcontainer/devcontainer.json' }}"
+  vars:
+    customizations_vscode: "{{ default_devcontainer_customizations_vscode | combine(repo.devcontainer.customizations_vscode, recursive=True, list_merge='append') }}"
 
 - name: copy .devcontainer/git directory
   ansible.builtin.copy:
