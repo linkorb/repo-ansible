@@ -117,12 +117,8 @@ your repository.
 ### Readme file auto-generation
 
 The content for each section of this README was either retrieved from `repo.yaml` or Markdown partials stored in the
-`docs/partials` folder. Managing content in this way allows you to centrally define documentation in
-`repo.schema.yaml` inherited by each affected codebase while also allowing you to define repo-specific content in
+`docs/partials` folder. Managing content in this way allows you to define repo-specific content in
 `repo.yaml` and within the `/docs/partials` folder as Markdown partials.
-
-When a playbook generates the README, it checks for Markdown partials in the `/docs` folder. If present, they override
-repo-specific content defined in `repo.yaml` or content inherited from `repo.schema.yaml` defaults.
 
 For example, if you define `readme.usage.content` in `repo.yaml`, but a Markdown file named `readme.usage.md` exists
 in the `/docs` folder, the dynamic README inserts the Markdown content.
