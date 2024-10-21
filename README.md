@@ -19,45 +19,31 @@ What benefits do you get from using repo-ansible for your repository?
 
 
 
+## Quick start
 
-## Get Started
+Ensure that python is installed on your system and you are using either Linux, MacOS, or WSL under Windows.
 
-### Configure
+Create and configure a  `repo.yaml` file for your repository. Reference the
+[configuration table below](#short-reference-configuration) and the associated repo.schema.yaml file.
 
-The playbook depends on the `repo.yml` configuration file which must reside at the root of your repository.
-This configuration let's you define variables that are used throughout generation of repository files, workflows,
-and in general standardisation across the organization repositories.
+Run repo-ansible, from your repository folder run the following commands:
 
-For example, you use `repo.yml` to define your projects repository name, description, license, visibility, code owners,
-etc.
+```shell
+curl -L -o /tmp/repo-ansible.run https://github.com/linkorb/repo-ansible/releases/latest/download/repo-ansible.run
+chmod +x /tmp/repo-ansible.run
+/tmp/repo-ansible.run
+```
 
-For all the options and switches, please refer to the JSON Schema definition of the configuration file:
-[repo.schema.yaml](repo.schema.yaml).
+> This command will install Ansible for you, install the associated dependencies and run the bundled playbook
+> (playbook-cwd.yaml) for your repository taking in account the repo.yaml configuration file.
 
- - [Looking for repo.yaml schema integration within your IDE?](./docs/SchemaIDESupport.md)
 
-<details>
-<summary>Review README.md file auto-generation, switches and rules</summary>
+> [!NOTE]
+> During execution your repository's' **README.md will be overwritten** with the generation rules used in repo-ansible.
+> If you're running the playbook for the first time on your repository, be sure to
+> review [Readme file auto-generation](#readme-file-auto-generation)
 
-#### Define README docs section content
-
-The content for each section of this README was either retrieved from `repo.yaml` or Markdown partials stored in the
-`docs/partials` folder. Managing content in this way allows you to centrally define documentation in
-`repo.schema.yaml` inherited by each affected codebase while also allowing you to define repo-specific content in
-`repo.yaml` and within the `/docs/partials` folder as Markdown partials.
-
-When a playbook generates the README, it checks for Markdown partials in the `/docs` folder. If present, they override
-repo-specific content defined in `repo.yaml` or content inherited from `repo.schema.yaml` defaults.
-
-For example, if you define `readme.usage.content` in `repo.yaml`, but a Markdown file named `readme.usage.md` exists
-in the `/docs` foder, the dynamic README inserts the Markdown content.
-
-To make this possible, tasks defined in `retrieve-docs-data.yaml` retrieve the docs files data such as the filename
-and path for each Markdown file so `README.md.j2` can check for the presence of Markdown files for each README section
-and insert Markdown content if there is a match.
-</details>
-
-### Install repo-ansible and its dependencies
+### Running repo-ansible playbooks manually
 
 Ansible is required.
 [How do I install Ansible on my system?](./docs/AnsibleInstallation.md)
@@ -71,12 +57,7 @@ $ git clone https://github.com/linkorb/repo-ansible.git /tmp/repo-ansible
 $ pip3 install -r /tmp/repo-ansible/requirements.txt
 ```
 
-### Run the playbook
-
-> [!NOTE]
-> During execution your repository's' **README.md will be overwritten** with the generation rules used in repo-ansible.
-> If you're running the playbook for the first time on your repository, be sure to
-> *Review README.md file auto-generation, switches and rules* ↑
+**Run the playbook**
 
 
 ```shell
@@ -94,6 +75,7 @@ The playbook will load and validate `repo.yaml` according to the schema; then pr
 your repository.
 
  - [Looking for a way to apply repo-ansible across multiple repositories?](./docs/BulkOperations.md)
+
 
 ### Short reference configuration
 
@@ -130,6 +112,25 @@ your repository.
 | devcontainer<br>repository `string` |ghcr.io/linkorb/php-docker-base| Image to use for devcontainer (registry image URL)|
 | devcontainer<br>tag `string` |php8-review| Image tag|
 | archived `boolean` |false| Setting this option to `true` will cause the repository to be archived. Once archived, it can only be unarchived manually.|
+ - [Looking for repo.yaml schema integration within your IDE?](./docs/SchemaIDESupport.md)
+
+### Readme file auto-generation
+
+The content for each section of this README was either retrieved from `repo.yaml` or Markdown partials stored in the
+`docs/partials` folder. Managing content in this way allows you to centrally define documentation in
+`repo.schema.yaml` inherited by each affected codebase while also allowing you to define repo-specific content in
+`repo.yaml` and within the `/docs/partials` folder as Markdown partials.
+
+When a playbook generates the README, it checks for Markdown partials in the `/docs` folder. If present, they override
+repo-specific content defined in `repo.yaml` or content inherited from `repo.schema.yaml` defaults.
+
+For example, if you define `readme.usage.content` in `repo.yaml`, but a Markdown file named `readme.usage.md` exists
+in the `/docs` folder, the dynamic README inserts the Markdown content.
+
+To make this possible, tasks defined in `retrieve-docs-data.yaml` retrieve the docs files data such as the filename
+and path for each Markdown file so `README.md.j2` can check for the presence of Markdown files for each README section
+and insert Markdown content if there is a match.
+
 
 ## Contributing
 

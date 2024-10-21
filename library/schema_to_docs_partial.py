@@ -84,5 +84,5 @@ template_str = '''
 template = env.from_string(template_str)
 rendered_template = template.render(properties=properties)
 
-with open("docs/partials/readme.usage.after.md", "w") as f:
+with open("docs/partials/readme.configuration.md", "w") as f:
     f.write(rendered_template)
