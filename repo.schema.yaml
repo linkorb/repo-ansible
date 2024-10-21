@@ -9,20 +9,24 @@ properties:
 
   name:
     type: string
-    description: Repository name
+    description: The git repository name.
     pattern: ^[a-z0-9-]+$
     minLength: 1
     maxLength: 50
 
   description:
     type: string
-    description: Repository description
+    description: >
+      Repository description that shows up in the sidebar on GitHub, and as the first line of the README after the
+      repository name.
     minLength: 1
     maxLength: 100
 
   type:
     type: string
-    description: Repository type
+    description: >
+      Classification of repository type. Influences what additional files repo-ansible will generate when
+      run.<br>The last 3 listed types have been deprecated and should not be used on new projects.
     enum:
       - php-web
       - php-library
@@ -35,13 +39,6 @@ properties:
       - application
       - library
       - symfony-bundle
-
-  archived:
-    type: boolean
-    default: false
-    description: >
-      Archive repository (default false). Once archived, the repository will have to be manually unarchived through
-      the GitHub UI.
 
   codeowners:
     type: array
@@ -72,7 +69,6 @@ properties:
     type: string
     description: Repository license
     default: proprietary
-
     enum:
     - mit
     - gpl-v3
@@ -80,25 +76,21 @@ properties:
 
   license_year:
     type: number
-    description: Year when the license was applied (required for MIT license file generation). Default to current year.
-
+    description: >
+      Year when the license was applied to the repository. Used with the MIT license, as it includes the year as part
+      of the generated LICENSE file. Defaults to current year if not set.
 
   visibility:
     type: string
-    description: Repository visibility
+    description: GitHub repository visibility.
     default: private
     enum:
-    - public
-    - private
-
-  website:
-    type: string
-    description: URL with more information about of this repository
-    default: https://engineering.linkorb.com
+      - public
+      - private
 
   lifecycle:
     type: string
-    description: Project lifecycle stage
+    description: Project lifecycle stage.
     enum:
       - dev-research
       - dev-prod-bound
@@ -109,6 +101,7 @@ properties:
 
   user_scope:
     type: array
+    description: Additional project classification in terms of users served.
     items:
       type: string
       enum:
@@ -125,7 +118,7 @@ properties:
     properties:
       topics:
         type: array
-        description: GitHub topics
+        description: GitHub topics. An array of strings.
         items:
           type: string
 
@@ -141,53 +134,54 @@ properties:
         description: GitHub features
         additionalProperties: false
         properties:
-          wiki:
-            description: Enable Wiki (default false)
-            type: boolean
-            default: false
-          issues:
-            description: Enable issues (default false)
-            type: boolean
-            default: false
-          projects:
-            description: Enable projects (default false)
-            type: boolean
-            default: false
-          downloads:
-            description: Enable repository downloads (default true)
-            type: boolean
-            default: true
-          squash_merge:
-            description: Allow squash-merging pull requests (default true)
-            type: boolean
-            default: true
-          merge_commit:
-            description: Allow merging pull requests with merge commit (default true)
-            type: boolean
-            default: true
-          rebase_merge:
-            description: Allow rebase-merging pull requests (default true)
+          dependabot_auto_merge:
+            description: >
+              Generate workflow that automatically merges Dependabot PRs for patch and minor version releases.<br>
+              *Note that merging the PR won't automatically trigger other followup workflows.*
             type: boolean
             default: true
 
-          dependabot_auto_merge:
-            description: >
-              Automatic merging of Dependabot PRs for patch/minor versions (default true). This action, even if it does
-              push updated branches, will not trigger other GitHub workflows.
+          downloads:
+            description: Enable repository downloads.
+            type: boolean
+            default: true
+          squash_merge:
+            description: Allow squash-merging pull requests.
+            type: boolean
+            default: true
+          merge_commit:
+            description: Allow merging pull requests with merge commit.
+            type: boolean
+            default: true
+          rebase_merge:
+            description: Allow rebase-merging pull requests.
             type: boolean
             default: true
 
           sdlc_workflows:
             description: >
-              EXPERIMENTAL Software Development Lifecycle Workflows (default false). Property will likely be removed in
-              the future, and true by default, when workflows have been stabilized.
+              **EXPERIMENTAL** Software Development Lifecycle Workflows. Property will likely be removed in
+              the future, and enabled by default, when workflows have been stabilized.
+            type: boolean
+            default: false
+
+          wiki:
+            description: Enable Wiki tab.
+            type: boolean
+            default: false
+          issues:
+            description: Enable issues tab.
+            type: boolean
+            default: false
+          projects:
+            description: Enable projects tab.
             type: boolean
             default: false
 
   helm_charts:
     type: boolean
     default: false
-    description: Enable generation of Helm charts (default false)
+    description: Enable generation of Helm charts.
 
   php:
     type: object
@@ -201,6 +195,26 @@ properties:
     type: object
     description: Devcontainer specific values
     properties:
+      private_packagist:
+        type: boolean
+        default: true
+        description: >
+          Repository requires private packagist access. Property is ignored is not of type php-*, or the
+          other (deprecated) types: application, library, symfony-bundle.
+      postCreateCommand:
+        description: >
+          Additional (shell) commands to run when the containers is created. For a typical project you would specify
+          commands that only need to run once when the project is setup. For example you might add a command in here to
+          load database fixtures for your project.
+        type: string
+      postStartCommand:
+        description: >
+          Additional (shell) commands to run when the container is started. This event takes place after the create
+          event, but opposed to the create event it's triggered every time the container is started (including when
+          it's resumed from a suspended state). In a typical JavaScript application you might set it to run a
+          `npm run dev` or equivalent step.
+        type: string
+
       repository:
         type: string
         description: Image to use for devcontainer (registry image URL)
@@ -209,18 +223,6 @@ properties:
         description: Image tag
         type: string
         default: php8-review
-      private_packagist:
-        type: boolean
-        default: true
-        description: >
-          Repository requires private packagist access (default true). Property is ignored is not of type php-*, or the
-          other (deprecated) types: application, library, symfony-bundle.
-      postCreateCommand:
-        description: Additional shell commands to run during the postCreate lifecycle event
-        type: string
-      postStartCommand:
-        description: Additional shell commands to run after the postStart lifecycle event
-        type: string
 
   phpqa:
     type: object
@@ -272,6 +274,19 @@ properties:
       pgp-url:
         type: string
         default: https://engineering.linkorb.com/pgp-key
+
+  archived:
+    type: boolean
+    default: false
+    description: >
+      Setting this option to `true` will cause the repository to be archived. Once archived, it can only be unarchived
+      manually.
+
+  website:
+    type: string
+    description: URL with more information about of this repository
+    default: https://engineering.linkorb.com
+
   readme:
     type: object
     additionalProperties: false
