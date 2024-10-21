@@ -195,12 +195,6 @@ properties:
     type: object
     description: Devcontainer specific values
     properties:
-      private_packagist:
-        type: boolean
-        default: true
-        description: >
-          Repository requires private packagist access. Property is ignored is not of type php-*, or the
-          other (deprecated) types: application, library, symfony-bundle.
       postCreateCommand:
         description: >
           Additional (shell) commands to run when the containers is created. For a typical project you would specify
@@ -214,6 +208,32 @@ properties:
           it's resumed from a suspended state). In a typical JavaScript application you might set it to run a
           `npm run dev` or equivalent step.
         type: string
+
+      customizations_vscode:
+        type: object
+        additionalProperties: false
+        default: {}
+        description: >
+          Customizations done in this group will be merged with the default values configured in
+          [group_vars/all.yaml](group_vars/all.yaml)
+        properties:
+          extensions:
+            type: array
+            description: >
+              Additional extensions to install. Refer to the [group_vars/all.yaml](group_vars/all.yaml) file for
+              extensions installed by default.
+          settings:
+            type: object
+            description: >
+              Settings overrides for VSCode and installed extensions. Refer to the
+              [group_vars/all.yaml](group_vars/all.yaml) file regarding proper format and default values.
+
+      private_packagist:
+        type: boolean
+        default: true
+        description: >
+          Repository requires private packagist access. Property is ignored is not of type php-*, or the
+          other (deprecated) types: application, library, symfony-bundle.
 
       repository:
         type: string

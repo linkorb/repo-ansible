@@ -1,0 +1,14 @@
+default_devcontainer_customizations_vscode:
+  extensions:
+    - xdebug.php-debug
+    - bmewburn.vscode-intelephense-client
+    - mrmlnc.vscode-apache
+    - 74th.json-yaml-schema-selector
+
+  settings:
+    "php.validate.executablePath": /usr/local/bin/php
+    "yaml.schemas":
+      "https://raw.githubusercontent.com/linkorb/repo-ansible/main/repo.schema.yaml":
+        - repo.yaml
+    # YAML extension by RedHat that prompts on each new devcontainer to enable telemetry
+    "redhat.telemetry.enabled": false
