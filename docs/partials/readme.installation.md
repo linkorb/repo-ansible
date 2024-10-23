@@ -1,20 +1,18 @@
 ## Quick start
 
-Ensure that python is installed on your system and you are using either Linux, MacOS, or WSL under Windows.
+Ensure that Docker is installed on your system and you are using either Linux, MacOS, or WSL under Windows.
 
 Create and configure a  `repo.yaml` file for your repository. Reference the
 [configuration table below](#short-reference-configuration) and the associated repo.schema.yaml file.
 
-Run repo-ansible, from your repository folder run the following commands:
+Run repo-ansible for your project via docker:
 
 ```shell
-curl -L -o /tmp/repo-ansible.run https://github.com/linkorb/repo-ansible/releases/latest/download/repo-ansible.run
-chmod +x /tmp/repo-ansible.run
-/tmp/repo-ansible.run
+docker run --rm -v "$PWD":/app ghcr.io/linkorb/repo-ansible:latest
 ```
 
-> This command will install Ansible for you, install the associated dependencies and run the bundled playbook
-> (playbook-cwd.yaml) for your repository taking in account the repo.yaml configuration file.
+> This command will execute the repo-ansible playbook-cwd.yaml in your current directory and report on the tasks
+> that reported changes throughout the execution.
 
 
 > [!NOTE]
