@@ -9,7 +9,7 @@ on:
       - 'docs/partials/**.md'
 
 jobs:
-  auto-update-readme:
+  run:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
