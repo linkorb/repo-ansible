@@ -2,7 +2,7 @@
   block:
   - name: copy semantic-release .releaserc file
     ansible.builtin.copy:
-      src: "./templates/.releaserc"
+      src: ./templates/.releaserc
       dest: "{{ repo_path }}/.releaserc"
 
   - name: copy github actions workflow files
@@ -21,10 +21,10 @@
 
 - name: generate .dockerignore
   ansible.builtin.template:
-    src: "{{ './templates/.dockerignore.j2' }}"
-    dest: "{{ repo_path + '/.dockerignore' }}"
+    src: ./templates/.dockerignore.j2
+    dest: "{{ repo_path }}/.dockerignore"
 
 - name: generate .editorconfig
   ansible.builtin.template:
-    src: "{{ './templates/.editorconfig.j2' }}"
-    dest: "{{ repo_path + '/.editorconfig' }}"
+    src: ./templates/.editorconfig.j2
+    dest: "{{ repo_path }}/.editorconfig"

@@ -94,6 +94,7 @@ your repository.
 | user_scope `array` |-| Additional project classification in terms of users served.&nbsp; Accepted values:`external-customer-facing-app`,`internal-team-facing-app`,`enables-external-customer-facing-apps`,`enables-internal-team-facing-apps`,`internal-devops-tooling`,||
 | github<br>topics `array` |-| GitHub topics. An array of strings.|
 | github<br>default_branch `string` |main| Default branch configuration in GitHub (default main). Override for older repositories that still use master branch. Consider updating your repository to include a main branch and remove this option.|
+| github<br>workflows<br>review `boolean` |true| The review workflow will trigger for pull requests and will check if the commit messages conform with conventional commits, and if cards are referenced as part of the commit message.|
 | github<br>features<br>dependabot_auto_merge `boolean` |true| Generate workflow that automatically merges Dependabot PRs for patch and minor version releases.<br> *Note that merging the PR won't automatically trigger other followup workflows.*|
 | github<br>features<br>downloads `boolean` |true| Enable repository downloads.|
 | github<br>features<br>squash_merge `boolean` |true| Allow squash-merging pull requests.|

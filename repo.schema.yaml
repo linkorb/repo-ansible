@@ -129,6 +129,18 @@ properties:
           Default branch configuration in GitHub (default main). Override for older repositories that still use master
           branch. Consider updating your repository to include a main branch and remove this option.
 
+      workflows:
+        type: object
+        description: GitHub workflows for various parts of the software development lifecycle.
+        additionalProperties: false
+        properties:
+          review:
+            type: boolean
+            default: true
+            description: >
+              The review workflow will trigger for pull requests and will check if the commit messages conform with
+              conventional commits, and if cards are referenced as part of the commit message.
+
       features:
         type: object
         description: GitHub features
