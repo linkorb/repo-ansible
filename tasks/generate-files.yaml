@@ -47,11 +47,6 @@
   vars:
     codeowners: "{{ repo.codeowners }}"
 
-- name: Generate pull request template file
-  template:
-    src: ./templates/pull_request_template.md.j2
-    dest: "{{ repo_path }}/.github/pull_request_template.md"
-
 - name: Generate CODE_OF_CONDUCT file
   template:
     src: "./templates/CODE_OF_CONDUCT.md.j2"
