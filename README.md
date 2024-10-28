@@ -52,7 +52,7 @@ Grab the latest version of the repository and its dependencies.
 ```shell
 $ git clone https://github.com/linkorb/repo-ansible.git /tmp/repo-ansible
 
-$ pip3 install -r /tmp/repo-ansible/requirements.txt
+$ pip3 install jsonschema
 ```
 
 **Run the playbook**
