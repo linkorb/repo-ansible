@@ -35,6 +35,7 @@ jobs:
 
       - name: repo-ansible
         run: |
+          docker pull ghcr.io/linkorb/repo-ansible:latest >/dev/null
           docker run --rm -v "$PWD":/app ghcr.io/linkorb/repo-ansible:latest | tee /tmp/repo_ansible_output
           export OUTPUT=$(cat /tmp/repo_ansible_output)
           {
