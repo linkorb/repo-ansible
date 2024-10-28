@@ -5,7 +5,7 @@ description: "Ansible playbooks with templated configuration to apply to all Lin
 codeowners:
   - pattern: '*'
     owners:
-      - '@joostfaassen'
+      - '@mhitza'
 github:
   topics:
     - ansible
