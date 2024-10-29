@@ -2,6 +2,7 @@ $meta:
   version: 1.0
 name: repo-ansible
 description: "Ansible playbooks with templated configuration to apply to all LinkORB code repositories."
+license: mit
 codeowners:
   - pattern: '*'
     owners:
