@@ -8,6 +8,8 @@ Create and configure a  `repo.yaml` file for your repository. Reference the
 Run repo-ansible for your project via docker:
 
 ```shell
+# always pull latest version first
+docker pull ghcr.io/linkorb/repo-ansible:latest
 docker run --rm -v "$PWD":/app ghcr.io/linkorb/repo-ansible:latest
 ```
 
