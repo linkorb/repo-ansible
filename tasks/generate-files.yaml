@@ -1,23 +1,17 @@
+- name: Create .github directory
+  ansible.builtin.file:
+    path: "{{ repo_path }}/.github"
+    state: directory
+
 - name: Generate SECURITY.md file
   ansible.builtin.template:
     src: ./templates/SECURITY.md.j2
-    dest: "{{ repo_path + '/SECURITY.md' }}"
+    dest: "{{ repo_path }}/.github/SECURITY.md"
 
-- name: generate license file
+- name: Generate LICENSE file
   ansible.builtin.template:
     src: "{{ './templates/licenses/' + repo.license + '.md.j2' }}"
-    dest: "{{ repo_path + '/LICENSE' }}"
-
-- name: ensure no LICENSE.md file
-  ansible.builtin.file:
-    path: "{{ repo_path }}/LICENSE.md"
-    state: absent
-
-
-- name: Create .github directory
-  ansible.builtin.file:
-    path: "{{ repo_path + '/.github' }}"
-    state: directory
+    dest: "{{ repo_path }}/LICENSE"
 
 - name: Generate .github/settings.yml
   ansible.builtin.template:
@@ -43,14 +37,14 @@
 - name: Generate CODEOWNERS file
   template:
     src: ./templates/CODEOWNERS.j2
-    dest: "{{ repo_path }}/CODEOWNERS"
+    dest: "{{ repo_path }}/.github/CODEOWNERS"
   vars:
     codeowners: "{{ repo.codeowners }}"
 
 - name: Generate CODE_OF_CONDUCT file
   template:
     src: "./templates/CODE_OF_CONDUCT.md.j2"
-    dest: "{{ repo_path }}/CODE_OF_CONDUCT.md"
+    dest: "{{ repo_path }}/.github/CODE_OF_CONDUCT.md"
 
 - name: Generate CONTRIBUTING file
   template:
@@ -59,8 +53,8 @@
 
 - name: generate README.md file
   ansible.builtin.template:
-    src: "{{ './templates/README.md.j2' }}"
-    dest: "{{ repo_path + '/README.md' }}"
+    src: ./templates/README.md.j2
+    dest: "{{ repo_path }}/README.md"
   when: repo.readme.enable_generation
 
 - when: repo.github.workflows.review

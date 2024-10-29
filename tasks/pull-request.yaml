@@ -8,7 +8,7 @@
     chdir: "{{ repo_path }}"
 
 - name: create commit
-  shell: "git add . && git commit -m 'chore: repo-ansible run'"
+  shell: "git add . && git commit -m 'chore: automatic repo-ansible run #0000'"
   args:
     chdir: "{{ repo_path }}"
 
