@@ -9,6 +9,8 @@ on:
 jobs:
   commit-conventions:
     runs-on: ubuntu-latest
+    # Don't enforce commit conventions checks for Dependabot
+    if: github.actor != 'dependabot[bot]'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
