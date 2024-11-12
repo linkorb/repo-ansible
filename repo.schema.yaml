@@ -194,6 +194,23 @@ properties:
             type: boolean
             default: false
 
+  reviewdog:
+    type: object
+    description: Reviewdog configuration. Used during repo-ansible/reviewdog container execution
+    additionalProperties: false
+    properties:
+      platforms:
+        description: >
+          A broad way to categorize programming languages, libraries, and frameworks, and for which we have an external
+          tool we can use to assure code quality during review.
+        type: array
+        default: []
+        items:
+          type: string
+          enum:
+            - php
+            - twig
+
   php:
     type: object
     description: PHP specific values

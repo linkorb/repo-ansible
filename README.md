@@ -107,6 +107,7 @@ your repository.
 | github<br>features<br>wiki `boolean` |false| Enable Wiki tab.|
 | github<br>features<br>issues `boolean` |false| Enable issues tab.|
 | github<br>features<br>projects `boolean` |false| Enable projects tab.|
+| reviewdog<br>platforms `array` |-| A broad way to categorize programming languages, libraries, and frameworks, and for which we have an external tool we can use to assure code quality during review.&nbsp; Accepted values:`php`,`twig`,||
 | devcontainer<br>custom_docker_compose_yaml `boolean` |false| When enabled the compose file located at .devcontainer/docker-compose.yaml will no longer get automatically updated. Allowing users to customize their docker-compose setup.|
 | devcontainer<br>postCreateCommand `string` |-| Additional (shell) commands to run when the containers is created. For a typical project you would specify commands that only need to run once when the project is setup. For example you might add a command in here to load database fixtures for your project.|
 | devcontainer<br>postStartCommand `string` |-| Additional (shell) commands to run when the container is started. This event takes place after the create event, but opposed to the create event it's triggered every time the container is started (including when it's resumed from a suspended state). In a typical JavaScript application you might set it to run a `npm run dev` or equivalent step.|

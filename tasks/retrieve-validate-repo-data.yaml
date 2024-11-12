@@ -1,13 +1,17 @@
-- name: merge repo.yaml data with defaults
+- name: read repo.yaml data with defaults
   ansible.builtin.command: "./library/repo_data.py '{{ repo_path }}/repo.yaml'"
   register: repo_data
   changed_when: false
 
-- name: 'set variables: repo, criteria, repo_managed'
+- name: "set variables: repo, criteria, repo_managed"
   ansible.builtin.set_fact:
     repo: "{{ repo_data.stdout | from_json }}"
     criteria: "{{ lookup('ansible.builtin.file', './repo.schema.yaml') | from_yaml }}"
     repo_managed: 'Managed by https://github.com/linkorb/repo-ansible. Manual changes will be overwritten.'
+
+- name: set other global variables
+  ansible.builtin.set_fact:
+    enable_reviewdog: "{{ repo.reviewdog.platforms|length > 0 }}"
 
 - name: validate repo config in json format using jsonschema by passing plugin configuration variable as key/value pairs
   ansible.builtin.set_fact:

@@ -1,0 +1,10 @@
+- name: remove QA configuration files generated unconditionally
+  ansible.builtin.file:
+    path: "{{ repo_path }}/{{ item }}"
+    state: absent
+  loop:
+    - .twigcs.yaml
+    - .yamllint.yaml
+    - .reviewdog.yaml
+    - php-cs-fixer.dist.php
+    - phpstan.neon
