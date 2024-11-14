@@ -1,0 +1,13 @@
+- name: cleanup root from files moved to .github
+  ansible.builtin.file:
+    path: "{{ repo_path }}/{{ item }}"
+    state: absent
+  with_items:
+    - "CODE_OF_CONDUCT.md"
+    - "CODEOWNERS"
+    - "SECURITY.md"
+
+- name: remove repo-level pull_request_template.md
+  ansible.builtin.file:
+    path: "{{ repo_path }}/.github/pull_request_template.md"
+    state: absent

@@ -1,0 +1,4 @@
+- name: "updating version in repo.yaml"
+  copy:
+    dest: "{{ repo_path }}/repo.yaml"
+    content: "{{ repo_yaml | combine({'version': to_version}) | to_nice_yaml(sort_keys=False, indent=2) }}"

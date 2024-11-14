@@ -1,0 +1,49 @@
+- name: stat repo-ansible .gitrelease file
+  ansible.builtin.stat:
+    path: .gitrelease
+  register: gitrelease_file_path
+
+- when: gitrelease_file_path.stat.exists
+  block:
+  - name: read .gitrelease file
+    ansible.builtin.slurp:
+      src: .gitrelease
+    register: gitrelease
+
+  - name: parse .gitrelease string
+    set_fact:
+      target_repo_ansible_version: "{{ gitrelease.content | b64decode | trim }}"
+
+  - name: read repo.yaml for version string modifications
+    ansible.builtin.slurp:
+      src: "{{ repo_path }}/repo.yaml"
+    register: repo_yaml_source
+
+  - name: parse repo.yaml into an in-memory structure
+    set_fact:
+      repo_yaml: "{{ repo_yaml_source.content | b64decode | from_yaml }}"
+
+  - name: list required migrations
+    ansible.builtin.command: "./library/list_migrations.py '{{ repo.version|default('v0.0.0') }}'"
+    register: list_migrations
+    changed_when: false
+
+  - name: parse migrations list
+    set_fact:
+      repo_ansible_migrations: "{{ list_migrations.stdout | from_json }}"
+
+  - when: repo_ansible_migrations|length > 0
+    block:
+    - name: "running migrations"
+      ansible.builtin.include_tasks: "tasks/migrations/run-step.yaml"
+      vars:
+        migration_to_version: "{{ item_migration.version }}"
+        migration_filename: "{{ item_migration.filename }}"
+      loop: "{{ repo_ansible_migrations }}"
+      loop_control:
+        # XXX renamed to avoid warnings if included tasks include loops of their own
+        loop_var: item_migration
+
+  - ansible.builtin.include_tasks: "tasks/migrations/update-repo-yaml-version.yaml"
+    vars:
+      to_version: "{{ target_repo_ansible_version }}"

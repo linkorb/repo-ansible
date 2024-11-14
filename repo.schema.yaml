@@ -5,7 +5,11 @@ additionalProperties: false
 properties:
   $meta:
     type: object
-    description: Repo-specific metadata
+    description: repo-ansible specific metadata
+
+  version:
+    type: string
+    description: Version of compatible repo-ansible release. Automatically updated during repo-ansible runs.
 
   name:
     type: string
