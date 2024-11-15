@@ -190,11 +190,6 @@ properties:
             type: boolean
             default: false
 
-  helm_charts:
-    type: boolean
-    default: false
-    description: Enable generation of Helm charts.
-
   php:
     type: object
     description: PHP specific values
@@ -261,6 +256,11 @@ properties:
         description: Image tag
         type: string
         default: php8-review
+
+  helm_charts:
+    type: boolean
+    default: false
+    description: Enable generation of Helm charts.
 
   phpqa:
     type: object
