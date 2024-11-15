@@ -107,6 +107,7 @@ your repository.
 | github<br>features<br>issues `boolean` |false| Enable issues tab.|
 | github<br>features<br>projects `boolean` |false| Enable projects tab.|
 | helm_charts `boolean` |false| Enable generation of Helm charts.|
+| devcontainer<br>custom_docker_compose_yaml `boolean` |false| When enabled no pre-defined .devcontainer/docker-compose.yaml file will be generated, and instead the devcontainer will attempt to use a docker-compose.yaml file located in the root of the repository.|
 | devcontainer<br>postCreateCommand `string` |-| Additional (shell) commands to run when the containers is created. For a typical project you would specify commands that only need to run once when the project is setup. For example you might add a command in here to load database fixtures for your project.|
 | devcontainer<br>postStartCommand `string` |-| Additional (shell) commands to run when the container is started. This event takes place after the create event, but opposed to the create event it's triggered every time the container is started (including when it's resumed from a suspended state). In a typical JavaScript application you might set it to run a `npm run dev` or equivalent step.|
 | devcontainer<br>customizations_vscode<br>extensions `array` |-| Additional extensions to install. Refer to the [group_vars/all.yaml](group_vars/all.yaml) file for extensions installed by default.|
