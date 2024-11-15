@@ -9,15 +9,18 @@
     state: directory
   when: not devcontainer_folder.stat.exists
 
-- name: generate .devcontainer/docker-compose.yml
-  ansible.builtin.template:
-    src: "{{ './templates/.devcontainer/docker-compose.yml.j2' }}"
-    dest: "{{ repo_path + '/.devcontainer/docker-compose.yml' }}"
+- name: pre-defined docker-compose.yml & Dockerfile
+  when: not repo.devcontainer.custom_docker_compose_yaml
+  block:
+  - name: generate .devcontainer/docker-compose.yml
+    ansible.builtin.template:
+      src: "{{ './templates/.devcontainer/docker-compose.yml.j2' }}"
+      dest: "{{ repo_path + '/.devcontainer/docker-compose.yml' }}"
 
-- name: generate .devcontainer/Dockerfile
-  ansible.builtin.template:
-    src: "{{ './templates/.devcontainer/Dockerfile.j2' }}"
-    dest: "{{ repo_path + '/.devcontainer/Dockerfile' }}"
+  - name: generate .devcontainer/Dockerfile
+    ansible.builtin.template:
+      src: "{{ './templates/.devcontainer/Dockerfile.j2' }}"
+      dest: "{{ repo_path + '/.devcontainer/Dockerfile' }}"
 
 - name: generate .devcontainer/devcontainer.json
   ansible.builtin.template:

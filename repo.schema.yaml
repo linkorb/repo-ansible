@@ -190,11 +190,6 @@ properties:
             type: boolean
             default: false
 
-  helm_charts:
-    type: boolean
-    default: false
-    description: Enable generation of Helm charts.
-
   php:
     type: object
     description: PHP specific values
@@ -207,6 +202,12 @@ properties:
     type: object
     description: Devcontainer specific values
     properties:
+      custom_docker_compose_yaml:
+        type: boolean
+        default: false
+        description: >
+          When enabled no pre-defined .devcontainer/docker-compose.yaml file will be generated, and instead the
+          devcontainer will attempt to use a docker-compose.yaml file located in the root of the repository.
       postCreateCommand:
         description: >
           Additional (shell) commands to run when the containers is created. For a typical project you would specify
@@ -255,6 +256,11 @@ properties:
         description: Image tag
         type: string
         default: php8-review
+
+  helm_charts:
+    type: boolean
+    default: false
+    description: Enable generation of Helm charts.
 
   phpqa:
     type: object
