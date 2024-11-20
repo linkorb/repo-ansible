@@ -5,6 +5,7 @@ codeowners:
 description: Ansible playbooks with templated configuration to apply to all LinkORB
   code repositories.
 github:
+  enforce_review_policy: false
   features:
     issues: true
     wiki: true
@@ -13,7 +14,6 @@ github:
   - automation
 license: mit
 license_year: 2024
-name: repo-ansible
 type: other
 version: v0.10.1
 visibility: public
