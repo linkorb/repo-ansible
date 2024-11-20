@@ -147,7 +147,7 @@ properties:
 
       enforce_review_policy:
         type: boolean
-        default: true
+        default: false
         description: >
           Enables the following GitHub branch protection rules:<ul>
           <li>prevent force push to default branch</li>
