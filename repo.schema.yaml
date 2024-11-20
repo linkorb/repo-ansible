@@ -145,6 +145,18 @@ properties:
               The review workflow will trigger for pull requests and will check if the commit messages conform with
               conventional commits, and if cards are referenced as part of the commit message.
 
+      enforce_review_policy:
+        type: boolean
+        default: true
+        description: >
+          Enables the following GitHub branch protection rules:<ul>
+          <li>prevent force push to default branch</li>
+          <li>prevent deletion of default branch</li>
+          <li>prevent PR authors from merging their own changes</li>
+          <li>prevent reviewers from merging PRs unless all conversations are resolved and the latest
+          changes reviewed</li>
+          </ul>
+
       features:
         type: object
         description: GitHub features
