@@ -11,6 +11,7 @@ github:
   topics:
     - ansible
     - automation
+  enforce_review_policy: false
   features:
     wiki: true
     issues: true
