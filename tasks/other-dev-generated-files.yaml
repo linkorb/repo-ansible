@@ -20,8 +20,11 @@
       dest: "{{ repo_path + '/.github/workflows/' + item.target }}"
       variable_start_string: '[['
       variable_end_string: ']]'
+    vars:
+      - workflow_group: "{{ item.workflow_group }}"
     loop:
       - target: 00-start.yaml
+        workflow_group: ""
       - target: 10-review.yaml
         workflow_group: "10"
       - target: 30-release-and-build.yaml
