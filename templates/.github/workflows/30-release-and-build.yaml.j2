@@ -107,6 +107,6 @@ jobs:
 {% for followup_workflow in followup_workflows[workflow_group] %}
 
   [[ followup_workflow.name ]]-followup:
-    uses: [[ followup_workflow.path_from_root ]]
+    uses: ./[[ followup_workflow.path_from_root ]]
 {% endfor %}
 {% endif %}
