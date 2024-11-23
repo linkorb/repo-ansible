@@ -58,9 +58,18 @@
   when: repo.readme.enable_generation
 
 - when: repo.github.workflows.review
-  name: copy github review workflow
-  ansible.builtin.template:
-    src: ./templates/.github/workflows/10-review.yaml.j2
-    dest: "{{ repo_path }}/.github/workflows/10-review.yaml"
-    variable_start_string: '[['
-    variable_end_string: ']]'
+  block:
+  - name: find workflow extensions
+    ansible.builtin.command: "./library/list_extension_workflows.py '{{ repo_path }}'"
+    register: extension_workflows
+    changed_when: false
+
+  - name: copy github review workflow
+    ansible.builtin.template:
+      src: ./templates/.github/workflows/10-review.yaml.j2
+      dest: "{{ repo_path }}/.github/workflows/10-review.yaml"
+      variable_start_string: '[['
+      variable_end_string: ']]'
+    vars:
+      followup_workflows: "{{ extension_workflows.stdout | from_json }}"
+      workflow_group: "10"

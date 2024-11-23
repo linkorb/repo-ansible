@@ -24,3 +24,10 @@ jobs:
         package-name: "${{ env.CI_REPOSITORY_NAME }}"
         package-type: container
         min-versions-to-keep: 5
+{% if workflow_group in followup_workflows %}
+{% for followup_workflow in followup_workflows[workflow_group] %}
+
+  [[ followup_workflow.name ]]-followup:
+    uses: [[ followup_workflow.path_from_root ]]
+{% endfor %}
+{% endif %}

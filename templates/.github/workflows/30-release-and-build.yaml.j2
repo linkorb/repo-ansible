@@ -103,3 +103,10 @@ jobs:
         build-args: |
           PACKAGIST_USER=token
           PACKAGIST_TOKEN=${{ secrets.PACKAGIST_TOKEN }}
+{% if workflow_group in followup_workflows %}
+{% for followup_workflow in followup_workflows[workflow_group] %}
+
+  [[ followup_workflow.name ]]-followup:
+    uses: [[ followup_workflow.path_from_root ]]
+{% endfor %}
+{% endif %}
