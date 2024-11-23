@@ -23,16 +23,27 @@
     path: "{{ repo_path }}/.github/workflows"
     state: directory
 
-- name: Generate repo-ansible workflow
-  ansible.builtin.copy:
-    src: ./templates/.github/workflows/repo-ansible.yaml
-    dest: "{{ repo_path }}/.github/workflows/repo-ansible.yaml"
+- when: repo.github.default_branch_push_protection
+  name: "disable workflows incompatible with {{ repo.github.default_branch }} branch push protection"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - "{{ repo_path }}/.github/workflows/repo-ansible.yaml"
+    - "{{ repo_path }}/.github/workflows/dependabot-auto-merge.yaml"
 
-- name: Generate dependabot automerge workflow
-  ansible.builtin.copy:
-    src: ./templates/.github/workflows/dependabot-auto-merge.yaml
-    dest: "{{ repo_path }}/.github/workflows/dependabot-auto-merge.yaml"
-  when: repo.github.features.dependabot_auto_merge
+- when: not repo.github.default_branch_push_protection
+  block:
+  - name: Generate repo-ansible workflow
+    ansible.builtin.copy:
+      src: ./templates/.github/workflows/repo-ansible.yaml
+      dest: "{{ repo_path }}/.github/workflows/repo-ansible.yaml"
+
+  - name: Generate dependabot automerge workflow
+    ansible.builtin.copy:
+      src: ./templates/.github/workflows/dependabot-auto-merge.yaml
+      dest: "{{ repo_path }}/.github/workflows/dependabot-auto-merge.yaml"
+    when: repo.github.features.dependabot_auto_merge
 
 - name: Generate CODEOWNERS file
   template:
