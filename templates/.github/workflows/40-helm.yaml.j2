@@ -68,3 +68,10 @@ jobs:
       if: steps.check_files.outputs.files_exists == 'true'
       continue-on-error: true
       run: curl --silent --fail --show-error -u "github:${{ secrets.CHARTMUSEUMPASS }}" --data-binary "@`ls -1 *.tgz | head -n1`" https://charts.linkorb.com/api/charts
+{% if workflow_group in followup_workflows %}
+{% for followup_workflow in followup_workflows[workflow_group] %}
+
+  [[ followup_workflow.name ]]-followup:
+    uses: ./[[ followup_workflow.path_from_root ]]
+{% endfor %}
+{% endif %}
