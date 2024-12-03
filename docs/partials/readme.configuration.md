@@ -38,3 +38,4 @@
 | devcontainer<br>tag `string` |php8-review| Image tag|
 | helm_charts `boolean` |false| Enable generation of Helm charts.|
 | archived `boolean` |false| Setting this option to `true` will cause the repository to be archived. Once archived, it can only be unarchived manually.|
+| omit_files `array` |[]| **EXPERIMENTAL** A list of files to skip during file generation.|
