@@ -50,6 +50,7 @@
   template:
     src: "./templates/CONTRIBUTING.md.j2"
     dest: "{{ repo_path }}/CONTRIBUTING.md"
+  when: "'CONTRIBUTING.md' not in repo.omit_files"
 
 - name: generate README.md file
   ansible.builtin.template:

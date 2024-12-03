@@ -346,6 +346,14 @@ properties:
       enabled:
         type: boolean
         default: true
+        
+  omit_files:
+    type: array
+    default: []
+    description: A list of files to skip during file generation.
+    items:
+      type: string
+      
 definitions:
   section:
     type: object
