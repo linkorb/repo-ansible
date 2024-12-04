@@ -21,7 +21,7 @@
       variable_start_string: '[['
       variable_end_string: ']]'
     vars:
-      - workflow_group: "{{ item.workflow_group }}"
+      workflow_group: "{{ item.workflow_group }}"
     loop:
       - target: 00-start.yaml
         workflow_group: ""
