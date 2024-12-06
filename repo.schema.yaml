@@ -206,8 +206,8 @@ properties:
         type: boolean
         default: false
         description: >
-          When enabled no pre-defined .devcontainer/docker-compose.yaml file will be generated, and instead the
-          devcontainer will attempt to use a docker-compose.yaml file located in the root of the repository.
+          When enabled the compose file located at .devcontainer/docker-compose.yaml will no longer get automatically
+          updated. Allowing users to customize their docker-compose setup.
       postCreateCommand:
         description: >
           Additional (shell) commands to run when the containers is created. For a typical project you would specify
