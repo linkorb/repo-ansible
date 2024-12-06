@@ -1,10 +1,6 @@
 // {{ repo_managed }}
 {
-{% if repo.devcontainer.custom_docker_compose_yaml %}
-  "dockerComposeFile": "../docker-compose.yaml",
-{% else %}
   "dockerComposeFile": "docker-compose.yml",
-{% endif %}
   "service": "app",
   "workspaceFolder": "/app",
 
