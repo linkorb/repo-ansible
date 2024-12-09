@@ -14,6 +14,8 @@
       when: not skip_checkout
 
     - import_tasks: tasks/retrieve-validate-repo-data.yaml
+    - import_tasks: tasks/version-migrations.yaml
+
     - import_tasks: tasks/retrieve-docs-data.yaml
     - import_tasks: tasks/generate-files.yaml
 

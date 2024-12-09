@@ -7,6 +7,7 @@
 
 | Property | Default | Description |
 | --- | --- | --- |
+| version `string` |-| Version of compatible repo-ansible release. Automatically updated during repo-ansible runs.|
 | **name** `string` |-| The git repository name.|
 | **description** `string` |-| Repository description that shows up in the sidebar on GitHub, and as the first line of the README after the repository name.|
 | **type** `string` |-| Classification of repository type. Influences what additional files repo-ansible will generate when run.<br>The last 3 listed types have been deprecated and should not be used on new projects.&nbsp; Accepted values:`php-web`,`php-library`,`php-cli`,`nodejs-web`,`nodejs-library`,`nodejs-cli`,`other`,`application`,`library`,`symfony-bundle`,||
