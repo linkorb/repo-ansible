@@ -145,6 +145,26 @@ properties:
               The review workflow will trigger for pull requests and will check if the commit messages conform with
               conventional commits, and if cards are referenced as part of the commit message.
 
+      review_policy:
+        type: boolean
+        default: false
+        description: >
+          Enables the following GitHub branch protection rules:<ul>
+          <li>prevent force push to default branch</li>
+          <li>prevent deletion of default branch</li>
+          <li>prevent PR authors from merging their own changes</li>
+          <li>prevent reviewers from merging PRs unless all conversations are resolved and the latest
+          changes reviewed</li>
+          </ul>
+
+      default_branch_push_protection:
+        type: boolean
+        default: false
+        description: >
+          Requires `enforce_review_policy` to be also enabled.
+          Prevents contributors with write access from pushing commits to the `default_branch` of the repository.
+          **Enabling this will disable the automatic merging of Dependabot PRs. `dependabot_auto_merge`**
+
       features:
         type: object
         description: GitHub features
