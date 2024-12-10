@@ -3,9 +3,9 @@
 # Configure the tools
 runner:
   phpstan:
+    name: phpstan
     cmd: phpstan analyze --configuration=phpstan.neon --error-format=checkstyle --memory-limit=-1
-    format: checkstyle # format to be parsed by reviewdog
-    name: phpstan # output in logs
+    format: checkstyle
     level: error
 
   php-cs-fixer:
@@ -14,14 +14,7 @@ runner:
     format: checkstyle
     level: error
 
-  yamllint:
-    name: yamllint
-    cmd: yamllint -c .yamllint.yaml . --format "parsable"
-    errorformat:
-      - "%f:%l:%c: %m"
-    level: error
-
-  twigcs:
-    cmd: "twigcs **/*.twig --reporter checkstyle"
+  twig-cs-fixer:
+    cmd: "twig-cs-fixer --report=checkstyle"
     format: checkstyle
-    level: "warning"
+    level: error
