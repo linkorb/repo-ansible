@@ -1,6 +1,6 @@
-FROM ubuntu:24.04
+FROM php:8.4
 
-RUN apt-get update && apt-get install -y php-cli php-xml composer ansible-lint
+RUN apt-get -y update && apt-get install -y ansible wget
 
 ARG phpstan_version=2.0.1
 RUN wget "https://github.com/phpstan/phpstan/releases/download/$phpstan_version/phpstan.phar" \
@@ -23,7 +23,9 @@ RUN wget "https://github.com/reviewdog/reviewdog/releases/download/v$reviewdog_v
 && mv reviewdog /usr/local/bin/reviewdog
 
 WORKDIR /app
-#CMD reviewdog -filter-mode=nofilter
+
+# php-cs-fixer throws an incompatibility error when PHP 8.4 is used, this flag prevents that behaviour
+ENV PHP_CS_FIXER_IGNORE_ENV=1
 
 COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
