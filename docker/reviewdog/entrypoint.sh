@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# TODO add in at a later time
+# TODO add this feature at a later time, to make it convenient to quickly fix reported coding style errors
 #fix          - automatically fix coding style when possible (WILL ATTEMPT TO FIX ALL FILES, NOT ONLY THOSE CHANGED)
 
 help=$(cat <<'EOQ'
@@ -25,7 +25,7 @@ for arg in "$@"; do
       reviewdog_args=()
     elif [ "$arg" = "pull-request" ]; then
       reviewdog_args=("-diff=git diff FETCH_HEAD")
-      reviewdog_args+=("-reporter=github-pr-check")
+      reviewdog_args+=("-reporter=local")
     else
       reviewdog_args+=("$arg")
     fi
