@@ -1,8 +1,3 @@
-- name: Check if directory exists
-  stat:
-    path: "{{ repo_path + '/.github/' }}"
-  register: directory_exists
-
 - name: Ensure composer-unused.php is absent
   ansible.builtin.file:
     path: "{{ repo_path + '/composer-unused.php' }}"
@@ -13,28 +8,40 @@
 #  ansible.builtin.template:
 #    src: "{{ './templates/php-qa/composer-unused.php.j2' }}"
 #    dest: "{{ repo_path + '/composer-unused.php' }}"
+- when: enable_reviewdog
+  block:
+  - name: Generate .reviewdog.yaml
+    ansible.builtin.template:
+      src: "{{ './templates/php-qa/reviewdog.yaml.j2' }}"
+      dest: "{{ repo_path + '/.reviewdog.yaml' }}"
 
-- name: Generate .php-cs-fixer.dist.php file
-  ansible.builtin.template:
-    src: "{{ './templates/php-qa/php-cs-fixer.dist.php.j2' }}"
-    dest: "{{ repo_path + '/.php-cs-fixer.dist.php' }}"
+  - when: "'php' in repo.reviewdog.platforms"
+    block:
+    - name: Generate .php-cs-fixer.dist.php
+      ansible.builtin.template:
+        src: ./templates/php-qa/php-cs-fixer.dist.php.j2
+        dest: "{{ repo_path }}/.php-cs-fixer.dist.php"
 
-- name: Generate phpstan.neon file
-  ansible.builtin.template:
-    src: "{{ './templates/php-qa/phpstan.neon.j2' }}"
-    dest: "{{ repo_path + '/phpstan.neon' }}"
+    - name: gitignore .php-cs-fixer.cache
+      ansible.builtin.blockinfile:
+        path: "{{ repo_path }}/.gitignore"
+        create: yes # file if missing
+        state: present
+        marker: "# {mark} repo-ansible reviewdog php"
+        block: |
+          .php-cs-fixer.cache
 
-- name: Generate reviewdog.yaml for GitHub actions file
-  ansible.builtin.template:
-    src: "{{ './templates/php-qa/reviewdog.yaml.j2' }}"
-    dest: "{{ repo_path + '/.reviewdog.yaml' }}"
+    - name: Generate phpstan.neon
+      ansible.builtin.template:
+        src: ./templates/php-qa/phpstan.neon.j2
+        dest: "{{ repo_path }}/phpstan.neon"
 
-- name: Generate yamllint.yaml file
-  ansible.builtin.template:
-    src: "{{ './templates/php-qa/yamllint.yaml.j2' }}"
-    dest: "{{ repo_path + '/.yamllint.yaml' }}"
-
-- name: Generate twigcs.yaml file
-  ansible.builtin.template:
-    src: "{{ './templates/php-qa/twigcs.yaml.j2' }}"
-    dest: "{{ repo_path + '/.twigcs.yaml' }}"
+  - when: "'twig' in repo.reviewdog.platforms"
+    name: gitignore .twig-cs-fixer.cache
+    ansible.builtin.blockinfile:
+      path: "{{ repo_path }}/.gitignore"
+      create: yes # file if missing
+      state: present
+      marker: "# {mark} repo-ansible reviewdog twig"
+      block: |
+        .twig-cs-fixer.cache

@@ -1,11 +1,10 @@
-# .reviewdog.yml
 # {{ repo_managed }}
-# Configure the tools
 runner:
+{% if 'php' in repo.reviewdog.platforms %}
   phpstan:
+    name: phpstan
     cmd: phpstan analyze --configuration=phpstan.neon --error-format=checkstyle --memory-limit=-1
-    format: checkstyle # format to be parsed by reviewdog
-    name: phpstan # output in logs
+    format: checkstyle
     level: error
 
   php-cs-fixer:
@@ -13,15 +12,10 @@ runner:
     cmd: php-cs-fixer fix --dry-run --diff .php-cs-fixer.dist.php --ansi --format checkstyle
     format: checkstyle
     level: error
-
-  yamllint:
-    name: yamllint
-    cmd: yamllint -c .yamllint.yaml . --format "parsable"
-    errorformat:
-      - "%f:%l:%c: %m"
-    level: error
-
-  twigcs:
-    cmd: "twigcs **/*.twig --reporter checkstyle"
+{% endif %}
+{% if 'twig' in repo.reviewdog.platforms %}
+  twig-cs-fixer:
+    cmd: "twig-cs-fixer --report=checkstyle"
     format: checkstyle
-    level: "warning"
+    level: error
+{% endif %}
