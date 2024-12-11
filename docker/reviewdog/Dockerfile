@@ -1,6 +1,6 @@
 FROM php:8.4
 
-RUN apt-get -y update && apt-get install -y ansible wget
+RUN apt-get -y update && apt-get install -y ansible wget git
 
 ARG phpstan_version=2.0.1
 RUN wget "https://github.com/phpstan/phpstan/releases/download/$phpstan_version/phpstan.phar" \
