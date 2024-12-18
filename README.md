@@ -1,6 +1,4 @@
 <!-- Managed by https://github.com/linkorb/repo-ansible. Manual changes will be overwritten. -->
-repo-ansible
-============
 
 Ansible playbooks with templated configuration to apply to all LinkORB code repositories.
 
@@ -16,7 +14,6 @@ What benefits do you get from using repo-ansible for your repository?
    Community guidelines, contributing notes, git hooks, codeowners for automated PR assignment, QA tooling/configuration,
    and the standardized LinkORB pull request template.
  - **Standardized repository files, GitHub repository management, and much more to come!**
-
 
 
 ## Quick start
