@@ -1,0 +1,7 @@
+- name: "updating version in repo.yaml"
+  copy:
+    dest: "{{ repo_path }}/repo.yaml"
+    content: "{{ repo_yaml | combine({'version': to_version}) | to_nice_yaml }}"
+
+- name: reformat repo.yaml file
+  ansible.builtin.command: "./library/yaml_format.py '{{ repo_path }}/repo.yaml'"

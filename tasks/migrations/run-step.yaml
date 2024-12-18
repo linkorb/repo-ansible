@@ -1,6 +1,6 @@
 - name: "{{ migration_to_version }} applying migration"
   ansible.builtin.include_tasks: "tasks/migrations/{{ migration_filename }}"
 
-- ansible.builtin.include_tasks: "tasks/migrations/update-repo-yaml-version.yaml"
+- ansible.builtin.include_tasks: tasks/migrations/update-version.yaml
   vars:
     to_version: "{{ migration_to_version }}"
