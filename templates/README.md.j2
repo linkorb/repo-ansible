@@ -1,6 +1,7 @@
 <!-- {{ repo_managed }} -->
-{{ repo.name }}
-============
+{% if repo.type != 'other' and repo.github.features.sdlc_workflows %}
+[![Release](https://github.com/linkorb/{{ repo.name }}/actions/workflows/30-release-and-build.yaml/badge.svg)](https://github.com/linkorb/{{ repo.name }}/actions/workflows/30-release-and-build.yaml)
+{% endif %}
 
 {% set markdown_file_path_prefix = repo_path + '/docs/partials/readme.' %}
 {#################################################}
@@ -29,10 +30,6 @@
 {% elif repo.readme.intro.after is defined %}
 {{ repo.readme.intro.after }}
 {% else %}
-{% endif %}
-
-{% if repo.type != 'other' and repo.github.features.sdlc_workflows %}
-Build status: [![Release](https://github.com/linkorb/{{ repo.name }}/actions/workflows/30-release-and-build.yaml/badge.svg)](https://github.com/linkorb/{{ repo.name }}/actions/workflows/30-release-and-build.yaml)
 {% endif %}
 
 {#################################################}
