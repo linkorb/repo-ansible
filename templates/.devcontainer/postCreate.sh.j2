@@ -14,7 +14,7 @@ composer config --global --auth http-basic.repo.packagist.com \
   "${GITHUB_USER:-$GITHUB_USER_ON_HOST}" "${PACKAGIST_TOKEN:-$PACKAGIST_TOKEN_ON_HOST}"
 {% endif %}
 
-composer install
+COMPOSER_MEMORY_LIMIT=-1 composer install
 {% endif %}
 
 {% if repo.type.startswith('nodejs-') %}
