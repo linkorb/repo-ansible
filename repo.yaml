@@ -1,18 +1,19 @@
-version: v0.9.2
-name: repo-ansible
+codeowners:
+- owners:
+  - '@mhitza'
+  pattern: '*'
 description: Ansible playbooks with templated configuration to apply to all LinkORB
   code repositories.
-license: mit
-codeowners:
-- pattern: '*'
-  owners:
-  - '@mhitza'
 github:
+  features:
+    issues: true
+    wiki: true
   topics:
   - ansible
   - automation
-  features:
-    wiki: true
-    issues: true
+license: mit
+license_year: 2024
+name: repo-ansible
 type: other
+version: v0.10.1
 visibility: public
