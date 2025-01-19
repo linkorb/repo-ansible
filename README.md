@@ -95,6 +95,7 @@ your repository.
 | github<br>topics `array` |-| GitHub topics. An array of strings.|
 | github<br>default_branch `string` |main| Default branch configuration in GitHub (default main). Override for older repositories that still use master branch. Consider updating your repository to include a main branch and remove this option.|
 | github<br>workflows<br>review `boolean` |true| The review workflow will trigger for pull requests and will check if the commit messages conform with conventional commits, and if cards are referenced as part of the commit message.|
+| github<br>enforce_review_policy `boolean` |false| Enables the following GitHub branch protection rules:<ul> <li>prevent force push to default branch</li> <li>prevent deletion of default branch</li> <li>prevent PR authors from merging their own changes</li> <li>prevent reviewers from merging PRs unless all conversations are resolved and the latest changes reviewed</li> </ul>|
 | github<br>features<br>dependabot_auto_merge `boolean` |true| Generate workflow that automatically merges Dependabot PRs for patch and minor version releases.<br> *Note that merging the PR won't automatically trigger other followup workflows.*|
 | github<br>features<br>downloads `boolean` |true| Enable repository downloads.|
 | github<br>features<br>squash_merge `boolean` |true| Allow squash-merging pull requests.|
