@@ -24,9 +24,11 @@
     state: directory
 
 - name: Generate repo-ansible workflow
-  ansible.builtin.copy:
-    src: ./templates/.github/workflows/auto-run-repo-ansible.yaml
+  ansible.builtin.template:
+    src: ./templates/.github/workflows/auto-run-repo-ansible.yaml.j2
     dest: "{{ repo_path }}/.github/workflows/auto-run-repo-ansible.yaml"
+    variable_start_string: '[['
+    variable_end_string: ']]'
 
 - name: Generate dependabot automerge workflow
   ansible.builtin.copy:
