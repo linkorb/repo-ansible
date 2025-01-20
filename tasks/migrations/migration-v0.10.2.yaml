@@ -4,3 +4,5 @@
     state: absent
   loop:
     - .github/workflows/00-start.yaml
+    - .github/workflows/dependabot-auto-merge.yaml
+    - .github/workflows/repo-ansible.yaml

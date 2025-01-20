@@ -25,13 +25,13 @@
 
 - name: Generate repo-ansible workflow
   ansible.builtin.copy:
-    src: ./templates/.github/workflows/repo-ansible.yaml
-    dest: "{{ repo_path }}/.github/workflows/repo-ansible.yaml"
+    src: ./templates/.github/workflows/auto-run-repo-ansible.yaml
+    dest: "{{ repo_path }}/.github/workflows/auto-run-repo-ansible.yaml"
 
 - name: Generate dependabot automerge workflow
   ansible.builtin.copy:
-    src: ./templates/.github/workflows/dependabot-auto-merge.yaml
-    dest: "{{ repo_path }}/.github/workflows/dependabot-auto-merge.yaml"
+    src: ./templates/.github/workflows/auto-merge-dependabot-prs.yaml
+    dest: "{{ repo_path }}/.github/workflows/auto-merge-dependabot-prs.yaml"
   when: repo.github.features.dependabot_auto_merge
 
 - name: Generate CODEOWNERS file
