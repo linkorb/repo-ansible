@@ -39,23 +39,8 @@ jobs:
       id: semantic-release
       uses: codfish/semantic-release-action@v3
       with:
-        # support releasing the "main" branch
-        # whilst preserving the action defaults
         branches: |
-          [
-            '+([0-9])?(.{+([0-9]),x}).x',
-            '[[ repo.github.default_branch ]]',
-            'next',
-            'next-major',
-            {
-              name: 'beta',
-              prerelease: true
-            },
-            {
-              name: 'alpha',
-              prerelease: true
-            }
-          ]
+          [ '[[ repo.github.default_branch ]]' ]
         additional-packages: |
           ['@semantic-release/changelog', '@semantic-release/git', '@semantic-release/exec']
         repository-url: 'https://github.com/${{ github.repository_owner }}/${{ env.CI_REPOSITORY_NAME }}.git'
