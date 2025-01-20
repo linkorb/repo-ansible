@@ -1,0 +1,6 @@
+- name: remove do-all 00-start.yaml workflow file
+  ansible.builtin.file:
+    path: "{{ repo_path }}/{{ item }}"
+    state: absent
+  loop:
+    - .github/workflows/00-start.yaml
