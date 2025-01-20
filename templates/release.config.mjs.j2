@@ -1,0 +1,30 @@
+/**
+ * {{ repo_managed }}
+ *
+ * Configuration file used by the release workflow .github/workflows/30-release-and-build.yaml
+ */
+/**
+ * @type {import('semantic-release').GlobalConfig}
+ */
+export default {
+  branches: ["{{ repo.github.default_branch }}"],
+  debug: "True",
+  plugins: [
+    [ "@semantic-release/commit-analyzer", { preset: "angular", releaseRules: [
+          { type: "chore",    release: "patch" },
+          { type: "ci",       release: "patch" },
+          { type: "docs",     release: "patch" },
+          { type: "refactor", release: "patch" },
+          { type: "style",    release: "patch" },
+          { type: "test",     release: "patch" },
+    ] } ],
+    "@semantic-release/github",
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/changelog",
+    [ "@semantic-release/git", {
+        assets: [ "CHANGELOG.md" ],
+        message: "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+    } ],
+    [ "@semantic-release/exec", { publishCmd: "echo ${nextRelease.version} > .gitrelease" } ]
+  ]
+}

@@ -1,9 +1,9 @@
 - when: repo.github.features.sdlc_workflows
   block:
-  - name: copy semantic-release .releaserc file
-    ansible.builtin.copy:
-      src: ./templates/.releaserc
-      dest: "{{ repo_path }}/.releaserc"
+  - name: generate semantic-release config file
+    ansible.builtin.template:
+      src: ./templates/release.config.mjs.j2
+      dest: "{{ repo_path }}/release.config.mjs"
 
   - name: find workflow extensions
     ansible.builtin.command: "./library/list_extension_workflows.py '{{ repo_path }}'"

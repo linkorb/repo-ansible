@@ -1,4 +1,4 @@
-- name: remove do-all 00-start.yaml workflow file
+- name: remove renamed or repo-ansible dropped files
   ansible.builtin.file:
     path: "{{ repo_path }}/{{ item }}"
     state: absent
@@ -6,3 +6,4 @@
     - .github/workflows/00-start.yaml
     - .github/workflows/dependabot-auto-merge.yaml
     - .github/workflows/repo-ansible.yaml
+    - .releaserc

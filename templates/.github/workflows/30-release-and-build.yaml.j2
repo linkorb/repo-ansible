@@ -39,8 +39,6 @@ jobs:
       id: semantic-release
       uses: codfish/semantic-release-action@v3
       with:
-        branches: |
-          [ '[[ repo.github.default_branch ]]' ]
         additional-packages: |
           ['@semantic-release/changelog', '@semantic-release/git', '@semantic-release/exec']
         repository-url: 'https://github.com/${{ github.repository_owner }}/${{ env.CI_REPOSITORY_NAME }}.git'
