@@ -2,8 +2,8 @@
   block:
   - name: generate semantic-release config file
     ansible.builtin.template:
-      src: ./templates/release.config.mjs.j2
-      dest: "{{ repo_path }}/release.config.mjs"
+      src: ./templates/.releaserc.cjs.j2
+      dest: "{{ repo_path }}/.releaserc.cjs"
 
   - name: find workflow extensions
     ansible.builtin.command: "./library/list_extension_workflows.py '{{ repo_path }}'"
