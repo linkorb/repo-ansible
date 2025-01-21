@@ -12,12 +12,10 @@ jobs:
     # Don't enforce commit conventions checks for Dependabot
     if: github.actor != 'dependabot[bot]'
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       # interesting alternative: https://github.com/cocogitto/cocogitto
-      - name: Conventional commit checker
-        uses: webiny/action-conventional-commits@v1.3.0
+      - uses: webiny/action-conventional-commits@v1.3.0
         # XXX: normal action versioning syntax (`@v1`) doesn't work with this action,
         # possibly because not published on the GitHub marketplace
 

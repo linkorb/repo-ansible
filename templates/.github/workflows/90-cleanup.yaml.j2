@@ -1,11 +1,10 @@
 # [[ repo_managed ]]
-name: Cleanup
+name: Scheduled Cleanup
 
 on:
   schedule:
   - cron: 0 13 * * 2
   workflow_dispatch:
-  workflow_call:
 
 jobs:
   cleanup:
@@ -15,10 +14,9 @@ jobs:
       packages: write
 
     steps:
-    - name: GitHub Environment Variables Action
-      uses: FranzDiebold/github-env-vars-action@v2
+    - uses: FranzDiebold/github-env-vars-action@v2
 
-    - name: Delete an old version of the package, keeping a few of the newest
+    - name: Keep last 5 published container images
       uses: actions/delete-package-versions@v5
       with:
         package-name: "${{ env.CI_REPOSITORY_NAME }}"

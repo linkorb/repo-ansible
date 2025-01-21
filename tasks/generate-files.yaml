@@ -24,14 +24,18 @@
     state: directory
 
 - name: Generate repo-ansible workflow
-  ansible.builtin.copy:
-    src: ./templates/.github/workflows/repo-ansible.yaml
-    dest: "{{ repo_path }}/.github/workflows/repo-ansible.yaml"
+  ansible.builtin.template:
+    src: ./templates/.github/workflows/auto-run-repo-ansible.yaml.j2
+    dest: "{{ repo_path }}/.github/workflows/auto-run-repo-ansible.yaml"
+    variable_start_string: '[['
+    variable_end_string: ']]'
 
 - name: Generate dependabot automerge workflow
-  ansible.builtin.copy:
-    src: ./templates/.github/workflows/dependabot-auto-merge.yaml
-    dest: "{{ repo_path }}/.github/workflows/dependabot-auto-merge.yaml"
+  ansible.builtin.template:
+    src: ./templates/.github/workflows/auto-merge-dependabot-prs.yaml.j2
+    dest: "{{ repo_path }}/.github/workflows/auto-merge-dependabot-prs.yaml"
+    variable_start_string: '[['
+    variable_end_string: ']]'
   when: repo.github.features.dependabot_auto_merge
 
 - name: Generate CODEOWNERS file

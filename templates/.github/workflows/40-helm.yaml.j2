@@ -3,14 +3,6 @@ name: Helm Publish
 
 on:
   workflow_dispatch:
-  workflow_call:
-    inputs:
-      new-release-published:
-        required: true
-        type: string
-      release-version:
-        required: true
-        type: string
 
 jobs:
   helm:

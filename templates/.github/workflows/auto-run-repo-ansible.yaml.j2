@@ -1,3 +1,4 @@
+# [[ repo_managed ]]
 name: Auto-run repo-ansible
 
 on:
@@ -6,12 +7,13 @@ on:
   pull_request_target:
     paths:
       - 'repo.yaml'
+      - 'docs/partials/*.md'
   push:
     branches:
-      - main
-      - master
+      - [[ repo.github.default_branch ]]
     paths:
       - 'repo.yaml'
+      - 'docs/partials/*.md'
 
 permissions:
   contents: write # allow git commits & push
@@ -61,7 +63,7 @@ jobs:
 
 
       - if: ${{ env.IS_PULL_REQUEST == '1' && env.REPOSITORY_CHANGED == '1' }}
-        name: comment with changes
+        name: bot comment about repo-ansible detected changes
         uses: actions/github-script@v7
         with:
           script: |
@@ -70,7 +72,7 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `Following repo-ansible changes will be applied when merged to main/master branch
+              body: `Once PR is merged, repo-ansible will run on [[ repo.github.default_branch ]] and the following changes will apply
 
               \`\`\`shell
               ${changes}
