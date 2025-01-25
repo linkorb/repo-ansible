@@ -1,9 +1,9 @@
 
-The repository contains playbooks that can simultaneously operate across multiple repositories (e.g., `playbook-all.yaml`).
+The repository contains the bulk-apply playbook that can simultaneously operate across multiple repositories.
 
 These bulk operations require an inventory file that makes up the "hosts" upon which it should operate. In this
-context, the hosts are the names of the repositories, which should be in an automatic fashion: checked out, modified per
-their `repo.yaml` configuration file, and push these changes upstream.
+context, the hosts are the repository names, which will be: checked out, modified per
+their `repo.yaml` configuration file, and commited back upstream.
 
 **Install the [GitHub CLI](https://cli.github.com/) and [jq](https://jqlang.github.io/jq/) dependencies.**
 
@@ -20,17 +20,25 @@ gh search repos --owner=linkorb --limit=1000 \
   | tee generated-inventory.ini
 ```
 
-> **Note** `generated-inventory.ini` is part of `.gitignore` to avoid accidental file commits.
+> **Note** `generated-inventory.ini` file is part of `.gitignore` to avoid accidental file commits.
 
-> An entry within the inventory is of the form `REPOSITORY_NAME ansible_host=localhost`
+> An entry within the inventory follows the form `REPOSITORY_NAME ansible_host=localhost`
 
-#### Run a playbook in bulk
 
-You can selectively run the playbooks defined within this repository. For example you
-could check them all out within the `./workspace/` directory (by default) using:
+#### Bulk apply repo-ansible
+
 
 ```shell
-ansible-playbook -i generated-inventory.ini playbook-checkout.yaml
+ansible-playbook -i generated-inventory.ini bulk-apply.yaml
+```
+
+#### Running select sections of bulk-apply.yaml
+
+For example you can check out all repositories defined in the inventory to the `./workspace/` directory using:
+
+```shell
+ansible-playbook -i generated-inventory.ini \
+  --tags checkout bulk-apply.yaml
 ```
 
 > [!NOTE]
@@ -40,22 +48,24 @@ ansible-playbook -i generated-inventory.ini playbook-checkout.yaml
 > `REPO_ANSIBLE_BASE_PATH` environment variable.
 
 The changes can be committed back upstream using either pull requests or directly pushing a commit into the
-default branch. Via specific playbooks:
+default branch.
 
 ```shell
-ansible-playbook -i generated-inventory.ini playbook-pull-request.yaml
+ansible-playbook -i generated-inventory.ini \
+  --tags commit-changes -e changes=pull-request bulk-apply.yaml
 ```
 
 ```shell
-ansible-playbook -i generated-inventory.ini playbook-push.yaml
+ansible-playbook -i generated-inventory.ini \
+  --tags commit-changes -e changes=push bulk-apply.yaml
 ```
 
-Alternatively, when `playbook-all.yaml` is executed, the `REPO_ANSIBLE_CHANGES` environment variable can be set to
+Alternatively, when `bulk-apply.yaml` is executed, the `REPO_ANSIBLE_CHANGES` environment variable can be set to
 either `pull-request`, or `push` to invoke the desired commit path to be taken (by default, this step is skipped).
 
 #### Bulk apply across repositories and create pull requests with changes
 
 ```shell
 REPO_ANSIBLE_CHANGES=pull-request \
-  ansible-playbook -i generated-inventory.ini playbook-all.yaml
+  ansible-playbook -i generated-inventory.ini bulk-apply.yaml
 ```

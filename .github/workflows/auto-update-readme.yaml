@@ -18,13 +18,13 @@ jobs:
       # XXX ansible installed within GitHub Runner via pipx, which doesn't support direct installation from a file
       # like pip does. See https://github.com/pypa/pipx/issues/934
       - name: install repo-ansible dependencies
-        run: xargs pipx inject ansible-core jsonschema
+        run: pipx inject ansible-core jsonschema
 
       - name: generate schema README table (markdown partial)
         run: python3 library/schema_to_docs_partial.py
 
       - name: run ansible playbook
-        run: ansible-playbook playbook-cwd.yaml
+        run: ansible-playbook apply.yaml
         env:
           ANSIBLE_DISPLAY_OK_HOSTS: 0
           ANSIBLE_DISPLAY_SKIPPED_HOSTS: 0

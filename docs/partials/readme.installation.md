@@ -13,7 +13,7 @@ docker pull ghcr.io/linkorb/repo-ansible:latest
 docker run --rm -v "$PWD":/app ghcr.io/linkorb/repo-ansible:latest
 ```
 
-> This command will execute the repo-ansible playbook-cwd.yaml in your current directory and report on the tasks
+> This command will execute the repo-ansible apply.yaml in your current directory and report on the tasks
 > that reported changes throughout the execution.
 
 
@@ -40,7 +40,7 @@ $ pip3 install jsonschema
 
 
 ```shell
-/your-repository $ ansible-playbook /tmp/repo-ansible/playbook-cwd.yaml
+/your-repository $ ansible-playbook /tmp/repo-ansible/apply.yaml
 
 PLAY [localhost] **************************************************************************
 
