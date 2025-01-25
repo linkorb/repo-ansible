@@ -11,6 +11,7 @@
         repository: "{{ inventory_hostname }}"
         destination: "{{ repo_path }}"
       when: not skip_checkout
+      tags: checkout
 
     - import_tasks: tasks/version-migrations.yaml
     - import_tasks: tasks/retrieve-validate-repo-data.yaml
@@ -39,6 +40,8 @@
 
     - import_tasks: tasks/pull-request.yaml
       when: changes == 'pull-request'
+      tags: commit-changes
 
     - import_tasks: tasks/push.yaml
       when: changes == 'push'
+      tags: commit-changes
