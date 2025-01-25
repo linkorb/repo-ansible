@@ -24,7 +24,7 @@
       repo_yaml: "{{ repo_yaml_source.content | b64decode | from_yaml }}"
 
   - name: list required migrations
-    ansible.builtin.command: "./library/list_migrations.py '{{ repo.version|default('v0.0.0') }}'"
+    ansible.builtin.command: "./library/list_migrations.py '{{ repo_yaml.version|default('v0.0.0') }}'"
     register: list_migrations
     changed_when: false
 
@@ -44,7 +44,7 @@
         # XXX renamed to avoid warnings if included tasks include loops of their own
         loop_var: item_migration
 
-  - when: target_repo_ansible_version != repo_yaml['version']
+  - when: target_repo_ansible_version != repo_yaml['version']|default('v0.0.0')
     ansible.builtin.include_tasks: "tasks/migrations/update-version.yaml"
     vars:
       to_version: "{{ target_repo_ansible_version }}"
