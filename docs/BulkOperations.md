@@ -1,5 +1,5 @@
 
-The repository contains playbooks that can simultaneously operate across multiple repositories (e.g., `playbook-all.yaml`).
+The repository contains playbooks that can simultaneously operate across multiple repositories (e.g., `bulk-apply.yaml`).
 
 These bulk operations require an inventory file that makes up the "hosts" upon which it should operate. In this
 context, the hosts are the names of the repositories, which should be in an automatic fashion: checked out, modified per
