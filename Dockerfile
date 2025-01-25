@@ -17,4 +17,4 @@ ENV ANSIBLE_DISPLAY_OK_HOSTS=0
 ENV ANSIBLE_DISPLAY_SKIPPED_HOSTS=0
 
 # Set the default command to run when the container starts
-CMD ansible-playbook -ilocalhost, /opt/repo-ansible/playbook-cwd.yaml
+CMD ansible-playbook -ilocalhost, /opt/repo-ansible/apply.yaml
