@@ -12,3 +12,10 @@ default_devcontainer_customizations_vscode:
         - repo.yaml
     # YAML extension by RedHat that prompts on each new devcontainer to enable telemetry
     "redhat.telemetry.enabled": false
+
+default_docker_build_args:
+  PACKAGIST_USER: token
+  PACKAGIST_TOKEN: "{{ '${{ secrets.PACKAGIST_TOKEN }}' }}"
+  # XXX we need this intricate value escaping in here, because Ansible will try to evaluate the value when we
+  # merge this default with any user provided build args. Since GitHub workflow secrets look very much like Jinja2
+  # template interpolation, playbook will fail.

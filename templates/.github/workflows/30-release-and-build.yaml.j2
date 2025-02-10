@@ -68,8 +68,9 @@ jobs:
         cache-to: type=gha
         cache-from: type=gha
         build-args: |
-          PACKAGIST_USER=token
-          PACKAGIST_TOKEN=${{ secrets.PACKAGIST_TOKEN }}
+{% for key, value in docker_build_args.items() %}
+          [[key]]=[[value]]
+{% endfor %}
 {% if workflow_group in followup_workflows %}
 {% for followup_workflow in followup_workflows[workflow_group] %}
 

@@ -194,6 +194,22 @@ properties:
             type: boolean
             default: false
 
+  github_workflows:
+    type: object
+    additionalProperties: false
+    description: EXPERIMENTAL configuration options for the optionally generated GitHub workflows (sdlc_workflows)
+    properties:
+      build:
+        type: object
+        additionalProperties: false
+        properties:
+          extra_docker_build_args:
+            type: object
+            additionalProperties: true
+            default: {}
+            description: >
+              Key-value pairs to use as build args during the docker build step of build and release workflow
+
   reviewdog:
     type: object
     description: Reviewdog configuration. Used during repo-ansible/reviewdog container execution
