@@ -4,6 +4,8 @@
     ansible.builtin.template:
       src: ./templates/.releaserc.cjs.j2
       dest: "{{ repo_path }}/.releaserc.cjs"
+    vars:
+      package_json_version_bump: "{{ repo.type.startswith('nodejs-') }}"
 
   - name: find workflow extensions
     ansible.builtin.command: "./library/list_extension_workflows.py '{{ repo_path }}'"
