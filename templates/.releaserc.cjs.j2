@@ -21,8 +21,11 @@ module.exports = {
     "@semantic-release/github",
     "@semantic-release/release-notes-generator",
     "@semantic-release/changelog",
+{% if package_json_version_bump %}
+    [ "@semantic-release/npm", { npmPublish: false } ],
+{% endif %}
     [ "@semantic-release/git", {
-        assets: [ "CHANGELOG.md" ],
+        assets: [ "CHANGELOG.md" {% if package_json_version_bump %}, "package.json" {% endif %}],
         message: "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
     } ],
     [ "@semantic-release/exec", { publishCmd: "echo ${nextRelease.version} > .gitrelease" } ]
