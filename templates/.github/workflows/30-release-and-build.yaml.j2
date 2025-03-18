@@ -17,8 +17,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: FranzDiebold/github-env-vars-action@v2
-
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
@@ -37,7 +35,7 @@ jobs:
       with:
         additional-packages: |
           ['@semantic-release/changelog', '@semantic-release/git', '@semantic-release/exec']
-        repository-url: 'https://github.com/${{ github.repository_owner }}/${{ env.CI_REPOSITORY_NAME }}.git'
+        repository-url: ${{ github.event.repository.clone_url }} # e.g. https://github.com/linkorb/linkorb.git
         tag-format: 'v${version}'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -46,7 +44,7 @@ jobs:
       uses: docker/metadata-action@v5
       with:
         images: |
-          ghcr.io/${{ github.repository_owner }}/${{ env.CI_REPOSITORY_NAME }}
+          ghcr.io/${{ github.repository }}
         tags: |
           type=sha
           type=raw,value=latest,enable={{is_default_branch}}

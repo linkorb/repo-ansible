@@ -14,12 +14,10 @@ jobs:
       packages: write
 
     steps:
-    - uses: FranzDiebold/github-env-vars-action@v2
-
     - name: Keep last 5 published container images
       uses: actions/delete-package-versions@v5
       with:
-        package-name: "${{ env.CI_REPOSITORY_NAME }}"
+        package-name: ${{ github.event.repository.name }}
         package-type: container
         min-versions-to-keep: 5
 {% if workflow_group in followup_workflows %}
