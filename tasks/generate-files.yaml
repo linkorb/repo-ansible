@@ -30,6 +30,13 @@
     variable_start_string: '[['
     variable_end_string: ']]'
 
+- name: Generate pull request labeling workflow
+  ansible.builtin.template:
+    src: ./templates/.github/workflows/auto-label-pull-request.yaml.j2
+    dest: "{{ repo_path }}/.github/workflows/auto-label-pull-request.yaml"
+    variable_start_string: '[['
+    variable_end_string: ']]'
+
 - name: Generate dependabot automerge workflow
   ansible.builtin.template:
     src: ./templates/.github/workflows/auto-merge-dependabot-prs.yaml.j2

@@ -1,5 +1,5 @@
 # [[ repo_managed ]]
-name: PR Labeler
+name: Auto-label Pull Request
 
 permissions:
   contents: read
@@ -7,14 +7,13 @@ permissions:
 
 on:
   pull_request_target:
-    types: [opened, edited, reopened, ready_for_review, synchronize]
+    types: [opened, synchronize] # trigger when PR is opened, or commits change
 
 jobs:
   label:
     runs-on: ubuntu-latest
     steps:
-      - name: Get PR Commits
-        id: get-commits
+      - name: Label pull requests based on conventional commits
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
