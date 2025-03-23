@@ -80,24 +80,6 @@ and give it one of the Roles:
       is to give the repo the Admin role over its own package and Read over
 other packages it uses (e.g. php-docker-base).
 
-### `secrets.CHARTMUSEUMPASS`
-
-This is a secret made available to the repo as an Organisation-level secret.
-See if the repo has access to it at the repo Settings > Secrets & Variables >
-Actions > Secrets (tab) > Organization secrets section.
-
-The secret is intended to be used with the username "github" to login to
-LinkORB's [Helm Chart Museum][helm-chart-museum] with Basic Auth.  Something
-like this:
-
-```console
-curl --silent --fail --show-error \
-    -u "github:${{ secrets.CHARTMUSEUMPASS }}" \
-    --data-binary "@`ls -1 *.tgz | head -n1`" \
-    https://charts.linkorb.com/api/charts
-```
-
-
 
 ## Tips
 
@@ -123,4 +105,3 @@ and give it the Read role.
 [php-docker-base-pkg-settings]: <https://github.com/orgs/linkorb/packages/container/php-docker-base/settings>
 [semantic-release-action-doc]: <https://github.com/codfish/semantic-release-action/tree/main#basic-usage>
 [checkout-action-doc]: <https://github.com/docker/login-action#github-container-registry>
-[helm-chart-museum]: <https://charts.linkorb.com/api/charts>

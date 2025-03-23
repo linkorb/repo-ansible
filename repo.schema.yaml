@@ -294,11 +294,6 @@ properties:
         type: string
         default: php8-review
 
-  helm_charts:
-    type: boolean
-    default: false
-    description: Enable generation of Helm charts.
-
   phpqa:
     type: object
     description: phpqa tools specific values

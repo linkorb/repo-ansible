@@ -114,7 +114,6 @@ your repository.
 | devcontainer<br>private_packagist `boolean` |true| Repository requires private packagist access. Property is ignored is not of type php-*, or the other (deprecated) types: application, library, symfony-bundle.|
 | devcontainer<br>repository `string` |ghcr.io/linkorb/php-docker-base| Image to use for devcontainer (registry image URL)|
 | devcontainer<br>tag `string` |php8-review| Image tag|
-| helm_charts `boolean` |false| Enable generation of Helm charts.|
 | archived `boolean` |false| Setting this option to `true` will cause the repository to be archived. Once archived, it can only be unarchived manually.|
 | omit_files `array` |[]| **EXPERIMENTAL** A list of files to skip during file generation.|
  - [Looking for repo.yaml schema integration within your IDE?](./docs/SchemaIDESupport.md)

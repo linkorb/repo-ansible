@@ -1,0 +1,8 @@
+- name: remove renamed or repo-ansible dropped files
+  ansible.builtin.file:
+    path: "{{ repo_path }}/{{ item }}"
+    state: absent
+  loop:
+    - .github/workflows/40-helm.yaml
+    - helm-chart/
+    - helm/

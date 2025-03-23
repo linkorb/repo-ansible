@@ -38,16 +38,6 @@
       - target: 90-cleanup.yaml
         workflow_group: "90"
 
-  - name: generate helm charts workflow
-    when: repo.helm_charts
-    ansible.builtin.template:
-      src: "./templates/.github/workflows/40-helm.yaml.j2"
-      dest: "{{ repo_path + '/.github/workflows/40-helm.yaml' }}"
-      variable_start_string: '[['
-      variable_end_string: ']]'
-    vars:
-      workflow_group: "40"
-
 - name: generate .dockerignore
   ansible.builtin.template:
     src: ./templates/.dockerignore.j2
