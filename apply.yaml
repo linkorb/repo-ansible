@@ -13,9 +13,6 @@
     - import_tasks: tasks/husky.yaml
       when: repo.type != 'other'
 
-    - import_tasks: tasks/helm.yaml
-      when: repo.helm_charts
-
     - name: Execute tasks for applications, libraries, and symfony-bundles
       block:
       - import_tasks: tasks/devcontainer.yaml
