@@ -22,6 +22,13 @@ Reads from and writes to the repo.
 Set the step's `env.GITHUB_TOKEN` to `secrets.GITHUB_TOKEN` as in the
 [action's doc][semantic-release-action-doc]
 
+### PR Labeler
+
+Inspects the commits in a pull-request, and applies a series of labels based on conventional-commits nouns.
+
+The tokens are defined in the `.github/settings.yml` file, with the repo-ansible
+template located at `templates/.github/settings.yml.j2`.
+
 ### Login to Container Registry ghcr.io (docker/login-action)
 
 Logs in to ghcr, ready for subsequent actions to push and pull container
