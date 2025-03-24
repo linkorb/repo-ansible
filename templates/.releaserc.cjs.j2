@@ -18,8 +18,20 @@ module.exports = {
           { type: "style",    release: "patch" },
           { type: "test",     release: "patch" },
     ] } ],
-    "@semantic-release/github",
+{% if repo.github_workflows.release.issue_url_format %}
+    [
+      "@semantic-release/release-notes-generator",
+      {
+        "preset": "conventionalcommits",
+        "presetConfig": {
+          "issueUrlFormat": "{{ repo.github_workflows.release.issue_url_format }}"
+        }
+      }
+    ],
+{% else %}
     "@semantic-release/release-notes-generator",
+{% endif %}
+    "@semantic-release/github",
     "@semantic-release/changelog",
 {% if package_json_version_bump %}
     [ "@semantic-release/npm", { npmPublish: false } ],
@@ -28,6 +40,6 @@ module.exports = {
         assets: [ "CHANGELOG.md" {% if package_json_version_bump %}, "package.json" {% endif %}],
         message: "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
     } ],
-    [ "@semantic-release/exec", { publishCmd: "echo ${nextRelease.version} > .gitrelease" } ]
+    [ "@semantic-release/exec", { publishCmd: "echo -n ${nextRelease.version} > .gitrelease" } ]
   ]
 }
