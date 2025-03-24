@@ -5,7 +5,7 @@
       src: ./templates/.releaserc.cjs.j2
       dest: "{{ repo_path }}/.releaserc.cjs"
     vars:
-      package_json_version_bump: "{{ repo.type.startswith('nodejs-') }}"
+      package_json_version_bump: "{{ repo.type.startswith('nodejs-') or 'package.json' in repo.github_workflows.release.commit_changed_files }}"
 
   - name: find workflow extensions
     ansible.builtin.command: "./library/list_extension_workflows.py '{{ repo_path }}'"
