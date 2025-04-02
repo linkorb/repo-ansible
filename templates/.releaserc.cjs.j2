@@ -18,38 +18,16 @@ module.exports = {
           { type: "style",    release: "patch" },
           { type: "test",     release: "patch" },
     ] } ],
-{% if repo.github_workflows.release.issue_url_format %}
-    [
-      "@semantic-release/release-notes-generator",
-      {
-        "preset": "conventionalcommits",
-        "presetConfig": {
-          "issueUrlFormat": "{{ repo.github_workflows.release.issue_url_format }}"
-        }
-      }
-    ],
-{% else %}
-    "@semantic-release/release-notes-generator",
-{% endif %}
     "@semantic-release/github",
+    "@semantic-release/release-notes-generator",
     "@semantic-release/changelog",
 {% if package_json_version_bump %}
     [ "@semantic-release/npm", { npmPublish: false } ],
 {% endif %}
-    [ "@semantic-release/exec", { generateNotesCmd: "echo -n ${nextRelease.version} > .gitrelease" } ],
     [ "@semantic-release/git", {
-        assets: [
-{% if package_json_version_bump %}
-          "package.json",
-{% endif %}
-{% if repo.github_workflows.release.commit_changed_files %}
-{% for filename in repo.github_workflows.release.commit_changed_files | default([]) %}
-          "{{ filename }}",
-{% endfor %}
-{% endif %}
-          "CHANGELOG.md"
-        ],
+        assets: [ "CHANGELOG.md" {% if package_json_version_bump %}, "package.json" {% endif %}],
         message: "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
-    } ]
+    } ],
+    [ "@semantic-release/exec", { publishCmd: "echo ${nextRelease.version} > .gitrelease" } ]
   ]
 }
