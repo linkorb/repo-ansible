@@ -209,26 +209,6 @@ properties:
             default: {}
             description: >
               Key-value pairs to use as build args during the docker build step of build and release workflow
-      release:
-        type: object
-        additionalProperties: false
-        description: Configuration options for release process
-        properties:
-          commit_changed_files:
-            type: array
-            default: [ ]
-            items:
-              type: string
-            description: >
-              A list of files in addition to CHANGELOG.md and package.json (for repo.type starting with `nodejs-`) to
-              include in the commit with changes.
-          issue_url_format:
-            type: string
-            default: ""
-            description: >
-              Override the base URL for the issues mentioned with conventional-commits.
-              Use {{id}} for the issue ID, as well other placeholders mentioned in
-              https://github.com/conventional-changelog/conventional-changelog-config-spec/blob/master/versions/2.2.0/README.md#substitutions
 
   reviewdog:
     type: object

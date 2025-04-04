@@ -30,14 +30,15 @@ jobs:
         # (set provenance=false in docker/build-push-action@v4)
         driver-opts: network=host,image=moby/buildkit:v0.10.5
 
-    - name: Semantic release
-      id: semantic-release
+    - id: semantic-release
+      uses: codfish/semantic-release-action@v3
+      with:
+        additional-packages: |
+          ['@semantic-release/changelog', '@semantic-release/git', '@semantic-release/exec']
+        repository-url: ${{ github.event.repository.clone_url }} # e.g. https://github.com/linkorb/linkorb.git
+        tag-format: 'v${version}'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        npm install --no-save semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/exec conventional-changelog @semantic-release/release-notes-generator
-        npx semantic-release --repository-url ${{ github.server_url }}/${{ github.repository }}
-        echo "release-version=$(cat .gitrelease)" >> "$GITHUB_OUTPUT"
 
     - id: meta
       uses: docker/metadata-action@v5
