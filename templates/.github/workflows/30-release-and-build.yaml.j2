@@ -63,8 +63,6 @@ jobs:
         push: ${{ github.event_name != 'pull_request' }}
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
-        cache-to: type=gha
-        cache-from: type=gha
         # For additional docker build args set github_workflows.build.extra_docker_build_args in the repo.yaml file
         build-args: |
 {% for key, value in docker_build_args.items() %}
