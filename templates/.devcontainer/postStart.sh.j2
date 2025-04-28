@@ -1,4 +1,13 @@
 #!/usr/bin/env bash
 # {{ repo_managed }}
 
+{% if repo.type in ['application', 'library', 'symfony-bundle'] or repo.type.startswith('php-') %}
+
+COMPOSER_MEMORY_LIMIT=-1 composer install
+{% endif %}
+
+{% if repo.type.startswith('nodejs-') %}
+npm ci
+{% endif %}
+
 {{ repo.devcontainer.postStartCommand|default('') }}

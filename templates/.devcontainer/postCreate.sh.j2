@@ -7,18 +7,9 @@ git config --global --add safe.directory /app
 
 git config commit.template .devcontainer/git/linkorb_commit.template
 
-{% if repo.type in ['application', 'library', 'symfony-bundle'] or repo.type.startswith('php-') %}
-
 {% if repo.devcontainer.private_packagist %}
 composer config --global --auth http-basic.repo.packagist.com \
   "${GITHUB_USER:-$GITHUB_USER_ON_HOST}" "${PACKAGIST_TOKEN:-$PACKAGIST_TOKEN_ON_HOST}"
-{% endif %}
-
-COMPOSER_MEMORY_LIMIT=-1 composer install
-{% endif %}
-
-{% if repo.type.startswith('nodejs-') %}
-npm ci
 {% endif %}
 
 {{ repo.devcontainer.postCreateCommand|default('') }}
