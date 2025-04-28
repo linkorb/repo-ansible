@@ -1,0 +1,7 @@
+- name: remove husky related files
+  ansible.builtin.file:
+    path: "{{ repo_path }}/{{ item }}"
+    state: absent
+  loop:
+    - commitlint.config.js
+    - .husky
