@@ -35,7 +35,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        npm install --no-save semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/exec conventional-changelog @semantic-release/release-notes-generator
+        npm install --no-save semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/exec conventional-changelog @semantic-release/release-notes-generator conventional-changelog-conventionalcommits
         npx semantic-release --repository-url ${{ github.server_url }}/${{ github.repository }}
         echo "release-version=$(cat .gitrelease)" >> "$GITHUB_OUTPUT"
 
