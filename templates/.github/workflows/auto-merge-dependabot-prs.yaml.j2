@@ -1,6 +1,9 @@
 # [[ repo_managed ]]
 name: Auto-merge Dependabot PRs
-on: pull_request_target
+on:
+  # XXX merge PRs when opened, or reopened, but not when synchronized to protect against "Deputy Confusion Injection"
+  pull_request_target:
+    types: [opened, reopened]
 
 permissions:
   pull-requests: write # required for the action to read metadata
