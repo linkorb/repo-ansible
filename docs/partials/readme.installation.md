@@ -6,16 +6,24 @@ Create and configure a `repo.yaml` file for your repository. See the
 [configuration table below](#short-reference-configuration) and the associated [repo.schema.yaml](repo.schema.yaml) file
 for available options.
 
-Run repo-ansible for your project via docker:
+Run repo-ansible in a single project via docker:
 
 ```shell
-# always pull latest version first
-docker pull ghcr.io/linkorb/repo-ansible:latest
-docker run --rm -v "$PWD":/app ghcr.io/linkorb/repo-ansible:latest
+docker run --pull always --rm -v "$PWD":/app ghcr.io/linkorb/repo-ansible:latest
 ```
 
-> This command will execute the repo-ansible apply.yaml in your current directory and report on the tasks
-> that reported changes throughout the execution.
+Run repo-ansible against multiple projects via docker assuming
+all target project are the only contents of the current folder:
+
+```shell
+docker run --pull always --rm \
+   -w /opt/repo-ansible \
+   -v $PWD:/opt/repo-ansible/workspace \
+   -e REPO_ANSIBLE_SKIP_CHECKOUT=true \
+   ghcr.io/linkorb/repo-ansible:latest bash -c 'ls workspace | \
+   xargs -I NAME echo "NAME ansible_host=localhost" >> generated-inventory.ini && \
+   uv run ansible-playbook -i generated-inventory.ini bulk-apply.yaml'
+```
 
 > [!NOTE]
 > During execution your repository's' **README.md will be overwritten** with the generation rules used in repo-ansible.
@@ -31,7 +39,7 @@ docker run --rm -v "$PWD":/app ghcr.io/linkorb/repo-ansible:latest
    git clone https://github.com/linkorb/repo-ansible.git /tmp/repo-ansible
    ```
 
-3. Navigate to the target project you want to configure with repo-ansible and run the following command:
+3. To run repo-ansible against a single project, navigate to that target project's folder and run the following command:
 
    ```shell
    uv run --project /tmp/repo-ansible ansible-playbook /tmp/repo-ansible/apply.yaml

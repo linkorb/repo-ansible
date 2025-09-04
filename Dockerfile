@@ -34,4 +34,4 @@ ENV ANSIBLE_DISPLAY_OK_HOSTS=0
 ENV ANSIBLE_DISPLAY_SKIPPED_HOSTS=0
 
 # Set the default command to run when the container starts
-ENTRYPOINT [ "uv", "run", "--project", "/opt/repo-ansible", "ansible-playbook", "-e", "repo_path=/app", "-i", "localhost", "/opt/repo-ansible/apply.yaml" ]
+CMD [ "uv", "run", "--project", "/opt/repo-ansible", "ansible-playbook", "-e", "repo_path=/app", "-i", "localhost", "/opt/repo-ansible/apply.yaml" ]
