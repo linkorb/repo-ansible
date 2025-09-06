@@ -17,4 +17,6 @@ ENV ANSIBLE_DISPLAY_OK_HOSTS=0
 ENV ANSIBLE_DISPLAY_SKIPPED_HOSTS=0
 
 # Set the default command to run when the container starts
-CMD ansible-playbook -ilocalhost, /opt/repo-ansible/apply.yaml
+# https://docs.docker.com/reference/build-checks/json-args-recommended/#explicitly-specify-the-shell
+SHELL ["/bin/sh", "-c"]
+ENTRYPOINT exec ansible-playbook -ilocalhost, /opt/repo-ansible/apply.yaml
