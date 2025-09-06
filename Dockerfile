@@ -4,11 +4,11 @@ FROM python:3.12-alpine
 # Set the working directory to /opt/repo-ansible
 WORKDIR /opt/repo-ansible
 
-# Copy the current directory (repo-ansible repository) into the container
-COPY . /opt/repo-ansible
-
 # Install Ansible and other Python dependencies
 RUN pip install --no-cache-dir --root-user-action=ignore ansible jsonschema
+
+# Copy the current directory (repo-ansible repository) into the container
+COPY . /opt/repo-ansible
 
 # Set the working directory to /app where your target repository will be mounted
 WORKDIR /app
