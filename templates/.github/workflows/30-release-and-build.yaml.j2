@@ -24,11 +24,6 @@ jobs:
     - uses: docker/setup-qemu-action@v3
 
     - uses: docker/setup-buildx-action@v3
-      with:
-        # moby/buildkit v0.11.0 causes untagged images to appear in github
-        # packages and the workaround does not seem to have any effect
-        # (set provenance=false in docker/build-push-action@v4)
-        driver-opts: network=host,image=moby/buildkit:v0.10.5
 
     - name: Semantic release
       id: semantic-release
