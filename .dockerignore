@@ -1,0 +1,10 @@
+.git
+.github
+docker
+docs
+.dockerignore
+.editorconfig
+.gitignore
+CONTRIBUTING.md
+Dockerfile
+README.md
