@@ -29,10 +29,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - if: ${{ env.IS_PULL_REQUEST == '0' }}
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - if: ${{ env.IS_PULL_REQUEST == '1' }}
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           ref: refs/pull/${{ github.event.pull_request.number }}/merge
 
