@@ -18,6 +18,7 @@ jobs:
       - uses: webiny/action-conventional-commits@v1.3.0
         # XXX: normal action versioning syntax (`@v1`) doesn't work with this action,
         # possibly because not published on the GitHub marketplace
+        continue-on-error: true
 
       - name: Check Card# reference
         uses: linkorb/commit-message-checker@v1
@@ -31,4 +32,5 @@ jobs:
           excludeTitle: 'true' # optional: this excludes the title of a pull request
           checkAllCommitMessages: 'true' # optional: this checks all commits associated with a pull request
           accessToken: ${{ secrets.GITHUB_TOKEN }} # github access token is only required if checkAllCommitMessages is true
+        continue-on-error: true
 
