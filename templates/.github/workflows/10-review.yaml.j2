@@ -13,7 +13,7 @@ jobs:
     if: github.actor != 'dependabot[bot]'
     continue-on-error: true
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       # interesting alternative: https://github.com/cocogitto/cocogitto
       - uses: webiny/action-conventional-commits@v1.3.0
@@ -37,7 +37,7 @@ jobs:
   code-quality:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: latest repo-ansible/reviewdog container
         run: docker pull ghcr.io/linkorb/repo-ansible/reviewdog:latest
       - name: run reviewdog checks
