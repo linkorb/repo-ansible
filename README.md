@@ -98,7 +98,7 @@ your repository.
 | github<br>features<br>squash_merge `boolean` |true| Allow squash-merging pull requests.|
 | github<br>features<br>merge_commit `boolean` |true| Allow merging pull requests with merge commit.|
 | github<br>features<br>rebase_merge `boolean` |true| Allow rebase-merging pull requests.|
-| github<br>features<br>sdlc_workflows `boolean` |false| **EXPERIMENTAL** Software Development Lifecycle Workflows. Property will likely be removed in the future, and enabled by default, when workflows have been stabilized.|
+| github<br>features<br>sdlc_workflows `boolean` |false| **EXPERIMENTAL** Software Development Lifecycle Workflows: release and cleanup. Security scanning (trivy) has been removed due to supply chain compromise.|
 | github<br>features<br>wiki `boolean` |false| Enable Wiki tab.|
 | github<br>features<br>issues `boolean` |false| Enable issues tab.|
 | github<br>features<br>projects `boolean` |false| Enable projects tab.|

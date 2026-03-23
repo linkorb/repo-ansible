@@ -176,8 +176,8 @@ properties:
 
           sdlc_workflows:
             description: >
-              **EXPERIMENTAL** Software Development Lifecycle Workflows. Property will likely be removed in
-              the future, and enabled by default, when workflows have been stabilized.
+              **EXPERIMENTAL** Software Development Lifecycle Workflows: release and cleanup.
+              Security scanning (trivy) has been removed due to supply chain compromise.
             type: boolean
             default: false
 

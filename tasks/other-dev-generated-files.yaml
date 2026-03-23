@@ -33,8 +33,6 @@
         workflow_group: "10"
       - target: 30-release-and-build.yaml
         workflow_group: "30"
-      - target: 50-security.yaml
-        workflow_group: "50"
       - target: 90-cleanup.yaml
         workflow_group: "90"
 
