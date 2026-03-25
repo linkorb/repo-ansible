@@ -13,15 +13,16 @@ jobs:
     if: github.actor != 'dependabot[bot]'
     continue-on-error: true
     steps:
-      - uses: actions/checkout@v6
+        # v6 https://github.com/actions/checkout/commit/de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
       # interesting alternative: https://github.com/cocogitto/cocogitto
-      - uses: webiny/action-conventional-commits@v1.3.0
-        # XXX: normal action versioning syntax (`@v1`) doesn't work with this action,
-        # possibly because not published on the GitHub marketplace
+        # v1.3.0 https://github.com/webiny/action-conventional-commits/commit/8bc41ff4e7d423d56fa4905f6ff79209a78776c7
+      - uses: webiny/action-conventional-commits@8bc41ff4e7d423d56fa4905f6ff79209a78776c7
 
       - name: Check Card# reference
-        uses: linkorb/commit-message-checker@v1
+        # v1 https://github.com/linkorb/commit-message-checker/commit/dc804b50ce575a720739ec3f0ef3d5030130ec98
+        uses: linkorb/commit-message-checker@dc804b50ce575a720739ec3f0ef3d5030130ec98
         with:
           # Matches lines that end in a card number:                  #1234
           # Matches lines that end in a card number and PR reference: #1234 (#20)
@@ -37,7 +38,8 @@ jobs:
   code-quality:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+        # v6 https://github.com/actions/checkout/commit/de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
       - name: latest repo-ansible/reviewdog container
         run: docker pull ghcr.io/linkorb/repo-ansible/reviewdog:latest
       - name: run reviewdog checks
