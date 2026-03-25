@@ -1,0 +1,4 @@
+- name: Remove compromised 50-security workflow (trivy supply chain attack)
+  ansible.builtin.file:
+    path: "{{ repo_path }}/.github/workflows/50-security.yaml"
+    state: absent
