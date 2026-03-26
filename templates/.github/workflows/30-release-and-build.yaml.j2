@@ -2,10 +2,15 @@
 name: Release
 
 on:
+{% if repo.github_workflows.uses_companion_app %}
+  release:
+    types: [published]
+{% else %}
   workflow_dispatch:
   push:
     branches:
       - [[ repo.github.default_branch ]]
+{% endif %}
 
 permissions:
   contents: write
@@ -32,6 +37,17 @@ jobs:
         driver-opts: network=host,image=moby/buildkit:v0.28.0@sha256:37539dd4d60fc70968d164d3850d903a2c56f6402214a1953fbf9fcb81ada731
         platforms: linux/amd64
 
+{% if repo.github_workflows.uses_companion_app %}
+    - id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: |
+          ghcr.io/${{ github.repository }}
+        tags: |
+          type=sha
+          type=raw,value=latest,enable={{is_default_branch}}
+          type=raw,value=${{ github.event.release.tag_name }}
+{% else %}
     - name: Semantic release
       id: semantic-release
       env:
@@ -50,6 +66,7 @@ jobs:
           type=sha
           type=raw,value=latest,enable={{is_default_branch}}
           type=raw,value=${{ steps.semantic-release.outputs.release-version }}
+{% endif %}
 
       # v4 https://github.com/docker/login-action/commit/b45d80f862d83dbcd57f89517bcf500b2ab88fb2
     - uses: docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2
