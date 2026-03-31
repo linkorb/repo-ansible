@@ -49,6 +49,13 @@ jobs:
             echo EOF
           } >> "$GITHUB_ENV"
 
+          export DIFF=$(git diff)
+          {
+            echo 'REPO_ANSIBLE_DIFF<<EOF'
+            echo "$DIFF"
+            echo EOF
+          } >> "$GITHUB_ENV"
+
           if ! echo "$OUTPUT" | grep "changed=0"; then
             echo "REPOSITORY_CHANGED=1" >> "$GITHUB_ENV"
           fi
@@ -72,6 +79,7 @@ jobs:
         with:
           script: |
             const changes = process.env.REPO_ANSIBLE_OUTPUT
+            const diff = process.env.REPO_ANSIBLE_DIFF
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
@@ -81,5 +89,14 @@ jobs:
               \`\`\`shell
               ${changes}
               \`\`\`
+
+              <details>
+              <summary>See changes</summary>
+
+              \`\`\`diff
+              ${diff}
+              \`\`\`
+
+              </details>
             `
             })
