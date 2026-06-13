@@ -1,0 +1,23 @@
+# Managed by https://github.com/linkorb/repo-ansible. Manual changes will be overwritten.
+name: Scheduled Cleanup
+
+on:
+  schedule:
+  - cron: 0 13 * * 2
+  workflow_dispatch:
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+
+    permissions:
+      packages: write
+
+    steps:
+    - name: Keep last 5 published container images
+      # v5 https://github.com/actions/delete-package-versions/commit/e5bc658cc4c965c472efe991f8beea3981499c55
+      uses: actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55
+      with:
+        package-name: ${{ github.event.repository.name }}
+        package-type: container
+        min-versions-to-keep: 5
