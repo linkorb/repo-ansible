@@ -1,0 +1,23 @@
+{
+  "name": "@linkorb/repo-ansible",
+  "version": "0.25.0",
+  "description": "Ansible playbooks with templated configuration to apply to all LinkORB code repositories.",
+  "homepage": "https://github.com/linkorb/repo-ansible#readme",
+  "bugs": {
+    "url": "https://github.com/linkorb/repo-ansible/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/linkorb/repo-ansible.git"
+  },
+  "license": "MIT",
+  "author": "",
+  "type": "commonjs",
+  "main": "apply.yaml",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
