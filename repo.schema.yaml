@@ -199,6 +199,10 @@ properties:
     additionalProperties: false
     description: EXPERIMENTAL configuration options for the optionally generated GitHub workflows (sdlc_workflows)
     properties:
+      uses_companion_app:
+        type: boolean
+        default: false
+        description: EXPERIMENTAL option to enable offloading of GitHub API interactions to an external GitHub app.
       build:
         type: object
         additionalProperties: false
