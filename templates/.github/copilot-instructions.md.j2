@@ -1,0 +1,29 @@
+<!-- {{ repo_managed }} -->
+<!-- Repo-specific guidance: docs/partials/copilot-instructions.md (appended below).
+     Opt out via github.features.copilot_instructions in repo.yaml. -->
+# Copilot instructions for {{ repo.name }}
+
+{{ repo.description }}
+
+## Engineering controls
+
+- Files containing the header `Managed by https://github.com/linkorb/repo-ansible` are
+  generated. Flag any change that hand-edits them; the edit will be overwritten on the
+  next repo-ansible run. The correct change is in `repo.yaml` or `docs/partials/` instead.
+- GitHub Actions in workflows must be pinned to a full commit SHA with a version comment
+  (`# vN https://github.com/...`), never a mutable tag like `@v4`. Tags can be repointed
+  to malicious commits when an action's repository is compromised; a pinned SHA is immutable
+  and blocks that supply-chain attack. Flag any `uses:` that is not SHA-pinned.
+- Flag new or version-changed dependencies in manifest files (composer.json, package.json,
+  etc.) with copyleft licenses: AGPL always; GPL/LGPL for discussion.
+- Flag new files or code blocks that appear to be third-party source (foreign copyright
+  headers, embedded license notices, wholesale-copied implementations) so licensing can
+  be verified. These bypass dependency manifests and are invisible to dependency scanners.
+- When reviewing, flag new code comments that merely restate the adjacent code.
+{% set copilot_partial_path = repo_path + '/docs/partials/copilot-instructions.md' %}
+{% if copilot_partial_path in doc_files_array | map(attribute='path') %}
+
+## Repository-specific guidance
+
+{{ lookup('file', copilot_partial_path) }}
+{% endif %}
