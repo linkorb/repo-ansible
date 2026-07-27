@@ -1,0 +1,30 @@
+# Preserve a pre-existing hand-written .github/copilot-instructions.md as the
+# repo-specific partial before the managed file is first generated.
+# Runs regardless of the copilot_instructions flag (repo.yaml defaults are not
+# yet merged at migration time); for opted-out repos this leaves a harmless
+# preserved copy while the original file stays untouched.
+- name: stat existing copilot-instructions file
+  ansible.builtin.stat:
+    path: "{{ repo_path }}/.github/copilot-instructions.md"
+  register: migration_copilot_stat
+
+- when: migration_copilot_stat.stat.exists
+  block:
+    - name: read existing copilot-instructions file
+      ansible.builtin.slurp:
+        src: "{{ repo_path }}/.github/copilot-instructions.md"
+      register: migration_copilot_source
+
+    # marker literal is hardcoded: repo_managed is set after migrations run
+    - when: "'<!-- Managed by https://github.com/linkorb/repo-ansible' not in (migration_copilot_source.content | b64decode)"
+      block:
+        - name: ensure docs/partials directory exists
+          ansible.builtin.file:
+            path: "{{ repo_path }}/docs/partials"
+            state: directory
+
+        - name: preserve hand-written copilot instructions as repo-specific partial
+          ansible.builtin.copy:
+            content: "{{ migration_copilot_source.content | b64decode }}"
+            dest: "{{ repo_path }}/docs/partials/copilot-instructions.md"
+            force: false
