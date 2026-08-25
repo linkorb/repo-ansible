@@ -23,6 +23,15 @@ jobs:
         fetch-depth: 0
         persist-credentials: false
 
+    - name: Semantic release
+      id: semantic-release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        npm install --no-save semantic-release@25 @semantic-release/changelog@7 @semantic-release/git@11 @semantic-release/exec@7 conventional-changelog@8 @semantic-release/release-notes-generator@14 conventional-changelog-conventionalcommits@9
+        npx semantic-release --repository-url ${{ github.server_url }}/${{ github.repository }}
+        echo "release-version=$(cat .gitrelease)" >> "$GITHUB_OUTPUT"
+
       # v4 https://github.com/docker/setup-qemu-action/commit/ce360397dd3f832beb865e1373c09c0e9f86d70a
     - uses: docker/setup-qemu-action@ce360397dd3f832beb865e1373c09c0e9f86d70a
       with:
@@ -34,15 +43,6 @@ jobs:
       with:
         driver-opts: network=host,image=moby/buildkit:v0.28.0@sha256:37539dd4d60fc70968d164d3850d903a2c56f6402214a1953fbf9fcb81ada731
         platforms: linux/amd64
-
-    - name: Semantic release
-      id: semantic-release
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        npm install --no-save semantic-release@25 @semantic-release/changelog@7 @semantic-release/git@11 @semantic-release/exec@7 conventional-changelog@8 @semantic-release/release-notes-generator@14 conventional-changelog-conventionalcommits@9
-        npx semantic-release --repository-url ${{ github.server_url }}/${{ github.repository }}
-        echo "release-version=$(cat .gitrelease)" >> "$GITHUB_OUTPUT"
 
     - id: meta
       # v6 https://github.com/docker/metadata-action/commit/030e881283bb7a6894de51c315a6bfe6a94e05cf
