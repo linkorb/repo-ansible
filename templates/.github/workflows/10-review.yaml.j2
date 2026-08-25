@@ -15,6 +15,8 @@ jobs:
     steps:
         # v6 https://github.com/actions/checkout/commit/de0fac2e4500dabe0009e67214ff5f5447ce83dd
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
 
       # interesting alternative: https://github.com/cocogitto/cocogitto
         # v1.3.0 https://github.com/webiny/action-conventional-commits/commit/8bc41ff4e7d423d56fa4905f6ff79209a78776c7
@@ -40,6 +42,8 @@ jobs:
     steps:
         # v6 https://github.com/actions/checkout/commit/de0fac2e4500dabe0009e67214ff5f5447ce83dd
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
       - name: latest repo-ansible/reviewdog container
         run: docker pull ghcr.io/linkorb/repo-ansible/reviewdog:latest
       - name: run reviewdog checks
