@@ -21,6 +21,7 @@ jobs:
       # interesting alternative: https://github.com/cocogitto/cocogitto
         # v1.3.0 https://github.com/webiny/action-conventional-commits/commit/8bc41ff4e7d423d56fa4905f6ff79209a78776c7
       - uses: webiny/action-conventional-commits@8bc41ff4e7d423d56fa4905f6ff79209a78776c7
+{% if repo.github.workflows.review_card_check %}
 
       - name: Check Card# reference
         # v1 https://github.com/linkorb/commit-message-checker/commit/dc804b50ce575a720739ec3f0ef3d5030130ec98
@@ -35,6 +36,7 @@ jobs:
           excludeTitle: 'true' # optional: this excludes the title of a pull request
           checkAllCommitMessages: 'true' # optional: this checks all commits associated with a pull request
           accessToken: ${{ secrets.GITHUB_TOKEN }} # github access token is only required if checkAllCommitMessages is true
+{% endif %}
 
 {% if enable_reviewdog %}
   code-quality:
