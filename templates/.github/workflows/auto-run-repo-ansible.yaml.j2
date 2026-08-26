@@ -32,7 +32,7 @@ jobs:
         # v6 https://github.com/actions/checkout/commit/de0fac2e4500dabe0009e67214ff5f5447ce83dd
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
-          persist-credentials: false
+          persist-credentials: true
 
       - if: ${{ env.IS_PULL_REQUEST == '1' }}
         # v6 https://github.com/actions/checkout/commit/de0fac2e4500dabe0009e67214ff5f5447ce83dd
