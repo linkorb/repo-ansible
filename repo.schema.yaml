@@ -149,7 +149,8 @@ properties:
             default: false
             description: >
               Enforce in the review workflow that every commit message ends with a card number reference
-              like "#1234". Off by default; repos that track work in cards should opt in.
+              like "#1234" or a Jira issue key like "NEB-123". Off by default; repos that track work in
+              cards should opt in.
 
       features:
         type: object

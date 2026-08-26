@@ -27,11 +27,11 @@ jobs:
         # v1 https://github.com/linkorb/commit-message-checker/commit/dc804b50ce575a720739ec3f0ef3d5030130ec98
         uses: linkorb/commit-message-checker@dc804b50ce575a720739ec3f0ef3d5030130ec98
         with:
-          # Matches lines that end in a card number:                  #1234
-          # Matches lines that end in a card number and PR reference: #1234 (#20)
-          pattern: '#\d{4,5}(\s+\(#\d+\))?'
+          # Accepts a card number or a Jira issue key, optionally with a PR reference:
+          #   #1234    NEB-123    #1234 (#20)
+          pattern: '(#\d{4,5}|[A-Z][A-Z0-9]+-\d+)(\s+\(#\d+\))?$'
           flags: 'gm'
-          error: 'Your commit message has to end with a card number like "#1234".'
+          error: 'Your commit message has to end with a card number like "#1234" or a Jira issue key like "NEB-123".'
           excludeDescription: 'true' # optional: this excludes the description body of a pull request
           excludeTitle: 'true' # optional: this excludes the title of a pull request
           checkAllCommitMessages: 'true' # optional: this checks all commits associated with a pull request
