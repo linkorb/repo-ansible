@@ -143,7 +143,14 @@ properties:
             default: true
             description: >
               The review workflow will trigger for pull requests and will check if the commit messages conform with
-              conventional commits, and if cards are referenced as part of the commit message.
+              conventional commits, and if cards are referenced as part of the commit message (see review_card_check).
+          review_card_check:
+            type: boolean
+            default: false
+            description: >
+              Enforce in the review workflow that every commit message ends with a card number reference
+              like "#1234" or a Jira issue key like "NEB-123". Off by default; repos that track work in
+              cards should opt in.
 
       features:
         type: object
