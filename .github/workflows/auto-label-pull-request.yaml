@@ -14,8 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Label pull requests based on conventional commits
-        # v8 https://github.com/actions/github-script/commit/ed597411d8f924073f98dfc5c65a23a2325f34cd
-        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd
+        # v9 https://github.com/actions/github-script/commit/3a2844b7e9c422d3c10d287c895573f7108da1b3
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |

@@ -1,0 +1,12 @@
+# See https://engineering.linkorb.com/topics/git/articles/commit-standards/ for more information
+#
+# Write a concise header below
+# It should take the form: <type>[scope]: <description> #<cardNumber>
+
+
+# [optional body]
+# Summarize changes and the motivation for such changes below:
+# Ending a commit header with a card number is preferred
+
+# [optional footer]
+# Summarize supplemental information such as breaking changes, work item identifiers, co-authors, etc

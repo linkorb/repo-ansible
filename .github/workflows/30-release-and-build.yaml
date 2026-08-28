@@ -1,0 +1,80 @@
+# Managed by https://github.com/linkorb/repo-ansible. Manual changes will be overwritten.
+name: Release
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  issues: write
+  packages: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # v6 https://github.com/actions/checkout/commit/de0fac2e4500dabe0009e67214ff5f5447ce83dd
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      with:
+        fetch-depth: 0
+
+      # v4 https://github.com/docker/setup-qemu-action/commit/ce360397dd3f832beb865e1373c09c0e9f86d70a
+    - uses: docker/setup-qemu-action@ce360397dd3f832beb865e1373c09c0e9f86d70a
+      with:
+        image: tonistiigi/binfmt:qemu-v10.2.1@sha256:d3b963f787999e6c0219a48dba02978769286ff61a5f4d26245cb6a6e5567ea3
+        platforms: linux/amd64
+
+      # v4 https://github.com/docker/setup-buildx-action/commit/4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd
+    - uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd
+      with:
+        driver-opts: network=host,image=moby/buildkit:v0.28.0@sha256:37539dd4d60fc70968d164d3850d903a2c56f6402214a1953fbf9fcb81ada731
+        platforms: linux/amd64
+
+    - name: Semantic release
+      id: semantic-release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        npm install --no-save semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/exec conventional-changelog @semantic-release/release-notes-generator conventional-changelog-conventionalcommits
+        npx semantic-release --repository-url ${{ github.server_url }}/${{ github.repository }}
+        echo "release-version=$(cat .gitrelease)" >> "$GITHUB_OUTPUT"
+
+    - id: meta
+      # v6 https://github.com/docker/metadata-action/commit/030e881283bb7a6894de51c315a6bfe6a94e05cf
+      uses: docker/metadata-action@030e881283bb7a6894de51c315a6bfe6a94e05cf
+      with:
+        images: |
+          ghcr.io/${{ github.repository }}
+        tags: |
+          type=sha
+          type=raw,value=latest,enable={{is_default_branch}}
+          type=raw,value=${{ steps.semantic-release.outputs.release-version }}
+
+      # v4.1 https://github.com/docker/login-action/commit/4907a6ddec9925e35a0a9e82d7399ccc52663121
+    - uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+      # v7.1 https://github.com/docker/build-push-action/commit/bcafcacb16a39f128d818304e6c9c0c18556b85f
+    - uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f
+      with:
+        context: .
+        provenance: false
+        push: ${{ github.event_name != 'pull_request' }}
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        # For additional docker build args set github_workflows.build.extra_docker_build_args in the repo.yaml file
+        build-args: |
+          PACKAGIST_USER=token
+          PACKAGIST_TOKEN=${{ secrets.PACKAGIST_TOKEN }}
+
+  reviewdog-followup:
+    needs: build
+    secrets: inherit
+    uses: ./.github/workflows/35-reviewdog.yaml
