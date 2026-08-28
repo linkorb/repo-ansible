@@ -63,6 +63,28 @@
     dest: "{{ repo_path }}/CONTRIBUTING.md"
   when: "'CONTRIBUTING.md' not in repo.omit_files"
 
+- name: Generate copilot-instructions file
+  ansible.builtin.template:
+    src: ./templates/.github/copilot-instructions.md.j2
+    dest: "{{ repo_path }}/.github/copilot-instructions.md"
+  when: repo.github.features.copilot_instructions
+
+- name: Check for existing copilot-instructions file (opt-out)
+  ansible.builtin.stat:
+    path: "{{ repo_path }}/.github/copilot-instructions.md"
+  register: copilot_instructions_stat
+  when: not repo.github.features.copilot_instructions
+
+# only remove a file repo-ansible generated (marker check); hand-written files are kept
+- name: Remove managed copilot-instructions file (opt-out)
+  when:
+    - not repo.github.features.copilot_instructions
+    - copilot_instructions_stat.stat.exists
+    - "'<!-- Managed by https://github.com/linkorb/repo-ansible' in lookup('file', repo_path + '/.github/copilot-instructions.md')"
+  ansible.builtin.file:
+    path: "{{ repo_path }}/.github/copilot-instructions.md"
+    state: absent
+
 - name: generate README.md file
   ansible.builtin.template:
     src: ./templates/README.md.j2
