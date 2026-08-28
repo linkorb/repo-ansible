@@ -50,6 +50,10 @@ files = [f for f in os.listdir(directory)
               and is_migration(f)
               and greater(migration_version(f), input_version)]
 
+# ascending order is required: run-step stamps each migration's version as a
+# crash-recovery checkpoint, which assumes no earlier migration is still pending
+files.sort(key=migration_version)
+
 migrations = []
 for i in files:
   migrations.append({
