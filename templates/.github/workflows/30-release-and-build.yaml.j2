@@ -2,10 +2,15 @@
 name: Release
 
 on:
+{% if repo.github_workflows.uses_companion_app %}
+  release:
+    types: [published]
+{% else %}
   workflow_dispatch:
   push:
     branches:
       - [[ repo.github.default_branch ]]
+{% endif %}
 
 permissions:
   contents: write
@@ -23,6 +28,17 @@ jobs:
         fetch-depth: 0
         persist-credentials: false
 
+{% if repo.github_workflows.uses_companion_app %}
+    - id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: |
+          ghcr.io/${{ github.repository }}
+        tags: |
+          type=sha
+          type=raw,value=latest,enable={{is_default_branch}}
+          type=raw,value=${{ github.event.release.tag_name }}
+{% else %}
     - name: Semantic release
       id: semantic-release
       env:
@@ -54,6 +70,7 @@ jobs:
           type=sha
           type=raw,value=latest,enable={{is_default_branch}}
           type=raw,value=${{ steps.semantic-release.outputs.release-version }}
+{% endif %}
 
       # v4.1 https://github.com/docker/login-action/commit/4907a6ddec9925e35a0a9e82d7399ccc52663121
     - uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121
