@@ -1,5 +1,5 @@
-# Use the official Python 3.12 image
-FROM python:3.12-alpine
+# Use the official Python 3.16 image
+FROM python:3.16-alpine
 
 # Set the working directory to /opt/repo-ansible
 WORKDIR /opt/repo-ansible
