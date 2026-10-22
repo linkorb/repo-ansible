@@ -2,6 +2,12 @@
 {% if repo.type != 'other' and repo.github.features.sdlc_workflows %}
 [![Release](https://github.com/linkorb/{{ repo.name }}/actions/workflows/30-release-and-build.yaml/badge.svg)](https://github.com/linkorb/{{ repo.name }}/actions/workflows/30-release-and-build.yaml)
 {% endif %}
+{% if repo.readme.badges.tests is defined %}
+[![Tests](https://github.com/linkorb/{{ repo.name }}/actions/workflows/{{ repo.readme.badges.tests }}/badge.svg?branch={{ repo.github.default_branch | default('main') }})](https://github.com/linkorb/{{ repo.name }}/actions/workflows/{{ repo.readme.badges.tests }})
+{% endif %}
+{% if repo.readme.badges.coverage is defined and repo.readme.badges.coverage %}
+![Coverage](./.github/badges/coverage.svg)
+{% endif %}
 
 {% set markdown_file_path_prefix = repo_path + '/docs/partials/readme.' %}
 {#################################################}

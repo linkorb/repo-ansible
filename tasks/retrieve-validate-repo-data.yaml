@@ -21,3 +21,19 @@
   name: fail on schema validation error
   ansible.builtin.fail:
     msg: "The repo.yaml file is invalid: {{ config_validity[0].message }}. Please refer to the README.md for information about schema validation."
+
+- name: Validate optional README tests badge workflow
+  when: repo.readme.badges.tests is defined
+  block:
+  - name: Check that the tests badge workflow file exists
+    ansible.builtin.stat:
+      path: "{{ repo_path }}/.github/workflows/{{ repo.readme.badges.tests }}"
+    register: tests_badge_workflow
+
+  - name: Fail when the tests badge workflow file is missing
+    ansible.builtin.fail:
+      msg: >-
+        readme.badges.tests is set to '{{ repo.readme.badges.tests }}', but
+        {{ repo_path }}/.github/workflows/{{ repo.readme.badges.tests }} does not exist.
+        Create that workflow or remove readme.badges.tests from repo.yaml.
+    when: not tests_badge_workflow.stat.exists
