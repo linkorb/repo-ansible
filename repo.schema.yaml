@@ -402,6 +402,26 @@ properties:
         $ref: "#/definitions/section"
       usage:
         $ref: "#/definitions/section"
+      badges:
+        type: object
+        additionalProperties: false
+        description: >
+          Optional README status badges. Nothing is rendered unless a project sets these keys.
+        properties:
+          tests:
+            type: string
+            pattern: '^[A-Za-z0-9][A-Za-z0-9._-]*$'
+            description: >
+              Workflow filename under .github/workflows, including the extension. Letters, digits,
+              dot, underscore, and hyphen only. When set, the generated README shows a Tests badge
+              for that workflow on the default branch. The playbook fails if the file does not exist.
+          coverage:
+            type: boolean
+            default: false
+            description: >
+              When true, the generated README shows ./.github/badges/coverage.svg. Each repository's
+              CI publishes that file. repo-ansible does not create or overwrite it. A missing image
+              until the first publish is expected.
       enabled:
         type: boolean
         default: true
