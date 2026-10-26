@@ -57,6 +57,32 @@ to login to the Container Registry - just ensure the repo has Admin role for
 the package it wants to delete.
 
 
+## Follow-up workflows
+
+The generated parent workflows call your own workflows by file name
+(`.yaml` or `.yml`):
+
+| Your file | Called from                 | When                                | Parent generated when                    |
+|-----------|-----------------------------|-------------------------------------|------------------------------------------|
+| `1x-*`    | `10-review.yaml`            | after `commit-conventions` succeeds | `github.workflows.review` (default on) or `github.features.sdlc_workflows` |
+| `3x-*`    | `30-release-and-build.yaml` | after `build` succeeds              | `github.features.sdlc_workflows`         |
+| `9x-*`    | `90-cleanup.yaml`           | after `cleanup` succeeds            | `github.features.sdlc_workflows`         |
+
+`sdlc_workflows` applies to application, library, symfony-bundle, PHP and
+Node.js repos.
+
+A numbered file is called only if its `on:` includes `workflow_call` (a
+**sub-workflow**). It runs with the parent's trigger and secrets
+(`secrets: inherit`) and receives no inputs, so it must not declare required
+inputs without defaults. A file that also declares its own triggers runs
+twice: once on its own and once as a follow-up. Any other numbered file is
+**standalone**: repo-ansible leaves it alone and it runs on its own triggers.
+
+Choose standalone when the check should not receive the parent's secrets
+(`10-review.yaml` runs on `pull_request_target`, so fork PRs reach it) or
+should run only for certain paths (`pull_request` with `paths:`).
+
+
 ## Permissions
 
 This section shows what github permissions to change when using particular

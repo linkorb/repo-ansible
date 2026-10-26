@@ -5,6 +5,8 @@ import sys
 import json
 import re
 
+import yaml
+
 root_directory = sys.argv[1]
 
 def append_to_dict_key(d, key, value):
@@ -12,24 +14,40 @@ def append_to_dict_key(d, key, value):
         d[key] = []
     d[key].append(value)
 
+# only workflows that can be called are follow-ups; YAML 1.1 reads a bare `on` key as True
+def is_callable(file_path):
+    try:
+        with open(file_path, encoding="utf-8") as f:
+            workflow = yaml.safe_load(f)
+    except (OSError, UnicodeDecodeError, yaml.YAMLError) as e:
+        print(f"skipping {file_path}: {e}", file=sys.stderr)
+        return False
+    if not isinstance(workflow, dict):
+        return False
+    triggers = workflow.get('on', workflow.get(True))
+    if isinstance(triggers, str):
+        return triggers == 'workflow_call'
+    if isinstance(triggers, (list, dict)):
+        return 'workflow_call' in triggers
+    return False
+
 
 workflows_prefix = ".github/workflows"
 search_directory = os.path.join(root_directory, workflows_prefix)
-name_re = re.compile(r"\d\d-(.*?).ya?ml")
+name_re = re.compile(r"(\d)(\d)-(.+)\.ya?ml")
 file_buckets = {}
 
-for filename in os.listdir(search_directory):
+for filename in sorted(os.listdir(search_directory)):
     file_path = os.path.join(search_directory, filename)
-    if os.path.isfile(file_path):
-        first_two = filename[0:2]
-        if first_two.isdigit() and filename[2] == '-' and int(first_two) % 10 != 0:
-            bucket = first_two[0] + "0"
-            root_relative_file = os.path.join(workflows_prefix, filename)
-            name = re.match(r"\d\d-(.*?).ya?ml", filename).group(1)
-            append_to_dict_key(file_buckets, bucket, {
-                "name": name,
-                "path_from_root": root_relative_file
-            })
+    match = name_re.fullmatch(filename)
+    if not match or match[2] == "0" or not os.path.isfile(file_path):
+        continue
+    if not is_callable(file_path):
+        continue
+    append_to_dict_key(file_buckets, match[1] + "0", {
+        "name": match[3],
+        "path_from_root": os.path.join(workflows_prefix, filename)
+    })
 
 
 print(json.dumps(file_buckets, indent=2))
