@@ -31,12 +31,15 @@ jobs:
       - if: ${{ env.IS_PULL_REQUEST == '0' }}
         # v6 https://github.com/actions/checkout/commit/de0fac2e4500dabe0009e67214ff5f5447ce83dd
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: true
 
       - if: ${{ env.IS_PULL_REQUEST == '1' }}
         # v6 https://github.com/actions/checkout/commit/de0fac2e4500dabe0009e67214ff5f5447ce83dd
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           ref: refs/pull/${{ github.event.pull_request.number }}/merge
+          persist-credentials: false
 
       - name: repo-ansible
         run: |
@@ -46,6 +49,13 @@ jobs:
           {
             echo 'REPO_ANSIBLE_OUTPUT<<EOF'
             echo "$OUTPUT"
+            echo EOF
+          } >> "$GITHUB_ENV"
+
+          export DIFF=$(git diff)
+          {
+            echo 'REPO_ANSIBLE_DIFF<<EOF'
+            echo "$DIFF"
             echo EOF
           } >> "$GITHUB_ENV"
 
@@ -67,12 +77,13 @@ jobs:
 
       - if: ${{ env.IS_PULL_REQUEST == '1' && env.REPOSITORY_CHANGED == '1' }}
         name: bot comment about repo-ansible detected changes
-        # v8 https://github.com/actions/github-script/commit/ed597411d8f924073f98dfc5c65a23a2325f34cd
-        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd
+        # v9 https://github.com/actions/github-script/commit/3a2844b7e9c422d3c10d287c895573f7108da1b3
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3
         with:
           script: |
             const changes = process.env.REPO_ANSIBLE_OUTPUT
-            github.rest.issues.createComment({
+            const diff = process.env.REPO_ANSIBLE_DIFF
+            await github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -81,5 +92,14 @@ jobs:
               \`\`\`shell
               ${changes}
               \`\`\`
+
+              <details>
+              <summary>See changes</summary>
+
+              \`\`\`diff
+              ${diff}
+              \`\`\`
+
+              </details>
             `
             })

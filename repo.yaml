@@ -6,6 +6,7 @@ description: Ansible playbooks with templated configuration to apply to all Link
   code repositories.
 github:
   features:
+    copilot_instructions: true
     issues: true
     wiki: true
   topics:
@@ -15,5 +16,5 @@ license: mit
 license_year: 2024
 name: repo-ansible
 type: other
-version: v0.25.0
+version: v0.32.0
 visibility: public
