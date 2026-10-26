@@ -1,10 +1,5 @@
-.git
-.github
-docker
-docs
-.dockerignore
-.editorconfig
-.gitignore
-CONTRIBUTING.md
-Dockerfile
-README.md
+# Managed by https://github.com/linkorb/repo-ansible. Manual changes will be overwritten.
+
+node_modules/
+vendor/
+var/

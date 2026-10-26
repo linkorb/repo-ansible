@@ -26,6 +26,7 @@
       when: >
         repo.type in ['application', 'library', 'symfony-bundle']
         or repo.type.startswith('php-') or repo.type.startswith('nodejs-')
+        or repo.github.features.sdlc_workflows
 
     - import_tasks: tasks/php-qa.yaml
       when: >

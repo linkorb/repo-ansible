@@ -5,12 +5,21 @@ codeowners:
 description: Ansible playbooks with templated configuration to apply to all LinkORB
   code repositories.
 github:
+  default_branch: main
   features:
     issues: true
+    sdlc_workflows: true
     wiki: true
   topics:
   - ansible
   - automation
+github_workflows:
+  release:
+    commit_changed_files:
+    - CHANGELOG.md
+    - package.json
+    - package-lock.json
+    - .gitrelease
 license: mit
 license_year: 2024
 name: repo-ansible
