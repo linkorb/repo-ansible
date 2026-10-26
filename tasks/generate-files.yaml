@@ -75,13 +75,13 @@
   register: copilot_instructions_stat
   when: not repo.github.features.copilot_instructions
 
-# only remove a file repo-ansible generated (marker check); hand-written files are kept
+# only remove a file repo-ansible generated (managed header on line 1); hand-written files are kept
 - name: Remove managed copilot-instructions file (opt-out)
   when:
     - not repo.github.features.copilot_instructions
     - copilot_instructions_stat.stat.exists
     - copilot_instructions_stat.stat.isreg
-    - "'<!-- Managed by https://github.com/linkorb/repo-ansible' in lookup('file', repo_path + '/.github/copilot-instructions.md')"
+    - "(lookup('file', repo_path + '/.github/copilot-instructions.md').splitlines() | first | default('')).startswith('<!-- Managed by https://github.com/linkorb/repo-ansible')"
   ansible.builtin.file:
     path: "{{ repo_path }}/.github/copilot-instructions.md"
     state: absent
