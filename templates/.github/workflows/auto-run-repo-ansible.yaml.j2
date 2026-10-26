@@ -52,9 +52,9 @@ jobs:
             echo EOF
           } >> "$GITHUB_ENV"
 
-          # intent-to-add lists new files in the diff; a file avoids GITHUB_ENV size limits
+          # intent-to-add lists new files; HEAD keeps the deletions it stages; a file avoids GITHUB_ENV size limits
           git add --intent-to-add .
-          git diff > /tmp/repo_ansible_diff
+          git diff HEAD > /tmp/repo_ansible_diff
 
           if ! echo "$OUTPUT" | grep "changed=0"; then
             echo "REPOSITORY_CHANGED=1" >> "$GITHUB_ENV"
