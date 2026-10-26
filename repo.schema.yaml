@@ -157,6 +157,18 @@ properties:
         description: GitHub features
         additionalProperties: false
         properties:
+          copilot_instructions:
+            description: >
+              Generate a managed `.github/copilot-instructions.md` with organization-wide guidance used by
+              GitHub Copilot code review. Off by default; repos that use Copilot code review can opt in.
+              Extend it with repo-specific guidance in `docs/partials/copilot-instructions.md`, appended
+              on the next repo-ansible run.<br>
+              *Opting in replaces an existing hand-written file: move its content to the partial first.
+              Setting it back to `false` removes the managed file; hand-written files without the managed
+              header are never touched.*
+            type: boolean
+            default: false
+
           dependabot_auto_merge:
             description: >
               Generate workflow that automatically merges Dependabot PRs for patch and minor version releases.<br>
