@@ -16,5 +16,5 @@ license: mit
 license_year: 2024
 name: repo-ansible
 type: other
-version: v0.32.0
+version: v0.32.1
 visibility: public
