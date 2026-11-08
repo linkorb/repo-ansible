@@ -228,6 +228,12 @@ properties:
             default: {}
             description: >
               Key-value pairs to use as build args during the docker build step of build and release workflow
+          extra_docker_build_secrets:
+            type: object
+            additionalProperties: true
+            default: { }
+            description: >
+              Key-value pairs to use as build secrets during the docker build step of build and release workflow
       release:
         type: object
         additionalProperties: false

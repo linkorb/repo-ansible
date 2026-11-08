@@ -32,6 +32,7 @@
 | github<br>features<br>issues `boolean` |false| Enable issues tab.|
 | github<br>features<br>projects `boolean` |false| Enable projects tab.|
 | github_workflows<br>build<br>extra_docker_build_args `object` |{}| Key-value pairs to use as build args during the docker build step of build and release workflow|
+| github_workflows<br>build<br>extra_docker_build_secrets `object` |{}| Key-value pairs to use as build secrets during the docker build step of build and release workflow|
 | github_workflows<br>release<br>commit_changed_files `array` |[]| A list of files in addition to CHANGELOG.md and package.json (for repo.type starting with `nodejs-`) to include in the commit with changes.|
 | github_workflows<br>release<br>issue_url_format `string` || Override the base URL for the issues mentioned with conventional-commits. Use {{id}} for the issue ID, as well other placeholders mentioned in https://github.com/conventional-changelog/conventional-changelog-config-spec/blob/master/versions/2.2.0/README.md#substitutions|
 | reviewdog<br>platforms `array` |[]| A broad way to categorize programming languages, libraries, and frameworks, and for which we have an external tool we can use to assure code quality during review.&nbsp; Accepted values:`php`,`twig`,||
