@@ -222,6 +222,12 @@ properties:
         type: object
         additionalProperties: false
         properties:
+          extra_docker_build_cache:
+            type: boolean
+            default: false
+            description: >
+              When enabled the Docker build step is cached in GitHub Actions cache, enabling faster builds unless
+              the cache store/restore overhead exceeds a fresh build time.
           extra_docker_build_args:
             type: object
             additionalProperties: true
