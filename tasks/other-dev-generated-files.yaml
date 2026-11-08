@@ -20,6 +20,10 @@
     set_fact:
       docker_build_args: "{{ default_docker_build_args | combine(repo.github_workflows.build.extra_docker_build_args) }}"
 
+  - name: define docker build secrets
+    set_fact:
+      docker_build_secrets: "{{ default_docker_build_secrets | combine(repo.github_workflows.build.extra_docker_build_secrets) }}"
+
   - name: copy github actions workflow files
     ansible.builtin.template:
       src: "./templates/.github/workflows/{{ item.target }}.j2"

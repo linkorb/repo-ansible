@@ -43,7 +43,7 @@ doc][checkout-action-doc]
 Builds container images and pushes them to the logged-in container registry.
 
 No auth config needed, but when building PHP app containers don't forget to set
-build-args like `PACKAGIST_TOKEN` set to `secrets.PACKAGIST_TOKEN`.  The repo
+build secrets like `PACKAGIST_TOKEN` set to `secrets.PACKAGIST_TOKEN`.  The repo
 needs access to (and most likely already has access to) the secret set at the
 Organisation level.  See it at the repo Settings > Secrets & Variables >
 Actions > Secrets (tab) > Organization secrets section.

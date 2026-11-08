@@ -70,6 +70,15 @@ jobs:
         push: ${{ github.event_name != 'pull_request' }}
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
+{% if repo.github_workflows.build.extra_docker_build_cache %}
+        cache-from: type=gha,scope=build-push-action
+        cache-to: type=gha,mode=max,scope=build-push-action
+{% endif %}
+        # For additional docker build args set github_workflows.build.extra_docker_build_secrets in the repo.yaml file
+        secrets: |
+{% for key, value in docker_build_secrets.items() %}
+          [[key]]=[[value]]
+{% endfor %}
         # For additional docker build args set github_workflows.build.extra_docker_build_args in the repo.yaml file
         build-args: |
 {% for key, value in docker_build_args.items() %}
